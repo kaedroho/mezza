@@ -20,12 +20,11 @@ export default function PostFormView({
 }: PostFormViewProps) {
   const { overlay, requestClose } = React.useContext(OverlayContext);
   const csrf_token = React.useContext(CSRFTokenContext);
-  const urls = React.useContext(URLsContext);
 
   return (
     <Layout
       title={post ? "Edit Post" : "Add Post"}
-      breadcrumb={[{ label: "Posts", href: urls.posts_index }, { label: "" }]}
+      breadcrumb={[{ label: "Posts" }, { label: "" }]}
     >
       <Form action={action_url} method="post">
         <input type="hidden" name="csrfmiddlewaretoken" value={csrf_token} />

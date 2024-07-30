@@ -39,8 +39,6 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 # Application definition
 
 INSTALLED_APPS = [
-    "mezza.posts",
-    "mezza.media",
     "mezza.auth",
     "mezza",
     "django_bridge",
