@@ -20,7 +20,9 @@ def index(request):
                     "id": asset.id,
                     "title": asset.title,
                     "edit_url": reverse("media_edit", args=[asset.id]),
-                    "thumbnail_url": asset.thumbnail.file.url if asset.thumbnail else None,
+                    "thumbnail_url": asset.thumbnail.file.url
+                    if asset.thumbnail
+                    else None,
                 }
                 for asset in assets
             ]

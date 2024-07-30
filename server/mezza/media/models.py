@@ -71,6 +71,6 @@ class Image(MediaAsset):
                 file=file,
                 name=self.file.name,
                 content_type="image/jpeg",
-                size=file.getbuffer().nbytes
+                size=file.getbuffer().nbytes,
             )
         )

@@ -29,9 +29,7 @@ def generate_thumbnail(file, target_width, target_height):
         if image.mode in ("RGBA", "LA") or (
             image.mode == "P" and "transparency" in image.info
         ):
-            new_image = new_image = Image.new(
-                "RGBA", image.size, (255, 255, 255, 255)
-            )
+            new_image = new_image = Image.new("RGBA", image.size, (255, 255, 255, 255))
             new_image.alpha_composite(image.convert("RGBA"))
             image = new_image
 
