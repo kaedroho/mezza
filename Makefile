@@ -1,4 +1,4 @@
-.PHONY: setup rebuild migrate superuser start
+.PHONY: setup rebuild migrate superuser start format
 
 setup: rebuild migrate ## Sets up development environment
 	docker compose run client npm install
@@ -15,3 +15,8 @@ superuser: ## Create a superuser
 
 start: ## Starts the docker containers
 	docker compose up
+
+format: ## Formats and lints the code
+	docker compose run server ruff format
+	docker compose run server ruff check --select I --fix
+	docker compose run server ruff check --fix
