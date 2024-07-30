@@ -1,7 +1,7 @@
 from django import forms
 
-from .models import Post
 from ..widgets import BlockNoteEditor
+from .models import Post
 
 
 class PostForm(forms.ModelForm):

@@ -1,11 +1,11 @@
-from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
-from django_bridge.response import Response, CloseOverlayResponse
-from django.urls import reverse
+from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
+from django_bridge.response import CloseOverlayResponse, Response
 
 from .forms import ImageForm
-from .models import MediaAsset, Image
+from .models import Image, MediaAsset
 
 
 def index(request):
@@ -102,7 +102,7 @@ def delete(request, mediaasset_id):
 
         messages.success(
             request,
-            f"Successfully deleted asset '{post.title}'.",
+            f"Successfully deleted asset '{asset.title}'.",
         )
 
         return CloseOverlayResponse(request)
@@ -113,7 +113,7 @@ def delete(request, mediaasset_id):
         {
             "objectName": asset.title,
             "messageHtml": "Are you sure that you want to delete this asset?",
-            "actionUrl": reverse("posts_delete", args=[post.id]),
+            "actionUrl": reverse("posts_delete", args=[asset.id]),
         },
         overlay=True,
     )

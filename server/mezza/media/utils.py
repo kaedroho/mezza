@@ -1,9 +1,9 @@
 import math
 from hashlib import sha1
 from io import BytesIO, UnsupportedOperation
-from PIL import Image
 
 from django.utils.encoding import force_bytes
+from PIL import Image
 
 
 def generate_thumbnail(file, target_width, target_height):
