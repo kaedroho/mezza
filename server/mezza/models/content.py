@@ -23,10 +23,24 @@ class ContentType(models.Model):
     base = models.ForeignKey(
         DjangoContentType, on_delete=models.CASCADE, related_name="+"
     )
-    components = models.ManyToManyField(DjangoContentType, related_name="+")
+    components = models.ManyToManyField(
+        DjangoContentType, through="ContentTypeComponent", related_name="+"
+    )
 
     class Meta:
         unique_together = [("workspace", "slug")]
+
+
+class ContentTypeComponent(models.Model):
+    content_type = models.ForeignKey(
+        ContentType, on_delete=models.CASCADE, related_name="+"
+    )
+    component = models.ForeignKey(
+        DjangoContentType, on_delete=models.CASCADE, related_name="+"
+    )
+
+    class Meta:
+        unique_together = [("content_type", "component")]
 
 
 class Content(models.Model):
