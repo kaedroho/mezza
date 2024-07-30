@@ -89,7 +89,7 @@ export default function Sidebar() {
           <BrightnessAutoRoundedIcon />
         </IconButton> */}
         <Typography level="title-lg" fontWeight="xl">
-          Djangopress
+          Mezza
         </Typography>
         <ColorSchemeToggle sx={{ ml: "auto" }} />
       </Box>

@@ -25,7 +25,7 @@ def index(request):
                 for asset in assets
             ]
         },
-        title="Media | Djangopress",
+        title="Media | Mezza",
     )
 
 
@@ -61,7 +61,7 @@ def add_image(request):
             "form": form,
         },
         overlay=True,
-        title="Add Image | Djangopress",
+        title="Add Image | Mezza",
     )
 
 
@@ -88,7 +88,7 @@ def edit(request, mediaasset_id):
             "form": form,
         },
         overlay=True,
-        title=f"Editing {image.title} | Djangopress",
+        title=f"Editing {image.title} | Mezza",
     )
 
 

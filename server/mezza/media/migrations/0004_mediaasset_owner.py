@@ -7,13 +7,16 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("djangopress_posts", "0002_post_content"),
+        (
+            "mezza_media",
+            "0003_thumbnail_alter_mediaasset_file_mediaasset_thumbnail",
+        ),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name="post",
+            model_name="mediaasset",
             name="owner",
             field=models.ForeignKey(
                 default=1,

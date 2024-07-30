@@ -23,7 +23,7 @@ def index(request):
                 for post in posts
             ]
         },
-        title="Posts | Djangopress",
+        title="Posts | Mezza",
     )
 
 
@@ -50,7 +50,7 @@ def add(request):
             "form": form,
         },
         overlay=True,
-        title="Add Post | Djangopress",
+        title="Add Post | Mezza",
     )
 
 

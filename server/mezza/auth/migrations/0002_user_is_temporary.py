@@ -5,7 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("djangopress_auth", "0001_initial"),
+        ("mezza_auth", "0001_initial"),
     ]
 
     operations = [

@@ -5,7 +5,7 @@ from django.core.files.uploadedfile import UploadedFile
 from django.conf import settings
 from django.db import models
 
-from djangopress.auth.models import User
+from mezza.auth.models import User
 from .utils import generate_thumbnail, hash_filelike
 
 

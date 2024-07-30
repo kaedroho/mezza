@@ -5,7 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("djangopress_media", "0004_mediaasset_owner"),
+        ("mezza_media", "0004_mediaasset_owner"),
     ]
 
     operations = [

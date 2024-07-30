@@ -1,6 +1,6 @@
 from django.db import models
 
-from djangopress.auth.models import User
+from mezza.auth.models import User
 
 
 class Post(models.Model):

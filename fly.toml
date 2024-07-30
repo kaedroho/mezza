@@ -1,4 +1,4 @@
-app = 'djangopress'
+app = 'mezza'
 primary_region = 'sjc'
 
 [build]

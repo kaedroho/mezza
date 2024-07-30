@@ -52,10 +52,10 @@ class Migration(migrations.Migration):
                         parent_link=True,
                         primary_key=True,
                         serialize=False,
-                        to="djangopress_media.mediaasset",
+                        to="mezza_media.mediaasset",
                     ),
                 ),
             ],
-            bases=("djangopress_media.mediaasset",),
+            bases=("mezza_media.mediaasset",),
         ),
     ]

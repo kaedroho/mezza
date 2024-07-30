@@ -23,7 +23,7 @@ const HomeWrapper = styled.div`
 
 export default function HomeView() {
   return (
-    <Layout title="Welcome to Djangopress!" hideHomeBreadcrumb>
+    <Layout title="Welcome to Mezza!" hideHomeBreadcrumb>
       <HomeWrapper>
         <p>
           This is a very basic example of an application built with Django and
@@ -49,7 +49,7 @@ export default function HomeView() {
         </p>
         <p style={{ marginTop: "2em" }}>
           <b>
-            <a href="https://github.com/kaedroho/djangopress" target="_blank">
+            <a href="https://github.com/kaedroho/mezza" target="_blank">
               See the source code
             </a>
           </b>

@@ -13,7 +13,7 @@ from .models import User
 
 
 class LoginView(DjangoBridgeView, BaseLoginView):
-    title = "Sign in to Djangopress"
+    title = "Sign in to Mezza"
     view_name = "Login"
 
     def form_valid(self, form):
