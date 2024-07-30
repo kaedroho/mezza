@@ -8,7 +8,7 @@ from . import views
 from .auth import views as auth_views
 from .media import views as media_views
 from .posts import views as posts_views
-from .utils import decorate_urlpatterns
+from .utils.urlpatterns import decorate_urlpatterns
 
 # Put any URLs that require authentication in this list.
 urlpatterns_auth = [

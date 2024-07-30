@@ -5,8 +5,8 @@ from django.core.files.uploadedfile import UploadedFile
 from django.db import models
 
 from mezza.auth.models import User
-
-from .utils import generate_thumbnail, hash_filelike
+from mezza.utils.files import hash_filelike
+from mezza.utils.thumbnails import generate_thumbnail
 
 
 class Thumbnail(models.Model):
