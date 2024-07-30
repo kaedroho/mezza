@@ -10,6 +10,7 @@ __all__ = [
     "ContentType",
     "Content",
     "Component",
+    "LongFormText",
     "RepeatableComponent",
     "Workspace",
 ]

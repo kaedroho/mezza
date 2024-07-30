@@ -7,6 +7,7 @@ __all__ = [
     "ContentType",
     "Content",
     "Component",
+    "LongFormText",
     "RepeatableComponent",
 ]
 
@@ -62,3 +63,11 @@ class RepeatableComponent(models.Model):
 
     class Meta:
         abstract = True
+
+
+class LongFormText(Component):
+    """
+    A component that contains long-form text.
+    """
+
+    content = models.JSONField()
