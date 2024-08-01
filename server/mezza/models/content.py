@@ -45,13 +45,13 @@ class ContentTypeComponent(models.Model):
 
 class Content(models.Model):
     """
-    An individual piece of content. Such as a specific Page, Blog Post, or Image.
+    An individual piece of content. Such as a specific Page, Blog Post, or Video.
     """
 
     id = models.UUIDField(primary_key=True)
     workspace = models.ForeignKey(Workspace, on_delete=models.PROTECT)
     content_type = models.ForeignKey(ContentType, on_delete=models.PROTECT)
-    name = models.TextField()
+    title = models.TextField()
 
 
 class Component(models.Model):
