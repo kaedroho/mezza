@@ -2,8 +2,8 @@ import filetype
 from django.conf import settings
 from django.db import models
 
+from ..models import Workspace
 from ..utils.files import hash_filelike
-from .workspaces import Workspace
 
 __all__ = [
     "BaseFile",

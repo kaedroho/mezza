@@ -5,17 +5,12 @@ from .content import (
     LongFormText,
     RepeatableComponent,
 )
-from .files import AudioFile, BaseFile, DocumentFile, ImageFile, VideoFile
 from .workspaces import Workspace
 
 __all__ = [
     "ContentType",
     "Content",
     "Component",
-    "BaseFile",
-    "ImageFile",
-    "VideoFile",
-    "AudioFile",
     "DocumentFile",
     "LongFormText",
     "RepeatableComponent",
