@@ -1,35 +1,25 @@
 from django.db import models
 
-from ..models.workspaces import Workspace
+from ..models.content import Component, RepeatableComponent
 
 __all__ = [
     "Project",
-    "VideoProject",
     "VideoScript",
     "VideoFootage",
 ]
 
 
-class Idea(models.Model):
-    workspace = models.ForeignKey(Workspace, on_delete=models.PROTECT)
-    title = models.TextField()
+class Idea(Component):
     description = models.TextField()
 
 
-class Project(models.Model):
-    workspace = models.ForeignKey(Workspace, on_delete=models.PROTECT)
-    title = models.TextField()
-
-
-class VideoProject(Project):
+class Project(Component):
     pass
 
 
-class VideoScript(models.Model):
-    project = models.ForeignKey(VideoProject, on_delete=models.PROTECT)
+class VideoScript(Component):
     text = models.TextField()
 
 
-class VideoFootage(models.Model):
-    project = models.ForeignKey(VideoProject, on_delete=models.PROTECT)
+class VideoFootage(RepeatableComponent):
     file = models.ForeignKey("mezzamedia.VideoFile", on_delete=models.PROTECT)

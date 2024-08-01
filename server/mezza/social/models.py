@@ -1,5 +1,6 @@
 from django.db import models
 
+from ..models.content import Component
 from ..models.workspaces import Workspace
 
 __all__ = [
@@ -15,9 +16,11 @@ class Channel(models.Model):
     workspace = models.ForeignKey(Workspace, on_delete=models.PROTECT)
 
 
-class BasePost(models.Model):
+class BasePost(Component):
     channel = models.ForeignKey(Channel, on_delete=models.PROTECT)
-    workspace = models.ForeignKey(Workspace, on_delete=models.PROTECT)
+
+    class Meta:
+        abstract = True
 
 
 class XPost(BasePost):
@@ -33,7 +36,6 @@ class LinkedInPost(BasePost):
 
 
 class YoutubeVideo(BasePost):
-    title = models.TextField()
     video = models.ForeignKey("mezzamedia.VideoFile", on_delete=models.PROTECT)
     thumbnail = models.ForeignKey("mezzamedia.ImageFile", on_delete=models.PROTECT)
     description = models.TextField()

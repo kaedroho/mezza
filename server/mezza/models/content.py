@@ -79,6 +79,14 @@ class RepeatableComponent(models.Model):
         abstract = True
 
 
+class ShortFormText(Component):
+    """
+    A component that contains short-form text.
+    """
+
+    content = models.JSONField()
+
+
 class LongFormText(Component):
     """
     A component that contains long-form text.
