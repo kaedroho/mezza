@@ -9,5 +9,3 @@ export interface URLs {
 export const URLsContext = React.createContext<URLs>({
 
 });
-
-

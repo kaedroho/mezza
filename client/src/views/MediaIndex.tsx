@@ -33,7 +33,12 @@ const MediaAssetListing = styled.ul`
 `;
 
 interface MediaIndexViewProps {
-  assets: {
+  type: string
+  types: {
+    name: string;
+    url: string;
+  }[];
+  files: {
     id: number;
     title: string;
     edit_url: string;
@@ -41,7 +46,7 @@ interface MediaIndexViewProps {
   }[];
 }
 
-export default function MediaIndexView({ assets }: MediaIndexViewProps) {
+export default function MediaIndexView({ types, files }: MediaIndexViewProps) {
   const { openOverlay, refreshProps } = React.useContext(NavigationContext);
 
   return (
@@ -72,13 +77,16 @@ export default function MediaIndexView({ assets }: MediaIndexViewProps) {
         </Button>
       )}
     >
+      <ul>
+        {types.map((type) => (<li key={type.name}><Link href={type.url}>{type.name}</Link></li>))}
+      </ul>
       <MediaAssetListing>
-        {assets.map((asset) => (
-          <li key={asset.id}>
-            <Link href={asset.edit_url}>
+        {files.map((file) => (
+          <li key={file.id}>
+            <Link href={file.edit_url}>
               <figure>
-                <img src={asset.thumbnail_url || "#"} alt={asset.title} />
-                <figcaption>{asset.title}</figcaption>
+                <img src={file.thumbnail_url || "#"} alt={file.title} />
+                <figcaption>{file.title}</figcaption>
               </figure>
             </Link>
           </li>

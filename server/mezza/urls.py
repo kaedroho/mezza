@@ -6,12 +6,14 @@ from django.urls import path
 
 from . import views
 from .auth import views as auth_views
+from .media import views as media_views
 from .utils.urlpatterns import decorate_urlpatterns
 
 # Put any URLs that require authentication in this list.
 urlpatterns_auth = [
     path("admin/", admin.site.urls),
     path("", views.home, name="home"),
+    path("media/<slug:type>/", media_views.index, name="media_index"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Put any URLs that do not require authentication in this list.
