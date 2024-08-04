@@ -1,3 +1,4 @@
+from .campaigns import Campaign
 from .content import (
     Component,
     Content,
@@ -8,6 +9,7 @@ from .content import (
 from .workspaces import Workspace
 
 __all__ = [
+    "Campaign",
     "ContentType",
     "Content",
     "Component",

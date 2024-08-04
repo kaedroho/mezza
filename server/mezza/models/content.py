@@ -1,6 +1,7 @@
 from django.contrib.contenttypes.models import ContentType as DjangoContentType
 from django.db import models
 
+from .campaigns import Campaign
 from .workspaces import Workspace
 
 __all__ = [
@@ -52,6 +53,9 @@ class Content(models.Model):
     workspace = models.ForeignKey(Workspace, on_delete=models.PROTECT)
     content_type = models.ForeignKey(ContentType, on_delete=models.PROTECT)
     title = models.TextField()
+    campaigns = models.ManyToManyField(
+        Campaign, through="ContentCampaign", related_name="content"
+    )
 
 
 class Component(models.Model):
@@ -65,6 +69,16 @@ class Component(models.Model):
 
     class Meta:
         abstract = True
+
+
+class ContentCampaign(models.Model):
+    content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name="+")
+    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, related_name="+")
+
+    class Meta:
+        unique_together = [
+            ("content", "campaign"),
+        ]
 
 
 class RepeatableComponent(models.Model):
