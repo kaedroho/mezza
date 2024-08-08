@@ -40,7 +40,7 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 INSTALLED_APPS = [
     "mezza.studio",
-    "mezza.social",
+    "mezza.youtube",
     "mezza.pages",
     "mezza.media",
     "mezza.auth",
