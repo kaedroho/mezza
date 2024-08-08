@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class MezzaYoutubeConfig(AppConfig):
+class MezzaYouTubeConfig(AppConfig):
     name = "mezza.youtube"
     label = "mezzayoutube"
