@@ -1,4 +1,4 @@
-app = 'mezza'
+app = 'crowflow'
 primary_region = 'sjc'
 
 [build]

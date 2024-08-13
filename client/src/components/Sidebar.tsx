@@ -89,7 +89,7 @@ export default function Sidebar() {
           <BrightnessAutoRoundedIcon />
         </IconButton> */}
         <Typography level="title-lg" fontWeight="xl">
-          Mezza
+          CrowFlow
         </Typography>
         <ColorSchemeToggle sx={{ ml: "auto" }} />
       </Box>
