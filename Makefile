@@ -23,6 +23,6 @@ migrate: ## Run Django migrations
 	docker compose run server django-admin migrate
 
 format: ## Formats and lints the code
-	docker compose run server ruff format
-	docker compose run server ruff check --select I --fix
-	docker compose run server ruff check --fix
+	docker compose run -T server ruff format
+	docker compose run -T server ruff check --select I --fix
+	docker compose run -T server ruff check --fix
