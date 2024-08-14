@@ -7,7 +7,7 @@ primary_region = 'bos'
 
 [env]
   BASE_URL = 'https://crowflow.io'
-  DJANGO_ALLOWED_HOSTS = 'crowflow.io'
+  DJANGO_ALLOWED_HOSTS = 'crowflow.fly.dev,app.crowflow.io'
   DJANGO_DEBUG = 'false'
 
 [http_service]
