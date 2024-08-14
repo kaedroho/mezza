@@ -1,19 +1,19 @@
-import * as React from "react";
-import GlobalStyles from "@mui/joy/GlobalStyles";
+import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import ImageRoundedIcon from "@mui/icons-material/ImageRounded";
 import Box from "@mui/joy/Box";
 import Divider from "@mui/joy/Divider";
+import GlobalStyles from "@mui/joy/GlobalStyles";
 import List from "@mui/joy/List";
 import ListItem from "@mui/joy/ListItem";
 import ListItemButton, { listItemButtonClasses } from "@mui/joy/ListItemButton";
 import ListItemContent from "@mui/joy/ListItemContent";
-import Typography from "@mui/joy/Typography";
 import Sheet from "@mui/joy/Sheet";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
-import ImageRoundedIcon from "@mui/icons-material/ImageRounded";
+import Typography from "@mui/joy/Typography";
+import * as React from "react";
 
-import { closeSidebar } from "../utils";
 import { NavigationContext } from "@django-bridge/react";
+import { closeSidebar } from "../utils";
 
 export default function Sidebar() {
   const { navigate: doNavigate } = React.useContext(NavigationContext);
@@ -30,21 +30,16 @@ export default function Sidebar() {
     <Sheet
       className="Sidebar"
       sx={{
-        position: { xs: "fixed", md: "sticky" },
-        transform: {
-          xs: "translateX(calc(100% * (var(--SideNavigation-slideIn, 0) - 1)))",
-          md: "none",
-        },
+        // transform: {
+        //   xs: "translateX(calc(100% * (var(--SideNavigation-slideIn, 0) - 1)))",
+        //   md: "none",
+        // },
         pt: {
-          xs: "calc(16px + var(--Header-height))",
-          sm: "calc(16px + var(--Header-height))",
           md: 2,
         },
         transition: "transform 0.4s, width 0.4s",
-        zIndex: 1000,
-        height: "100dvh",
         width: "var(--Sidebar-width)",
-        top: 0,
+        top: "var(--Header-height)",
         p: 2,
         flexShrink: 0,
         display: "flex",
@@ -55,12 +50,9 @@ export default function Sidebar() {
       }}
     >
       <GlobalStyles
-        styles={(theme) => ({
+        styles={() => ({
           ":root": {
-            "--Sidebar-width": "220px",
-            [theme.breakpoints.up("lg")]: {
-              "--Sidebar-width": "240px",
-            },
+            "--Sidebar-width": "200px",
           },
         })}
       />
