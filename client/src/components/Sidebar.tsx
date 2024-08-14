@@ -12,7 +12,6 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import ImageRoundedIcon from "@mui/icons-material/ImageRounded";
 
-import ColorSchemeToggle from "./ColorSchemeToggle";
 import { closeSidebar } from "../utils";
 import { NavigationContext } from "@django-bridge/react";
 
