@@ -1,0 +1,13 @@
+# flyctl launch added from .gitignore
+**/__pycache__
+server/db.sqlite3
+docker-compose.override.yml
+
+# flyctl launch added from client/.gitignore
+client/node_modules
+client/dist
+
+# flyctl launch added from server/media/.gitignore
+server/media/**/*
+!server/media/**/.gitignore
+fly.toml
