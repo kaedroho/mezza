@@ -1,4 +1,3 @@
-from django.contrib.contenttypes.models import ContentType as DjangoContentType
 from django.db import models
 
 from ..spaces.models import Space

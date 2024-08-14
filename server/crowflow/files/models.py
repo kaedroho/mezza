@@ -3,6 +3,7 @@ from django.conf import settings
 from django.db import models
 
 from crowflow.spaces.models import Space
+
 from ..utils.files import hash_filelike
 
 __all__ = [
