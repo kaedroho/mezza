@@ -8,10 +8,7 @@ export default class SelectDef implements WidgetDef {
 
   className: string;
 
-  constructor(
-    choices: { label: string; value: string }[],
-    className: string,
-  ) {
+  constructor(choices: { label: string; value: string }[], className: string) {
     this.choices = choices;
     this.className = className;
   }
@@ -34,9 +31,17 @@ export default class SelectDef implements WidgetDef {
 
     return (
       <>
-      <Select id={id} name={name} defaultValue={defaultValue} disabled={disabled} className={this.className}>
-        {this.choices.map((choice) => <Option value={choice.value}>{choice.label}</Option>)}
-      </Select>
+        <Select
+          id={id}
+          name={name}
+          defaultValue={defaultValue}
+          disabled={disabled}
+          className={this.className}
+        >
+          {this.choices.map((choice) => (
+            <Option value={choice.value}>{choice.label}</Option>
+          ))}
+        </Select>
       </>
     );
   }

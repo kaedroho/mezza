@@ -1,22 +1,22 @@
+import * as DjangoBridge from "@django-bridge/react";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import * as DjangoBridge from "@django-bridge/react";
 
-import LoginView from "./views/Login";
-import HomeView from "./views/Home";
+import { CSRFTokenContext, URLsContext } from "./contexts";
+import FieldDef from "./deserializers/Field";
+import FormDef from "./deserializers/Form";
+import ServerRenderedFieldDef from "./deserializers/ServerRenderedField";
+import BlockNoteEditorDef from "./deserializers/widgets/BlockNoteEditor";
+import FileInputDef from "./deserializers/widgets/FileInput";
+import SelectDef from "./deserializers/widgets/Select";
+import TextInputDef from "./deserializers/widgets/TextInput";
 import ConfirmDeleteView from "./views/ConfirmDelete";
-import PostIndexView from "./views/PostIndex";
+import HomeView from "./views/Home";
+import LoginView from "./views/Login";
+import MediaFormView from "./views/MediaForm";
 import MediaIndexView from "./views/MediaIndex";
 import PostFormView from "./views/PostForm";
-import MediaFormView from "./views/MediaForm";
-import FormDef from "./deserializers/Form";
-import FieldDef from "./deserializers/Field";
-import ServerRenderedFieldDef from "./deserializers/ServerRenderedField";
-import TextInputDef from "./deserializers/widgets/TextInput";
-import SelectDef from "./deserializers/widgets/Select";
-import FileInputDef from "./deserializers/widgets/FileInput";
-import BlockNoteEditorDef from "./deserializers/widgets/BlockNoteEditor";
-import { CSRFTokenContext, URLsContext } from "./contexts";
+import PostIndexView from "./views/PostIndex";
 
 const config = new DjangoBridge.Config();
 
@@ -44,11 +44,11 @@ config.addAdapter("forms.BlockNoteEditor", BlockNoteEditorDef);
 
 const rootElement = document.getElementById("root")!;
 const initialResponse = JSON.parse(
-  document.getElementById("initial-response")!.textContent!
+  document.getElementById("initial-response")!.textContent!,
 );
 
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <DjangoBridge.App config={config} initialResponse={initialResponse} />
-  </React.StrictMode>
+  </React.StrictMode>,
 );

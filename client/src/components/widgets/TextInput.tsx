@@ -35,7 +35,7 @@ export default function TextInput({
         originalOnChange(e);
       }
     },
-    [originalOnChange]
+    [originalOnChange],
   );
 
   return (

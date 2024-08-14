@@ -240,7 +240,7 @@ export default function Layout({
                       >
                         {label}
                       </Typography>
-                    )
+                    ),
                   )}
                 </Breadcrumbs>
               </Box>

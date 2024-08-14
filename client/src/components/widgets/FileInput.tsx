@@ -88,7 +88,7 @@ const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>(
       maxFileSizeDisplay,
       ...props
     }: FileInputProps,
-    ref
+    ref,
   ): ReactElement => {
     // Format allowed extensions (eg, ".pdf, .docx or .txt")
     let allowedExtensionsDisplay = "";
@@ -103,7 +103,7 @@ const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>(
     const [dragActive, setDragActive] = useState<boolean>(false);
     const forwardedRef = useForwardRef(ref);
     const changeNotification = React.useContext(
-      FormWidgetChangeNotificationContext
+      FormWidgetChangeNotificationContext,
     );
 
     const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
@@ -216,7 +216,7 @@ const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>(
         />
       </StyledFileInput>
     );
-  }
+  },
 );
 
 export default FileInput;

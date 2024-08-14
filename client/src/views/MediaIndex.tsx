@@ -33,7 +33,7 @@ const MediaAssetListing = styled.ul`
 `;
 
 interface MediaIndexViewProps {
-  type: string
+  type: string;
   types: {
     name: string;
     url: string;
@@ -69,7 +69,7 @@ export default function MediaIndexView({ types, files }: MediaIndexViewProps) {
                   // Refresh props so new image pops up in listing
                   refreshProps();
                 },
-              }
+              },
             )
           }
         >
@@ -78,7 +78,11 @@ export default function MediaIndexView({ types, files }: MediaIndexViewProps) {
       )}
     >
       <ul>
-        {types.map((type) => (<li key={type.name}><Link href={type.url}>{type.name}</Link></li>))}
+        {types.map((type) => (
+          <li key={type.name}>
+            <Link href={type.url}>{type.name}</Link>
+          </li>
+        ))}
       </ul>
       <MediaAssetListing>
         {files.map((file) => (

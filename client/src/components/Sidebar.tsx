@@ -23,7 +23,7 @@ export default function Sidebar() {
       closeSidebar();
       doNavigate(path);
     },
-    [doNavigate]
+    [doNavigate],
   );
 
   return (

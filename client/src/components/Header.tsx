@@ -21,10 +21,13 @@ export default function Header() {
         backgroundColor: "var(--joy-palette-neutral-900)",
         "--joy-palette-text-primary": "var(--joy-palette-neutral-100)",
         "--joy-palette-text-icon": "var(--joy-palette-neutral-100)",
-        "--joy-palette-neutral-outlinedBorder": "var(--joy-palette-neutral-700)",
+        "--joy-palette-neutral-outlinedBorder":
+          "var(--joy-palette-neutral-700)",
         "--joy-palette-neutral-outlinedColor": "var(--joy-palette-neutral-200)",
-        "--joy-palette-neutral-outlinedActiveBg": "var(--joy-palette-neutral-100)",
-        "--joy-palette-neutral-outlinedHoverBg": "var(--joy-palette-neutral-800)",
+        "--joy-palette-neutral-outlinedActiveBg":
+          "var(--joy-palette-neutral-100)",
+        "--joy-palette-neutral-outlinedHoverBg":
+          "var(--joy-palette-neutral-800)",
         "--variant-outlinedActiveBg": "var(--joy-palette-neutral-700)",
       }}
     >

@@ -38,10 +38,13 @@ export default class ServerRemderedFieldDef {
       <Field
         label={this.label}
         required={this.required}
-        widget={<div
-          dangerouslySetInnerHTML={{
-            __html: this.html
-          }} />}
+        widget={
+          <div
+            dangerouslySetInnerHTML={{
+              __html: this.html,
+            }}
+          />
+        }
         helpText={this.helpText}
         displayOptions={displayOptions}
         errors={errors}

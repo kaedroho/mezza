@@ -45,7 +45,7 @@ export default function PostIndexView({ posts }: PostIndexViewProps) {
                   // Refresh props so new post pops up in listing
                   refreshProps();
                 },
-              }
+              },
             )
           }
         >
@@ -99,7 +99,7 @@ export default function PostIndexView({ posts }: PostIndexViewProps) {
                             // Refresh props so new post pops up in listing
                             refreshProps();
                           },
-                        }
+                        },
                       )
                     }
                   >

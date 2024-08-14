@@ -7,10 +7,7 @@ export default class TextInputDef implements WidgetDef {
 
   variant: "default" | "large";
 
-  constructor(
-    type: TextInputDef["type"],
-    variant: TextInputDef["variant"],
-  ) {
+  constructor(type: TextInputDef["type"], variant: TextInputDef["variant"]) {
     this.type = type;
     this.variant = variant;
   }

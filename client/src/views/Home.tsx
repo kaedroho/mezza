@@ -44,8 +44,8 @@ export default function HomeView() {
         </p>
         <p>
           Please browse around and have a look at the requests being made in
-          your network tab to get an idea of how Django Bridge is fetching the data
-          from Django.
+          your network tab to get an idea of how Django Bridge is fetching the
+          data from Django.
         </p>
         <p style={{ marginTop: "2em" }}>
           <b>

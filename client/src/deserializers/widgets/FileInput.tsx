@@ -9,11 +9,7 @@ export default class FileInputDef implements WidgetDef {
 
   maxFileSizeDisplay: string;
 
-  constructor(
-    className: string,
-    accept: string,
-    maxFileSizeDisplay: string,
-  ) {
+  constructor(className: string, accept: string, maxFileSizeDisplay: string) {
     this.className = className;
     this.accept = accept;
     this.maxFileSizeDisplay = maxFileSizeDisplay;
