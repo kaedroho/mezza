@@ -5,7 +5,7 @@ import { Form, OverlayContext } from "@django-bridge/react";
 import FormDef from "../deserializers/Form";
 import { Post } from "../types";
 import Layout from "../components/Layout";
-import { CSRFTokenContext, URLsContext } from "../contexts";
+import { CSRFTokenContext } from "../contexts";
 
 interface PostFormViewProps {
   post: Post | null;
