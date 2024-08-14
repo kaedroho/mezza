@@ -1,5 +1,5 @@
 app = 'crowflow'
-primary_region = 'lhr'
+primary_region = 'bos'
 
 [build]
   dockerfile = './server/Dockerfile'
@@ -7,8 +7,8 @@ primary_region = 'lhr'
 
 [env]
   BASE_URL = 'https://crowflow.io'
-  DJANGO_DEBUG = 'false'
   DJANGO_ALLOWED_HOSTS = 'crowflow.io'
+  DJANGO_DEBUG = 'false'
 
 [http_service]
   internal_port = 8000
