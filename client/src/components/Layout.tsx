@@ -110,8 +110,9 @@ export default function Layout({
   return (
     <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
+      <Header />
+
       <Box sx={{ display: "flex", minHeight: "100dvh", width: "100%" }}>
-        <Header />
         <Sidebar />
         <Box sx={{ display: "flex", flexFlow: "column nowrap", width: "100%" }}>
           {unloadBlocked && (
