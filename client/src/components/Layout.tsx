@@ -149,9 +149,9 @@ export default function Layout({
                     color: "white",
                     fontWeight: 500,
                     backgroundColor: {
-                      success: "#1B8666",
-                      warning: "#FAA500",
-                      error: "#CA3B3B",
+                      success: "var(--joy-palette-success-500)",
+                      warning: "var(--joy-palette-warning-500)",
+                      error: "var(--joy-palette-danger-500)",
                     }[message.level],
                   };
                   if ("html" in message) {
