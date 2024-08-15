@@ -219,7 +219,6 @@ export default function Layout({
                         <Link
                           component={DjangoBridgeLink}
                           underline="hover"
-                          color="neutral"
                           href={href}
                           fontSize={12}
                           fontWeight={500}
