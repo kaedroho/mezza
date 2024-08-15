@@ -30,20 +30,13 @@ class Flow(models.Model):
 def create_default_flows(sender, instance, created, **kwargs):
     if created:
         idea_stage = Stage.objects.create(title="Idea", order=1, space=instance)
-        todo_stage = Stage.objects.create(title="Todo", order=2, space=instance)
         scripting_stage = Stage.objects.create(
             title="Scripting", order=3, space=instance
         )
         filming_stage = Stage.objects.create(title="Filming", order=4, space=instance)
         editing_stage = Stage.objects.create(title="Editing", order=5, space=instance)
-        ready_to_publish_stage = Stage.objects.create(
-            title="Ready to publish", order=6, space=instance
-        )
-        scheduled_stage = Stage.objects.create(
-            title="Scheduled", order=7, space=instance
-        )
-        published_stage = Stage.objects.create(
-            title="Published", order=8, space=instance
+        completed_stage = Stage.objects.create(
+            title="Completed", order=6, space=instance
         )
 
         videos_flow = Flow.objects.create(
@@ -54,12 +47,9 @@ def create_default_flows(sender, instance, created, **kwargs):
         videos_flow.stages.set(
             [
                 idea_stage,
-                todo_stage,
                 scripting_stage,
                 filming_stage,
                 editing_stage,
-                ready_to_publish_stage,
-                scheduled_stage,
-                published_stage,
+                completed_stage,
             ]
         )
