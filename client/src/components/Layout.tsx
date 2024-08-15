@@ -120,7 +120,7 @@ export default function Layout({
           sx={{ display: "flex", flexFlow: "row", height: "100%", flexGrow: 1 }}
         >
           {/* <Sidebar /> */}
-          <Box sx={{ display: "flex", flexFlow: "column nowrap" }}>
+          <Box sx={{ display: "flex", flexFlow: "column nowrap", flexGrow: 1 }}>
             {unloadBlocked && (
               <UnsavedChangesWarningWrapper role="alert" aria-live="assertive">
                 <WarningRounded />

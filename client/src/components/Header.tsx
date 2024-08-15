@@ -15,8 +15,6 @@ export default function Header() {
         height: "var(--Header-height)",
         p: 2,
         gap: 1,
-        borderBottom: "1px solid",
-        borderColor: "background.level1",
         color: "var(--joy-palette-neutral-100)",
         backgroundColor: "var(--joy-palette-neutral-900)",
         "--joy-palette-text-primary": "var(--joy-palette-neutral-100)",
