@@ -9,6 +9,8 @@ primary_region = 'bos'
   BASE_URL = 'https://crowflow.io'
   DJANGO_ALLOWED_HOSTS = 'crowflow.fly.dev,app.crowflow.io'
   DJANGO_DEBUG = 'false'
+  BACKBLAZE_BUCKET = 'mezza-uploads'
+  BACKBLAZE_REGION = 'us-east-005'
 
 [http_service]
   internal_port = 8000

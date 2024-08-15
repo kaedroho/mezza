@@ -143,6 +143,19 @@ STORAGES = {
     },
 }
 
+if "BACKBLAZE_BUCKET" in os.environ:
+    BACKBLAZE_REGION = os.environ["BACKBLAZE_REGION"]
+    STORAGES["default"] = {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "bucket_name": os.environ["BACKBLAZE_BUCKET"],
+            "access_key": os.environ["BACKBLAZE_KEY_ID"],
+            "secret_key": os.environ["BACKBLAZE_APPLICATION_KEY"],
+            "region_name": BACKBLAZE_REGION,
+            "endpoint_url": f"https://s3.{BACKBLAZE_REGION}.backblazeb2.com",
+        },
+    }
+
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 MAX_UPLOAD_SIZE = 2 * 1024 * 1024
