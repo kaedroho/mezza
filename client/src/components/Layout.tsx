@@ -15,12 +15,10 @@ import * as React from "react";
 import styled, { keyframes } from "styled-components";
 
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 
 import Button from "@mui/joy/Button";
 import { SxProps } from "@mui/joy/styles/types";
 import Header from "./Header";
-import Sidebar from "./Sidebar";
 
 const slideDown = keyframes`
     from {
@@ -62,7 +60,6 @@ interface LayoutProps {
   }[];
   renderHeaderButtons?: () => React.ReactNode;
   fullWidth?: boolean;
-  hideHomeBreadcrumb?: boolean;
 }
 
 export default function Layout({
@@ -70,7 +67,6 @@ export default function Layout({
   breadcrumb = [],
   renderHeaderButtons,
   fullWidth,
-  hideHomeBreadcrumb,
   children,
 }: React.PropsWithChildren<LayoutProps>) {
   const { overlay } = React.useContext(OverlayContext);
@@ -123,7 +119,7 @@ export default function Layout({
         <Box
           sx={{ display: "flex", flexFlow: "row", height: "100%", flexGrow: 1 }}
         >
-          <Sidebar />
+          {/* <Sidebar /> */}
           <Box sx={{ display: "flex", flexFlow: "column nowrap" }}>
             {unloadBlocked && (
               <UnsavedChangesWarningWrapper role="alert" aria-live="assertive">
@@ -218,17 +214,6 @@ export default function Layout({
                     separator={<ChevronRightRoundedIcon />}
                     sx={{ pl: 0, minHeight: "34px" }}
                   >
-                    {!hideHomeBreadcrumb && (
-                      <Link
-                        component={DjangoBridgeLink}
-                        underline="none"
-                        color="neutral"
-                        href={"/"}
-                        aria-label="Home"
-                      >
-                        <HomeRoundedIcon />
-                      </Link>
-                    )}
                     {breadcrumb.map(({ label, href }) =>
                       href ? (
                         <Link
@@ -258,11 +243,10 @@ export default function Layout({
                   sx={{
                     display: "flex",
                     mb: 1,
-                    gap: 1,
+                    gap: 2,
                     flexDirection: { xs: "column", sm: "row" },
                     alignItems: { xs: "start", sm: "center" },
                     flexWrap: "wrap",
-                    justifyContent: "space-between",
                   }}
                 >
                   <Typography level="h3" component="h1">
