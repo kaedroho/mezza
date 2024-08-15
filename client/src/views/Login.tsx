@@ -1,9 +1,9 @@
-import React, { ReactElement } from "react";
 import { Form } from "@django-bridge/react";
-import styled from "styled-components";
-import { CssVarsProvider } from "@mui/joy/styles";
-import CssBaseline from "@mui/joy/CssBaseline";
 import { Button, Typography } from "@mui/joy";
+import CssBaseline from "@mui/joy/CssBaseline";
+import { CssVarsProvider } from "@mui/joy/styles";
+import React, { ReactElement } from "react";
+import styled from "styled-components";
 
 import { CSRFTokenContext } from "../contexts";
 import FormDef from "../deserializers/Form";
@@ -22,7 +22,7 @@ const LoginWrapper = styled.div`
   width: 24rem;
   border-radius: 0.5rem;
   padding: 2.5rem;
-  background-color: white;
+  background-color: var(--joy-palette-background-body);
 
   h2 {
     color: #333;
