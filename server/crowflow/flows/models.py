@@ -17,6 +17,12 @@ class Stage(models.Model):
         "crowflowspaces.Space", on_delete=models.CASCADE, related_name="stages"
     )
 
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ["space", "order"]
+
 
 class Flow(models.Model):
     title = models.TextField(max_length=200)
@@ -24,6 +30,9 @@ class Flow(models.Model):
         "crowflowspaces.Space", on_delete=models.CASCADE, related_name="flows"
     )
     stages = models.ManyToManyField("Stage", related_name="flows")
+
+    def __str__(self):
+        return self.title
 
 
 @receiver(post_save, sender=Space)
@@ -40,7 +49,7 @@ def create_default_flows(sender, instance, created, **kwargs):
         )
 
         videos_flow = Flow.objects.create(
-            title="Videos",
+            title="Video",
             space=instance,
         )
 

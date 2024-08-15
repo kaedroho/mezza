@@ -1,5 +1,6 @@
 import string
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView as BaseLoginView
@@ -48,4 +49,4 @@ def login_temporary(request):
 
     login(request, user)
 
-    return redirect("home")
+    return redirect(settings.LOGIN_REDIRECT_URL)

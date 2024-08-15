@@ -2,13 +2,16 @@ from django.db import models
 
 from crowflow.files.models import ImageFile, VideoFile
 from crowflow.flows.models import Flow, Stage
+from crowflow.spaces.models import Space
 
 __all__ = [
     "Project",
+    "Footage",
 ]
 
 
 class Project(models.Model):
+    space = models.ForeignKey(Space, on_delete=models.CASCADE, related_name="projects")
     flow = models.ForeignKey(Flow, on_delete=models.CASCADE, related_name="projects")
     stage = models.ForeignKey(Stage, on_delete=models.CASCADE, related_name="projects")
     title = models.TextField(max_length=200)
@@ -21,6 +24,15 @@ class Project(models.Model):
     final_video = models.ForeignKey(
         VideoFile, on_delete=models.SET_NULL, related_name="+", null=True
     )
+
+    def to_client_representation(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+        }
+
+    def __str__(self):
+        return self.title
 
 
 class Footage(models.Model):

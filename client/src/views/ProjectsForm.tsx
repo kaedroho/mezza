@@ -1,30 +1,34 @@
-import * as React from "react";
-import Button from "@mui/joy/Button";
-import Box from "@mui/joy/Box";
 import { Form, OverlayContext } from "@django-bridge/react";
-import FormDef from "../deserializers/Form";
-import { Post } from "../types";
+import Box from "@mui/joy/Box";
+import Button from "@mui/joy/Button";
+import * as React from "react";
 import Layout from "../components/Layout";
-import { CSRFTokenContext } from "../contexts";
+import { CSRFTokenContext, URLsContext } from "../contexts";
+import FormDef from "../deserializers/Form";
+import { Project } from "../types";
 
-interface PostFormViewProps {
-  post: Post | null;
+interface ProjectsFormViewProps {
+  project: Project | null;
   action_url: string;
   form: FormDef;
 }
 
-export default function PostFormView({
-  post,
+export default function ProjectsFormView({
+  project,
   action_url,
   form,
-}: PostFormViewProps) {
+}: ProjectsFormViewProps) {
   const { overlay, requestClose } = React.useContext(OverlayContext);
+  const urls = React.useContext(URLsContext);
   const csrf_token = React.useContext(CSRFTokenContext);
 
   return (
     <Layout
-      title={post ? "Edit Post" : "Add Post"}
-      breadcrumb={[{ label: "Posts" }, { label: "" }]}
+      title={project ? "Edit Project" : "Create Project"}
+      breadcrumb={[
+        { label: "Projects", href: urls.projects_index },
+        { label: "" },
+      ]}
     >
       <Form action={action_url} method="post">
         <input type="hidden" name="csrfmiddlewaretoken" value={csrf_token} />
@@ -32,7 +36,9 @@ export default function PostFormView({
         {form.render()}
 
         <Box display="flex" gap="12px" pt="20px">
-          <Button type="submit">{post ? "Save changes" : "Add Post"}</Button>
+          <Button type="submit">
+            {project ? "Save changes" : "Create Project"}
+          </Button>
           {overlay && (
             <Button
               type="button"

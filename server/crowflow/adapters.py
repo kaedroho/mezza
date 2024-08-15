@@ -1,7 +1,9 @@
 from django import forms
 from django.conf import settings
+from django.forms.models import ModelChoiceIteratorValue
 from django.template.defaultfilters import filesizeformat
 from django_bridge.adapters import Adapter, register
+from telepath import ValueNode
 
 from .widgets import BlockNoteEditor
 
@@ -57,6 +59,14 @@ class SelectAdapter(Adapter):
 
 
 register(SelectAdapter(), forms.Select)
+
+
+class ModelChoiceIteratorValueAdapter(Adapter):
+    def build_node(self, value, context):
+        return ValueNode(value.value)
+
+
+register(ModelChoiceIteratorValueAdapter(), ModelChoiceIteratorValue)
 
 
 class BlockNoteEditorAdapter(Adapter):

@@ -11,21 +11,21 @@ import FileInputDef from "./deserializers/widgets/FileInput";
 import SelectDef from "./deserializers/widgets/Select";
 import TextInputDef from "./deserializers/widgets/TextInput";
 import ConfirmDeleteView from "./views/ConfirmDelete";
-import HomeView from "./views/Home";
 import LoginView from "./views/Login";
 import MediaFormView from "./views/MediaForm";
 import MediaIndexView from "./views/MediaIndex";
-import PostFormView from "./views/PostForm";
 import PostIndexView from "./views/PostIndex";
+import ProjectsForm from "./views/ProjectsForm";
+import ProjectsIndexView from "./views/ProjectsIndex";
 
 const config = new DjangoBridge.Config();
 
 // Add your views here
 config.addView("Login", LoginView);
-config.addView("Home", HomeView);
+config.addView("ProjectsIndex", ProjectsIndexView);
 config.addView("ConfirmDelete", ConfirmDeleteView);
 config.addView("PostIndex", PostIndexView);
-config.addView("PostForm", PostFormView);
+config.addView("ProjectsForm", ProjectsForm);
 config.addView("MediaIndex", MediaIndexView);
 config.addView("MediaForm", MediaFormView);
 
