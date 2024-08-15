@@ -16,7 +16,7 @@ __all__ = [
 
 
 def get_upload_path(instance, filename):
-    return f"{instance.UPLOAD_TO}/{instance.space.slug}/{filename}"
+    return f"{instance.space.slug}/{instance.UPLOAD_TO}/{filename}"
 
 
 class BaseFile(models.Model):
