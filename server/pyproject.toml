@@ -1,9 +1,9 @@
 [tool.poetry]
-name = "crowflow"
+name = "viano"
 version = "0.0.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
-packages = [{ include = "crowflow" }]
+packages = [{ include = "viano" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -25,7 +25,7 @@ ruff = "^0.5.5"
 
 [tool.isort]
 profile = "black"
-known_first_party = ["crowflow"]
+known_first_party = ["viano"]
 
 [build-system]
 requires = ["poetry-core"]

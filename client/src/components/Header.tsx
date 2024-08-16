@@ -30,7 +30,7 @@ export default function Header() {
       }}
     >
       <Typography level="title-lg" fontWeight="xl">
-        CrowFlow
+        Viano
       </Typography>
       <ColorSchemeToggle sx={{ ml: "auto" }} />
     </Sheet>

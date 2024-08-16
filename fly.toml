@@ -1,4 +1,4 @@
-app = 'crowflow'
+app = 'viano'
 primary_region = 'bos'
 
 [build]
@@ -6,10 +6,10 @@ primary_region = 'bos'
   build-target = 'prod'
 
 [env]
-  BASE_URL = 'https://crowflow.io'
-  DJANGO_ALLOWED_HOSTS = 'crowflow.fly.dev,app.crowflow.io'
+  BASE_URL = 'https://viano.io'
+  DJANGO_ALLOWED_HOSTS = 'viano.fly.dev,app.viano.io'
   DJANGO_DEBUG = 'false'
-  BACKBLAZE_BUCKET = 'crowflow-uploads'
+  BACKBLAZE_BUCKET = 'viano-uploads'
   BACKBLAZE_REGION = 'us-east-005'
 
 [http_service]

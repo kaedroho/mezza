@@ -76,7 +76,7 @@ function LoginView({
         <Space />
         <LoginWrapper>
           <Typography level="h4" component="h1" fontWeight={700}>
-            Sign in to CrowFlow
+            Sign in to Viano
           </Typography>
 
           <AlternativeSignIn>
