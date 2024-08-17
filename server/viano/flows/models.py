@@ -44,7 +44,7 @@ class Flow(models.Model):
 @receiver(post_save, sender=Space)
 def create_default_flows(sender, instance, created, **kwargs):
     if created:
-        idea_stage = Stage.objects.create(title="Idea", order=1, space=instance)
+        idea_stage = Stage.objects.create(title="Ideas", order=1, space=instance)
         scripting_stage = Stage.objects.create(
             title="Scripting", order=3, space=instance
         )
