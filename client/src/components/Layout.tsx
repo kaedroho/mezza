@@ -191,13 +191,6 @@ export default function Layout({
               component="main"
               className="MainContent"
               sx={{
-                px: fullWidth ? 0 : { xs: 2, md: 6 },
-                pt: {
-                  xs: "calc(9px + var(--Header-height))",
-                  sm: "calc(9px + var(--Header-height))",
-                  md: 0,
-                },
-                pb: { xs: 2, sm: 2, md: 3 },
                 flex: 1,
                 display: "flex",
                 flexDirection: "column",
@@ -241,6 +234,7 @@ export default function Layout({
                 <Box
                   sx={{
                     display: "flex",
+                    px: "20px",
                     mb: 1,
                     gap: 2,
                     flexDirection: { xs: "column", sm: "row" },

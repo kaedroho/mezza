@@ -13,15 +13,27 @@ const Kanban = styled.div`
   flex-flow: row nowrap;
   flex-stretch: 1;
   gap: 20px;
+  width: 100vw;
+  overflow-x: auto;
+  padding: 20px;
 `;
 
 const StageColumn = styled.div`
   border-radius: 8px;
   padding: 10px;
   border: 1px solid var(--joy-palette-neutral-outlinedBorder);
+`;
+
+const StageHeader = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 10px;
 
   > h2 {
-    margin-top: 0;
+    margin: 0;
+    font-size: 1.2em;
   }
 `;
 
@@ -55,6 +67,7 @@ interface ProjectsIndexViewProps {
 }
 
 export default function ProjectsIndexView({
+  stages,
   projects,
 }: ProjectsIndexViewProps) {
   const { openOverlay, refreshProps } = React.useContext(NavigationContext);
@@ -77,34 +90,36 @@ export default function ProjectsIndexView({
   return (
     <Layout title="Projects">
       <Kanban>
-        {Object.keys(projectsByStage).map((stageId) => {
-          const stageProjects = projectsByStage[parseInt(stageId)];
+        {stages.map((stage) => {
+          const stageProjects = projectsByStage[stage.id] || [];
 
           return (
-            <StageColumn key={stageId}>
-              <h2>{stageProjects[0].stage.title}</h2>
-              <Button
-                variant="soft"
-                color="primary"
-                size="sm"
-                startDecorator={<Add />}
-                onClick={() =>
-                  openOverlay(
-                    urls.projects_create
-                      .replace("flow", "video")
-                      .replace("stage", stageId),
-                    (content) => <ModalWindow>{content}</ModalWindow>,
-                    {
-                      onClose: () => {
-                        // Refresh props so new post pops up in listing
-                        refreshProps();
+            <StageColumn key={stage.id}>
+              <StageHeader>
+                <h2>{stage.title}</h2>
+                <Button
+                  variant="soft"
+                  color="primary"
+                  size="sm"
+                  startDecorator={<Add />}
+                  onClick={() =>
+                    openOverlay(
+                      urls.projects_create
+                        .replace("flow", "video")
+                        .replace("stage", stage.id.toString()),
+                      (content) => <ModalWindow>{content}</ModalWindow>,
+                      {
+                        onClose: () => {
+                          // Refresh props so new post pops up in listing
+                          refreshProps();
+                        },
                       },
-                    },
-                  )
-                }
-              >
-                New
-              </Button>
+                    )
+                  }
+                >
+                  New
+                </Button>
+              </StageHeader>
               <Projects>
                 {stageProjects.map((project) => (
                   <ProjectCard key={project.id}>
