@@ -8,6 +8,8 @@ class ProjectForm(forms.ModelForm):
         model = Project
         fields = [
             "title",
+            "due_date",
+            "description",
         ]
         widgets = {
             "title": forms.TextInput(attrs={"variant": "large"}),

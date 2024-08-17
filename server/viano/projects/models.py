@@ -14,6 +14,7 @@ class Project(models.Model):
     space = models.ForeignKey(Space, on_delete=models.CASCADE, related_name="projects")
     flow = models.ForeignKey(Flow, on_delete=models.CASCADE, related_name="projects")
     stage = models.ForeignKey(Stage, on_delete=models.CASCADE, related_name="projects")
+    order = models.IntegerField()
     title = models.TextField(max_length=200)
     due_date = models.DateField(null=True, blank=True)
     thumbnail = models.ForeignKey(
@@ -34,6 +35,9 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        ordering = ["stage__order", "order"]
 
 
 class Footage(models.Model):

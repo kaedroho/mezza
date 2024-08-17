@@ -1,8 +1,10 @@
 from django.contrib import messages
+from django.db.models import F
 from django.urls import reverse
 from django_bridge.response import CloseOverlayResponse, Response
 
 from .forms import ProjectForm
+from .models import Project
 
 
 def index(request):
@@ -34,6 +36,11 @@ def create(request, flow_slug, stage_id):
         project.flow = flow
         project.stage = stage
         project.space = space
+
+        # Order the project at the start of the stage
+        project.order = 0
+        Project.objects.filter(stage=stage).update(order=F("order") + 1)
+
         project.save()
 
         messages.success(
