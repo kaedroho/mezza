@@ -12,6 +12,9 @@ def index(request):
         request,
         "ProjectsIndex",
         {
+            "stages": [
+                stage.to_client_representation() for stage in space.stages.all()
+            ],
             "projects": [
                 project.to_client_representation() for project in space.projects.all()
             ],
@@ -19,13 +22,17 @@ def index(request):
     )
 
 
-def create(request):
+def create(request, flow_slug, stage_id):
+    flow = request.user.spaces.first().flows.get()
+    stage = flow.stages.get(id=stage_id)
     # FIXME: Get space from URL
     space = request.user.spaces.first()
-    form = ProjectForm(space, request.POST or None)
+    form = ProjectForm(request.POST or None)
 
     if form.is_valid():
         project = form.save(commit=False)
+        project.flow = flow
+        project.stage = stage
         project.space = space
         project.save()
 
@@ -40,7 +47,7 @@ def create(request):
         request,
         "ProjectsForm",
         {
-            "action_url": reverse("projects_create"),
+            "action_url": reverse("projects_create", args=[flow_slug, stage_id]),
             "form": form,
         },
         overlay=True,

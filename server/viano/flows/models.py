@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 from viano.spaces.models import Space
 
 __all__ = [
@@ -15,6 +16,12 @@ class Stage(models.Model):
     space = models.ForeignKey(
         "vianospaces.Space", on_delete=models.CASCADE, related_name="stages"
     )
+
+    def to_client_representation(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+        }
 
     def __str__(self):
         return self.title

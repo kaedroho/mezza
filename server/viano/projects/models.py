@@ -1,4 +1,5 @@
 from django.db import models
+
 from viano.files.models import ImageFile, VideoFile
 from viano.flows.models import Flow, Stage
 from viano.spaces.models import Space
@@ -28,6 +29,7 @@ class Project(models.Model):
         return {
             "id": self.id,
             "title": self.title,
+            "stage": self.stage.to_client_representation(),
         }
 
     def __str__(self):

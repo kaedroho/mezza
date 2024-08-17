@@ -13,7 +13,11 @@ from .utils.urlpatterns import decorate_urlpatterns
 urlpatterns_auth = [
     path("admin/", admin.site.urls),
     path("projects/", projects_views.index, name="projects_index"),
-    path("projects/create/", projects_views.create, name="projects_create"),
+    path(
+        "projects/create/<slug:flow_slug>/<slug:stage_id>/",
+        projects_views.create,
+        name="projects_create",
+    ),
     path("files/<slug:type>/", files_views.index, name="files_index"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
