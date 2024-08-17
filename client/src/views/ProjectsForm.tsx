@@ -24,7 +24,7 @@ export default function ProjectsFormView({
 
   return (
     <Layout
-      title={project ? "Edit Project" : "Create Project"}
+      title={project ? "Edit Project" : "New Project"}
       breadcrumb={[
         { label: "Projects", href: urls.projects_index },
         { label: "" },
@@ -36,9 +36,7 @@ export default function ProjectsFormView({
         {form.render()}
 
         <Box display="flex" gap="12px" pt="20px">
-          <Button type="submit">
-            {project ? "Save changes" : "Create Project"}
-          </Button>
+          <Button type="submit">{project ? "Save changes" : "Save"}</Button>
           {overlay && (
             <Button
               type="button"

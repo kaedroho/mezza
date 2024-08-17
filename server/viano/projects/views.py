@@ -51,5 +51,5 @@ def create(request, flow_slug, stage_id):
             "form": form,
         },
         overlay=True,
-        title="Create Project | Viano",
+        title="New Project | Viano",
     )
