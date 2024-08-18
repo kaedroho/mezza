@@ -1,6 +1,4 @@
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import ImageRoundedIcon from "@mui/icons-material/ImageRounded";
 import Box from "@mui/joy/Box";
 import Divider from "@mui/joy/Divider";
 import GlobalStyles from "@mui/joy/GlobalStyles";
@@ -13,7 +11,14 @@ import Typography from "@mui/joy/Typography";
 import * as React from "react";
 
 import { NavigationContext } from "@django-bridge/react";
+import {
+  CameraAlt,
+  ClosedCaption,
+  Lightbulb,
+  YouTube,
+} from "@mui/icons-material";
 import { closeSidebar } from "../utils";
+import ColorSchemeToggle from "./ColorSchemeToggle";
 
 export default function Sidebar() {
   const { navigate: doNavigate } = React.useContext(NavigationContext);
@@ -96,10 +101,22 @@ export default function Sidebar() {
           }}
         >
           <ListItem>
-            <ListItemButton onClick={() => navigate("/")}>
-              <HomeRoundedIcon />
+            <Typography level="title-lg" fontWeight="xl">
+              Viano
+            </Typography>
+            <ColorSchemeToggle sx={{ ml: "auto" }} />
+          </ListItem>
+          <ListItem>
+            <Typography fontWeight={600} fontSize={16}>
+              My Lovely Channel
+            </Typography>
+          </ListItem>
+
+          <ListItem>
+            <ListItemButton onClick={() => navigate("/posts/")}>
+              <Lightbulb />
               <ListItemContent>
-                <Typography level="title-sm">Home</Typography>
+                <Typography level="title-sm">Ideas</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>
@@ -108,19 +125,59 @@ export default function Sidebar() {
             <ListItemButton onClick={() => navigate("/posts/")}>
               <DashboardRoundedIcon />
               <ListItemContent>
-                <Typography level="title-sm">Posts</Typography>
+                <Typography level="title-sm">Scripting</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>
 
           <ListItem>
-            <ListItemButton onClick={() => navigate("/media/")}>
-              <ImageRoundedIcon />
+            <ListItemButton onClick={() => navigate("/posts/")}>
+              <CameraAlt />
               <ListItemContent>
-                <Typography level="title-sm">Media</Typography>
+                <Typography level="title-sm">Filming</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>
+
+          <ListItem>
+            <ListItemButton onClick={() => navigate("/posts/")}>
+              <ClosedCaption />
+              <ListItemContent>
+                <Typography level="title-sm">Editing</Typography>
+              </ListItemContent>
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem>
+            <ListItemButton onClick={() => navigate("/posts/")}>
+              <YouTube />
+              <ListItemContent>
+                <Typography level="title-sm">Publishing</Typography>
+              </ListItemContent>
+            </ListItemButton>
+          </ListItem>
+
+          {/* <ListItem>
+            <Button
+              variant="plain"
+              color="primary"
+              size="sm"
+              startDecorator={<Add />}
+            >
+              New Board
+            </Button>
+          </ListItem>
+          <ListItem>
+            <Typography fontWeight={600}>Publishing</Typography>
+          </ListItem>
+          <ListItem>
+            <ListItemButton onClick={() => navigate("/")}>
+              <CalendarMonth />
+              <ListItemContent>
+                <Typography level="title-sm">Calendar</Typography>
+              </ListItemContent>
+            </ListItemButton>
+          </ListItem> */}
         </List>
       </Box>
       <Divider />

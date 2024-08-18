@@ -18,7 +18,7 @@ import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 
 import Button from "@mui/joy/Button";
 import { SxProps } from "@mui/joy/styles/types";
-import Header from "./Header";
+import Sidebar from "./Sidebar";
 
 const slideDown = keyframes`
     from {
@@ -110,146 +110,141 @@ export default function Layout({
       <Box
         sx={{
           display: "flex",
-          flexFlow: "column",
-          minHeight: "100vh",
+          flexFlow: "row",
+          height: "100vh",
           flexGrow: 1,
         }}
       >
-        <Header />
-        <Box
-          sx={{ display: "flex", flexFlow: "row", height: "100%", flexGrow: 1 }}
-        >
-          {/* <Sidebar /> */}
-          <Box sx={{ display: "flex", flexFlow: "column nowrap", flexGrow: 1 }}>
-            {unloadBlocked && (
-              <UnsavedChangesWarningWrapper role="alert" aria-live="assertive">
-                <WarningRounded />
-                <p>
-                  <b>You have unsaved changes.</b> Please save your changes
-                  before leaving.
-                </p>
-                <Button
-                  type="button"
-                  size="sm"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    confirmUnload();
-                  }}
-                >
-                  Leave without saving
-                </Button>
-              </UnsavedChangesWarningWrapper>
-            )}
-            {!!messages.length && (
-              <Box component="ul" sx={{ listStyleType: "none", p: 0, m: 0 }}>
-                {messages.map((message) => {
-                  const sx: SxProps = {
-                    px: 4,
-                    py: 2,
-                    color: "white",
-                    fontWeight: 500,
-                    backgroundColor: {
-                      success: "var(--joy-palette-success-500)",
-                      warning: "var(--joy-palette-warning-500)",
-                      error: "var(--joy-palette-danger-500)",
-                    }[message.level],
-                  };
-                  if ("html" in message) {
-                    return (
-                      <Box
-                        component="li"
-                        sx={sx}
-                        key={message.html}
-                        role="alert"
-                        aria-live={
-                          message.level === "error" ? "assertive" : "polite"
-                        }
-                        dangerouslySetInnerHTML={{
-                          __html: message.html,
-                        }}
-                      />
-                    );
-                  }
-
+        <Sidebar />
+        <Box sx={{ display: "flex", flexFlow: "column nowrap", flexGrow: 1 }}>
+          {unloadBlocked && (
+            <UnsavedChangesWarningWrapper role="alert" aria-live="assertive">
+              <WarningRounded />
+              <p>
+                <b>You have unsaved changes.</b> Please save your changes before
+                leaving.
+              </p>
+              <Button
+                type="button"
+                size="sm"
+                onClick={(e) => {
+                  e.preventDefault();
+                  confirmUnload();
+                }}
+              >
+                Leave without saving
+              </Button>
+            </UnsavedChangesWarningWrapper>
+          )}
+          {!!messages.length && (
+            <Box component="ul" sx={{ listStyleType: "none", p: 0, m: 0 }}>
+              {messages.map((message) => {
+                const sx: SxProps = {
+                  px: 4,
+                  py: 2,
+                  color: "white",
+                  fontWeight: 500,
+                  backgroundColor: {
+                    success: "var(--joy-palette-success-500)",
+                    warning: "var(--joy-palette-warning-500)",
+                    error: "var(--joy-palette-danger-500)",
+                  }[message.level],
+                };
+                if ("html" in message) {
                   return (
                     <Box
                       component="li"
                       sx={sx}
-                      key={message.text}
+                      key={message.html}
                       role="alert"
                       aria-live={
                         message.level === "error" ? "assertive" : "polite"
                       }
-                    >
-                      {message.text}
-                    </Box>
+                      dangerouslySetInnerHTML={{
+                        __html: message.html,
+                      }}
+                    />
                   );
-                })}
-              </Box>
-            )}
-            <Box
-              component="main"
-              className="MainContent"
-              sx={{
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
-                minWidth: 0,
-                height: "100dvh",
-                gap: 1,
-              }}
-            >
-              <Box sx={{ px: fullWidth ? { xs: 2, md: 6 } : 0 }}>
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <Breadcrumbs
-                    size="sm"
-                    aria-label="breadcrumbs"
-                    separator={<ChevronRightRoundedIcon />}
-                    sx={{ pl: 0, minHeight: "34px" }}
+                }
+
+                return (
+                  <Box
+                    component="li"
+                    sx={sx}
+                    key={message.text}
+                    role="alert"
+                    aria-live={
+                      message.level === "error" ? "assertive" : "polite"
+                    }
                   >
-                    {breadcrumb.map(({ label, href }) =>
-                      href ? (
-                        <Link
-                          component={DjangoBridgeLink}
-                          underline="hover"
-                          href={href}
-                          fontSize={12}
-                          fontWeight={500}
-                          key={href}
-                        >
-                          {label}
-                        </Link>
-                      ) : (
-                        <Typography
-                          color="primary"
-                          fontWeight={500}
-                          fontSize={12}
-                        >
-                          {label}
-                        </Typography>
-                      ),
-                    )}
-                  </Breadcrumbs>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    px: "20px",
-                    mb: 1,
-                    gap: 2,
-                    flexDirection: { xs: "column", sm: "row" },
-                    alignItems: { xs: "start", sm: "center" },
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <Typography level="h3" component="h1">
-                    {title}
-                  </Typography>
-                  {renderHeaderButtons && renderHeaderButtons()}
-                </Box>
-              </Box>
-              {children}
+                    {message.text}
+                  </Box>
+                );
+              })}
             </Box>
+          )}
+          <Box
+            component="main"
+            className="MainContent"
+            sx={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              minWidth: 0,
+              height: "100dvh",
+              gap: 1,
+            }}
+          >
+            <Box sx={{ px: fullWidth ? { xs: 2, md: 6 } : 0 }}>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Breadcrumbs
+                  size="sm"
+                  aria-label="breadcrumbs"
+                  separator={<ChevronRightRoundedIcon />}
+                  sx={{ pl: 0, minHeight: "34px" }}
+                >
+                  {breadcrumb.map(({ label, href }) =>
+                    href ? (
+                      <Link
+                        component={DjangoBridgeLink}
+                        underline="hover"
+                        href={href}
+                        fontSize={12}
+                        fontWeight={500}
+                        key={href}
+                      >
+                        {label}
+                      </Link>
+                    ) : (
+                      <Typography
+                        color="primary"
+                        fontWeight={500}
+                        fontSize={12}
+                      >
+                        {label}
+                      </Typography>
+                    ),
+                  )}
+                </Breadcrumbs>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  px: "20px",
+                  mb: 1,
+                  gap: 2,
+                  flexDirection: { xs: "column", sm: "row" },
+                  alignItems: { xs: "start", sm: "center" },
+                  flexWrap: "wrap",
+                }}
+              >
+                <Typography level="h3" component="h1">
+                  {title}
+                </Typography>
+                {renderHeaderButtons && renderHeaderButtons()}
+              </Box>
+            </Box>
+            {children}
           </Box>
         </Box>
       </Box>
