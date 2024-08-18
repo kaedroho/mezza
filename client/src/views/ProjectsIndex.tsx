@@ -16,6 +16,7 @@ const Kanban = styled.div`
   width: 100vw;
   overflow-x: auto;
   padding: 20px;
+  flex-basis: 100%;
 `;
 
 const StageColumn = styled.div``;
