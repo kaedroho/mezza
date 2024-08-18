@@ -100,9 +100,13 @@ export default function Sidebar() {
             "--ListItem-radius": (theme) => theme.vars.radius.sm,
           }}
         >
-          <ListItem>
-            <Typography level="title-lg" fontWeight="xl">
-              Viano
+          <ListItem sx={{ px: 0, pb: 1 }}>
+            <Typography
+              level="title-lg"
+              fontWeight="xl"
+              sx={{ color: "#6a44f6" }}
+            >
+              Mezza Studio
             </Typography>
             <ColorSchemeToggle sx={{ ml: "auto" }} />
           </ListItem>
