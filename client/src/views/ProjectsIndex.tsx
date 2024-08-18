@@ -18,11 +18,7 @@ const Kanban = styled.div`
   padding: 20px;
 `;
 
-const StageColumn = styled.div`
-  border-radius: 8px;
-  padding: 10px;
-  border: 1px solid var(--joy-palette-neutral-outlinedBorder);
-`;
+const StageColumn = styled.div``;
 
 const StageHeader = styled.div`
   display: flex;
