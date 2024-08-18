@@ -94,7 +94,7 @@ export default function ProjectsIndexView({
               <StageHeader>
                 <h2>{stage.title}</h2>
                 <Button
-                  variant="soft"
+                  variant="plain"
                   color="primary"
                   size="sm"
                   startDecorator={<Add />}
@@ -113,7 +113,7 @@ export default function ProjectsIndexView({
                     )
                   }
                 >
-                  New
+                  New Project
                 </Button>
               </StageHeader>
               <Projects>
