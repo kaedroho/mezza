@@ -1,4 +1,4 @@
-app = 'viano'
+app = 'mezza-studio'
 primary_region = 'bos'
 
 [build]
@@ -6,10 +6,10 @@ primary_region = 'bos'
   build-target = 'prod'
 
 [env]
-  BASE_URL = 'https://viano.io'
-  DJANGO_ALLOWED_HOSTS = 'viano.fly.dev,app.viano.io'
+  BASE_URL = 'https://studio.mezzahq.com'
+  DJANGO_ALLOWED_HOSTS = 'mezza-studio.fly.dev,studio.mezzahq.com'
   DJANGO_DEBUG = 'false'
-  BACKBLAZE_BUCKET = 'viano-uploads'
+  BACKBLAZE_BUCKET = 'mezza-uploads'
   BACKBLAZE_REGION = 'us-east-005'
 
 [http_service]

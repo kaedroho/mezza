@@ -23,19 +23,19 @@ ENV VIRTUAL_ENV=/venv
 ENV PATH=$VIRTUAL_ENV/bin:$PATH \
     PYTHONPATH=/server \
     PYTHONUNBUFFERED=1 \
-    DJANGO_SETTINGS_MODULE=viano.settings \
+    DJANGO_SETTINGS_MODULE=mezza.settings \
     BASE_URL=http://localhost:8000 \
     PORT=8000
 
 # Add user that will be used in the container
 ARG UID=1000
-RUN useradd viano --uid ${UID} --create-home && mkdir /server $VIRTUAL_ENV && chown -R viano /server $VIRTUAL_ENV
+RUN useradd mezza --uid ${UID} --create-home && mkdir /server $VIRTUAL_ENV && chown -R mezza /server $VIRTUAL_ENV
 
 # Install poetry
 RUN pip install poetry==1.5.1
 
-# Use user "viano" to run the build commands below and the server itself.
-USER viano
+# Use user "mezza" to run the build commands below and the server itself.
+USER mezza
 
 # Use /server folder as a directory where the source code is stored.
 WORKDIR /server
@@ -44,11 +44,11 @@ WORKDIR /server
 RUN python -m venv $VIRTUAL_ENV
 
 # Install Python dependencies
-COPY --chown=viano server/pyproject.toml server/poetry.lock ./
+COPY --chown=mezza server/pyproject.toml server/poetry.lock ./
 RUN poetry install --no-root --only main
 
 # Copy the source code of the project into the container.
-COPY --chown=viano server .
+COPY --chown=mezza server .
 
 # Run poetry install again to install our project
 RUN poetry install --only main
@@ -56,13 +56,13 @@ RUN poetry install --only main
 FROM base as prod
 
 # Copy the client bundle from the client target
-COPY --chown=viano --from=client /client/dist /client
+COPY --chown=mezza --from=client /client/dist /client
 
 # Collect static files
 ENV VITE_BUNDLE_DIR=/client
 RUN DJANGO_SECRET_KEY=secret python manage.py collectstatic --noinput --clear
 
-CMD django-admin migrate && gunicorn -w 4 --threads 2 viano.wsgi:application
+CMD django-admin migrate && gunicorn -w 4 --threads 2 mezza.wsgi:application
 
 FROM base AS dev
 
