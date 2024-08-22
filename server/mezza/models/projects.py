@@ -1,7 +1,8 @@
 from django.db import models
-from mezza.files.models import ImageFile, VideoFile
-from mezza.flows.models import Flow, Stage
-from mezza.spaces.models import Space
+
+from .files import ImageFile, VideoFile
+from .pipelines import Pipeline, Stage
+from .spaces import Space
 
 __all__ = [
     "Project",
@@ -11,7 +12,9 @@ __all__ = [
 
 class Project(models.Model):
     space = models.ForeignKey(Space, on_delete=models.CASCADE, related_name="projects")
-    flow = models.ForeignKey(Flow, on_delete=models.CASCADE, related_name="projects")
+    pipeline = models.ForeignKey(
+        Pipeline, on_delete=models.CASCADE, related_name="projects"
+    )
     stage = models.ForeignKey(Stage, on_delete=models.CASCADE, related_name="projects")
     order = models.IntegerField()
     title = models.TextField(max_length=200)

@@ -3,8 +3,8 @@ from django.db.models import F
 from django.urls import reverse
 from django_bridge.response import CloseOverlayResponse, Response
 
+from ..models import Project
 from .forms import ProjectForm
-from .models import Project
 
 
 def index(request):

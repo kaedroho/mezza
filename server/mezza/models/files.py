@@ -1,9 +1,9 @@
 import filetype
 from django.conf import settings
 from django.db import models
-from mezza.spaces.models import Space
 
 from ..utils.files import hash_filelike
+from .spaces import Space
 
 __all__ = [
     "BaseFile",

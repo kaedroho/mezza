@@ -39,12 +39,6 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 # Application definition
 
 INSTALLED_APPS = [
-    "mezza.projects",
-    "mezza.flows",
-    "mezza.content",
-    "mezza.files",
-    "mezza.spaces",
-    "mezza.auth",
     "mezza",
     "django_bridge",
     "django.contrib.admin",
@@ -168,7 +162,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Auth
 
-AUTH_USER_MODEL = "mezzaauth.User"
+AUTH_USER_MODEL = "mezza.User"
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "projects_index"
 

@@ -1,5 +1,6 @@
 from django.db import models
-from mezza.auth.models import User
+
+from .user import User
 
 __all__ = [
     "Space",

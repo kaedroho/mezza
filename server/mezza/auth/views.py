@@ -9,9 +9,8 @@ from django.urls import reverse
 from django.utils.crypto import get_random_string
 from django.views.decorators.http import require_POST
 from django_bridge.views import DjangoBridgeView
-from mezza.spaces.models import Space, SpaceUser
 
-from .models import User
+from ..models import Space, SpaceUser, User
 
 
 class LoginView(DjangoBridgeView, BaseLoginView):

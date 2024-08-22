@@ -1,7 +1,7 @@
 from django.urls import reverse
 from django_bridge.response import Response
 
-from .models import AudioFile, DocumentFile, ImageFile, VideoFile
+from ..models import AudioFile, DocumentFile, ImageFile, VideoFile
 
 MEDIA_TYPES = {
     "images": ImageFile,

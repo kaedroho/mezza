@@ -1,20 +1,19 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from mezza.spaces.models import Space
+
+from .spaces import Space
 
 __all__ = [
     "Stage",
-    "Flow",
+    "Pipeline",
 ]
 
 
 class Stage(models.Model):
     title = models.TextField(max_length=200)
     order = models.IntegerField()
-    space = models.ForeignKey(
-        "mezzaspaces.Space", on_delete=models.CASCADE, related_name="stages"
-    )
+    space = models.ForeignKey(Space, on_delete=models.CASCADE, related_name="stages")
 
     def to_client_representation(self):
         return {
@@ -29,19 +28,17 @@ class Stage(models.Model):
         ordering = ["space", "order"]
 
 
-class Flow(models.Model):
+class Pipeline(models.Model):
     title = models.TextField(max_length=200)
-    space = models.ForeignKey(
-        "mezzaspaces.Space", on_delete=models.CASCADE, related_name="flows"
-    )
-    stages = models.ManyToManyField("Stage", related_name="flows")
+    space = models.ForeignKey(Space, on_delete=models.CASCADE, related_name="Pipelines")
+    stages = models.ManyToManyField("Stage", related_name="Pipelines")
 
     def __str__(self):
         return self.title
 
 
 @receiver(post_save, sender=Space)
-def create_default_flows(sender, instance, created, **kwargs):
+def create_default_Pipelines(sender, instance, created, **kwargs):
     if created:
         idea_stage = Stage.objects.create(title="Ideas", order=1, space=instance)
         scripting_stage = Stage.objects.create(
@@ -53,12 +50,12 @@ def create_default_flows(sender, instance, created, **kwargs):
             title="Completed", order=6, space=instance
         )
 
-        videos_flow = Flow.objects.create(
+        videos_Pipeline = Pipeline.objects.create(
             title="Video",
             space=instance,
         )
 
-        videos_flow.stages.set(
+        videos_Pipeline.stages.set(
             [
                 idea_stage,
                 scripting_stage,
