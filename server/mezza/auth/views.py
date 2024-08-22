@@ -11,7 +11,7 @@ from django.views.decorators.http import require_POST
 from django_bridge.views import DjangoBridgeView
 
 from ..models import User
-from ..operations.spaces import create_space
+from ..spaces.operations import create_space
 
 
 class LoginView(DjangoBridgeView, BaseLoginView):
