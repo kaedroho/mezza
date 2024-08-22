@@ -10,7 +10,8 @@ from django.utils.crypto import get_random_string
 from django.views.decorators.http import require_POST
 from django_bridge.views import DjangoBridgeView
 
-from ..models import Space, SpaceUser, User
+from ..models import User
+from ..operations.spaces import create_space
 
 
 class LoginView(DjangoBridgeView, BaseLoginView):
@@ -42,8 +43,11 @@ def login_temporary(request):
         username="temp-" + get_random_string(10, allowed_chars=string.ascii_lowercase),
         is_temporary=True,
     )
-    space = Space.objects.create(name="Temporary space", slug=user.username)
-    SpaceUser.objects.create(user=user, space=space)
+    create_space(
+        name="Temporary space",
+        slug=user.username,
+        users=[user],
+    )
 
     login(request, user)
 
