@@ -37,16 +37,16 @@ def index(request):
     )
 
 
-def create(request, flow_slug, stage_id):
-    flow = request.user.spaces.first().flows.get()
-    stage = flow.stages.get(id=stage_id)
+def create(request, pipeline_slug, stage_id):
+    pipeline = request.user.spaces.first().pipelines.get()
+    stage = pipeline.stages.get(id=stage_id)
     # FIXME: Get space from URL
     space = request.user.spaces.first()
     form = ProjectForm(request.POST or None)
 
     if form.is_valid():
         project = form.save(commit=False)
-        project.flow = flow
+        project.pipeline = pipeline
         project.stage = stage
         project.space = space
 
@@ -67,7 +67,7 @@ def create(request, flow_slug, stage_id):
         request,
         "ProjectsForm",
         {
-            "action_url": reverse("projects_create", args=[flow_slug, stage_id]),
+            "action_url": reverse("projects_create", args=[pipeline_slug, stage_id]),
             "form": form,
         },
         overlay=True,

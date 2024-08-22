@@ -14,7 +14,7 @@ urlpatterns_auth = [
     path("admin/", admin.site.urls),
     path("projects/", projects_views.index, name="projects_index"),
     path(
-        "projects/create/<slug:flow_slug>/<slug:stage_id>/",
+        "projects/create/<slug:pipeline_slug>/<slug:stage_id>/",
         projects_views.create,
         name="projects_create",
     ),

@@ -13,3 +13,17 @@ export const URLsContext = React.createContext<URLs>({
   projects_create: "",
   files_index: "",
 });
+
+export interface PipelineStage {
+  id: number;
+  title: string;
+  url: string;
+}
+
+export interface Pipeline {
+  id: number;
+  title: string;
+  stages: PipelineStage[];
+}
+
+export const PipelinesContext = React.createContext<Pipeline[]>([]);

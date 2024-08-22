@@ -28,7 +28,7 @@ class Stage(models.Model):
 
 class Pipeline(models.Model):
     title = models.TextField(max_length=200)
-    space = models.ForeignKey(Space, on_delete=models.CASCADE, related_name="Pipelines")
+    space = models.ForeignKey(Space, on_delete=models.CASCADE, related_name="pipelines")
     stages = models.ManyToManyField("Stage", related_name="Pipelines")
 
     def __str__(self):

@@ -11,17 +11,14 @@ import Typography from "@mui/joy/Typography";
 import * as React from "react";
 
 import { NavigationContext } from "@django-bridge/react";
-import {
-  CameraAlt,
-  ClosedCaption,
-  Lightbulb,
-  YouTube,
-} from "@mui/icons-material";
+import { FileDownload } from "@mui/icons-material";
+import { PipelinesContext } from "../contexts";
 import { closeSidebar } from "../utils";
 import ColorSchemeToggle from "./ColorSchemeToggle";
 
 export default function Sidebar() {
   const { navigate: doNavigate } = React.useContext(NavigationContext);
+  const pipelines = React.useContext(PipelinesContext);
 
   const navigate = React.useCallback(
     (path: string) => {
@@ -110,53 +107,33 @@ export default function Sidebar() {
             </Typography>
             <ColorSchemeToggle sx={{ ml: "auto" }} />
           </ListItem>
-          <ListItem>
-            <Typography fontWeight={600} fontSize={16}>
-              My Lovely Channel
-            </Typography>
-          </ListItem>
 
           <ListItem>
-            <ListItemButton onClick={() => navigate("/posts/")}>
-              <Lightbulb />
-              <ListItemContent>
-                <Typography level="title-sm">Ideas</Typography>
-              </ListItemContent>
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem>
-            <ListItemButton onClick={() => navigate("/posts/")}>
+            <ListItemButton onClick={() => navigate("/projects/")}>
               <DashboardRoundedIcon />
               <ListItemContent>
-                <Typography level="title-sm">Scripting</Typography>
+                <Typography level="title-sm">Project Board</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>
 
-          <ListItem>
-            <ListItemButton onClick={() => navigate("/posts/")}>
-              <CameraAlt />
-              <ListItemContent>
-                <Typography level="title-sm">Filming</Typography>
-              </ListItemContent>
-            </ListItemButton>
-          </ListItem>
+          {pipelines.flatMap((pipeline) =>
+            pipeline.stages.map((stage) => (
+              <ListItem key={stage.id}>
+                <ListItemButton onClick={() => navigate(stage.url)}>
+                  <ListItemContent>
+                    <Typography level="title-sm">{stage.title}</Typography>
+                  </ListItemContent>
+                </ListItemButton>
+              </ListItem>
+            )),
+          )}
 
           <ListItem>
             <ListItemButton onClick={() => navigate("/posts/")}>
-              <ClosedCaption />
+              <FileDownload />
               <ListItemContent>
-                <Typography level="title-sm">Editing</Typography>
-              </ListItemContent>
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem>
-            <ListItemButton onClick={() => navigate("/posts/")}>
-              <YouTube />
-              <ListItemContent>
-                <Typography level="title-sm">Publishing</Typography>
+                <Typography level="title-sm">Assets</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>
