@@ -4,10 +4,10 @@ from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.urls import path
 
-from .auth import views as auth_views
-from .files import views as files_views
-from .projects import views as projects_views
 from .utils.urlpatterns import decorate_urlpatterns
+from .views import auth as auth_views
+from .views import files as files_views
+from .views import projects as projects_views
 
 # Put any URLs that require authentication in this list.
 urlpatterns_auth = [

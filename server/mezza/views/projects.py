@@ -1,10 +1,23 @@
+from django import forms
 from django.contrib import messages
 from django.db.models import F
 from django.urls import reverse
 from django_bridge.response import CloseOverlayResponse, Response
 
 from ..models import Project
-from .forms import ProjectForm
+
+
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = [
+            "title",
+            "due_date",
+            "description",
+        ]
+        widgets = {
+            "title": forms.TextInput(attrs={"variant": "large"}),
+        }
 
 
 def index(request):
