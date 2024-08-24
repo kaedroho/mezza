@@ -1,13 +1,11 @@
 from django.db import models
 from django.urls import reverse
 
-from .files import ImageFile, VideoFile
 from .spaces import Space
 
 __all__ = [
     "ProjectStage",
     "Project",
-    "Footage",
 ]
 
 
@@ -27,12 +25,12 @@ class Project(models.Model):
     title = models.TextField(max_length=200)
     due_date = models.DateField(null=True, blank=True)
     thumbnail = models.ForeignKey(
-        ImageFile, on_delete=models.SET_NULL, related_name="+", null=True
+        "mezza.ImageFile", on_delete=models.SET_NULL, related_name="+", null=True
     )
     description = models.TextField(blank=True)
     script = models.TextField(blank=True)
     final_video = models.ForeignKey(
-        VideoFile, on_delete=models.SET_NULL, related_name="+", null=True
+        "mezza.VideoFile", on_delete=models.SET_NULL, related_name="+", null=True
     )
 
     def to_client_representation(self):

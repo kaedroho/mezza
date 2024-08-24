@@ -3,8 +3,9 @@ from django.db.models import F
 from django.urls import reverse
 from django_bridge.response import CloseOverlayResponse, Response
 
-from ..models import Project, ProjectStage
+from ..models import ProjectStage
 from .forms import ProjectForm
+from .operations import create_project
 
 
 def project_detail(request, project_id):
@@ -17,6 +18,9 @@ def project_detail(request, project_id):
         "ProjectDetail",
         {
             "project": project.to_client_representation(),
+            "assets:": [
+                asset.to_client_representation() for asset in project.assets.all()
+            ],
         },
     )
 

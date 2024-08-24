@@ -3,6 +3,7 @@ from django.conf import settings
 from django.db import models
 
 from ..utils.files import hash_filelike
+from .assets import Asset
 from .spaces import Space
 
 __all__ = [
@@ -18,8 +19,7 @@ def get_upload_path(instance, filename):
     return f"{instance.space.slug}/{instance.UPLOAD_TO}/{filename}"
 
 
-class BaseFile(models.Model):
-    name = models.CharField(max_length=255)
+class BaseFile(Asset):
     file = models.FileField(upload_to=get_upload_path)
     size = models.PositiveIntegerField()
     hash = models.CharField(max_length=40)

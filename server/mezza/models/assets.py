@@ -1,17 +1,12 @@
 from django.db import models
 from polymorphic.models import PolymorphicModel
 
-from .files import AudioFile, DocumentFile, ImageFile, VideoFile
 from .projects import Project
 from .spaces import Space
 
 __all__ = [
     "AssetLibrary",
     "Asset",
-    "ImageFileAsset",
-    "VideoFileAsset",
-    "AudioFileAsset",
-    "DocumentFileAsset",
 ]
 
 
@@ -33,26 +28,12 @@ class Asset(PolymorphicModel):
     )
     name = models.CharField(max_length=255)
 
+    def to_client_representation(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "type": self.polymorphic_ctype.model,
+        }
 
-class ImageFileAsset(Asset):
-    file = models.OneToOneField(
-        ImageFile, on_delete=models.CASCADE, related_name="image_assets"
-    )
-
-
-class VideoFileAsset(Asset):
-    file = models.OneToOneField(
-        VideoFile, on_delete=models.CASCADE, related_name="video_assets"
-    )
-
-
-class AudioFileAsset(Asset):
-    file = models.OneToOneField(
-        AudioFile, on_delete=models.CASCADE, related_name="audio_assets"
-    )
-
-
-class DocumentFileAsset(Asset):
-    file = models.OneToOneField(
-        DocumentFile, on_delete=models.CASCADE, related_name="document_assets"
-    )
+    def __str__(self):
+        return self.name
