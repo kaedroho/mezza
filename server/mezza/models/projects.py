@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from .files import ImageFile, VideoFile
 from .spaces import Space
@@ -38,10 +39,12 @@ class Project(models.Model):
         return {
             "id": self.id,
             "title": self.title,
+            "description": self.description,
             "stage": {
                 "slug": self.stage,
                 "title": dict(ProjectStage.choices).get(self.stage, self.stage),
             },
+            "detail_url": reverse("project_detail", args=[self.id]),
         }
 
     def __str__(self):

@@ -1,6 +1,10 @@
-import { NavigationContext } from "@django-bridge/react";
+import {
+  Link as DjangoBridgeLink,
+  NavigationContext,
+} from "@django-bridge/react";
 import { Add } from "@mui/icons-material";
 import Button from "@mui/joy/Button";
+import Link from "@mui/joy/Link";
 import React from "react";
 import styled from "styled-components";
 import Layout from "../components/Layout";
@@ -118,8 +122,13 @@ export default function ProjectsBoardView({
               <Projects>
                 {stageProjects.map((project) => (
                   <ProjectCard key={project.id}>
-                    <h2>{project.title}</h2>
-                    <p>{project.description}</p>
+                    <Link
+                      component={DjangoBridgeLink}
+                      href={project.detail_url}
+                    >
+                      <h2>{project.title}</h2>
+                      <p>{project.description}</p>
+                    </Link>
                   </ProjectCard>
                 ))}
               </Projects>

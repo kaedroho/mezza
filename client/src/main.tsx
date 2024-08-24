@@ -16,6 +16,7 @@ import LoginView from "./views/Login";
 import MediaFormView from "./views/MediaForm";
 import MediaIndexView from "./views/MediaIndex";
 import PostIndexView from "./views/PostIndex";
+import ProjectDetailView from "./views/ProjectDetail";
 import ProjectsBoardView from "./views/ProjectsBoard";
 import ProjectsForm from "./views/ProjectsForm";
 import ProjectsListingView from "./views/ProjectsListing";
@@ -24,6 +25,7 @@ const config = new DjangoBridge.Config();
 
 // Add your views here
 config.addView("Login", LoginView);
+config.addView("ProjectDetail", ProjectDetailView);
 config.addView("ProjectsBoard", ProjectsBoardView);
 config.addView("ProjectsListing", ProjectsListingView);
 config.addView("IdeasIndex", IdeasIndex);

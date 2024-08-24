@@ -7,6 +7,20 @@ from ..models import Project, ProjectStage
 from .forms import ProjectForm
 
 
+def project_detail(request, project_id):
+    # FIXME: Get space from URL
+    space = request.user.spaces.first()
+    project = space.projects.get(id=project_id)
+
+    return Response(
+        request,
+        "ProjectDetail",
+        {
+            "project": project.to_client_representation(),
+        },
+    )
+
+
 def projects_index(request):
     # FIXME: Get space from URL
     space = request.user.spaces.first()

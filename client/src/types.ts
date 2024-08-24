@@ -8,5 +8,5 @@ export interface Project {
   title: string;
   description: string;
   stage: Stage;
-  edit_url: string;
+  detail_url: string;
 }

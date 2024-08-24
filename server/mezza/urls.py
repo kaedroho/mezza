@@ -24,6 +24,11 @@ urlpatterns_auth = [
         projects_views.projects_create,
         name="projects_create",
     ),
+    path(
+        "project/<int:project_id>/",
+        projects_views.project_detail,
+        name="project_detail",
+    ),
     path("ideas/", ideas_views.ideas_index, name="ideas_index"),
     path("ideas/create/", ideas_views.ideas_create, name="ideas_create"),
     path("files/<slug:type>/", files_views.index, name="files_index"),
