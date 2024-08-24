@@ -6,6 +6,7 @@ from django.urls import path
 
 from .auth import views as auth_views
 from .files import views as files_views
+from .ideas import views as ideas_views
 from .projects import views as projects_views
 from .utils.urlpatterns import decorate_urlpatterns
 
@@ -23,6 +24,8 @@ urlpatterns_auth = [
         projects_views.projects_create,
         name="projects_create",
     ),
+    path("ideas/", ideas_views.ideas_index, name="ideas_index"),
+    path("ideas/create/", ideas_views.ideas_create, name="ideas_create"),
     path("files/<slug:type>/", files_views.index, name="files_index"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

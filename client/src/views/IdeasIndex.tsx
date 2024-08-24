@@ -6,9 +6,9 @@ import styled from "styled-components";
 import Layout from "../components/Layout";
 import ModalWindow from "../components/ModalWindow";
 import { URLsContext } from "../contexts";
-import { Project, Stage } from "../types";
+import { Project } from "../types";
 
-const Projects = styled.ul`
+const IdeaList = styled.ul`
   display: grid;
   gap: 20px;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -16,7 +16,7 @@ const Projects = styled.ul`
   padding: 0;
 `;
 
-const ProjectCard = styled.li`
+const IdeaCard = styled.li`
   background-color: var(--joy-palette-background-paper);
   border-radius: 8px;
   border: 1px solid var(--joy-palette-neutral-outlinedBorder);
@@ -32,20 +32,16 @@ const ProjectCard = styled.li`
   }
 `;
 
-interface ProjectsStageIndexViewProps {
-  stage: Stage;
-  projects: Project[];
+interface IdeasIndexProps {
+  ideas: Project[];
 }
 
-export default function ProjectsStageIndexView({
-  stage,
-  projects,
-}: ProjectsStageIndexViewProps) {
+export default function IdeasIndex({ ideas }: IdeasIndexProps) {
   const { openOverlay, refreshProps } = React.useContext(NavigationContext);
   const urls = React.useContext(URLsContext);
 
   return (
-    <Layout title={stage.title}>
+    <Layout title="Ideas">
       <Button
         variant="plain"
         color="primary"
@@ -53,7 +49,7 @@ export default function ProjectsStageIndexView({
         startDecorator={<Add />}
         onClick={() =>
           openOverlay(
-            urls.projects_create.replace("stage", stage.slug),
+            urls.ideas_create,
             (content) => <ModalWindow>{content}</ModalWindow>,
             {
               onClose: () => {
@@ -67,14 +63,14 @@ export default function ProjectsStageIndexView({
         New
       </Button>
 
-      <Projects>
-        {projects.map((project) => (
-          <ProjectCard key={project.id}>
-            <h2>{project.title}</h2>
-            <p>{project.description}</p>
-          </ProjectCard>
+      <IdeaList>
+        {ideas.map((idea) => (
+          <IdeaCard key={idea.id}>
+            <h2>{idea.title}</h2>
+            <p>{idea.description}</p>
+          </IdeaCard>
         ))}
-      </Projects>
+      </IdeaList>
     </Layout>
   );
 }

@@ -112,7 +112,7 @@ export default function ProjectsBoardView({
                     )
                   }
                 >
-                  New Project
+                  New
                 </Button>
               </StageHeader>
               <Projects>

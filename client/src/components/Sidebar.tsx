@@ -11,7 +11,7 @@ import Typography from "@mui/joy/Typography";
 import * as React from "react";
 
 import { NavigationContext } from "@django-bridge/react";
-import { FileDownload } from "@mui/icons-material";
+import { FileDownload, Lightbulb } from "@mui/icons-material";
 import { StagesContext, URLsContext } from "../contexts";
 import { closeSidebar } from "../utils";
 import ColorSchemeToggle from "./ColorSchemeToggle";
@@ -107,6 +107,15 @@ export default function Sidebar() {
               Mezza Studio
             </Typography>
             <ColorSchemeToggle sx={{ ml: "auto" }} />
+          </ListItem>
+
+          <ListItem>
+            <ListItemButton onClick={() => navigate(urls.ideas_index)}>
+              <Lightbulb />
+              <ListItemContent>
+                <Typography level="title-sm">Ideas</Typography>
+              </ListItemContent>
+            </ListItemButton>
           </ListItem>
 
           <ListItem>

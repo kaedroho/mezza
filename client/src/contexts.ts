@@ -5,12 +5,16 @@ export const CSRFTokenContext = React.createContext<string>("");
 export interface URLs {
   projects_index: string;
   projects_create: string;
+  ideas_index: string;
+  ideas_create: string;
   files_index: string;
 }
 
 export const URLsContext = React.createContext<URLs>({
   projects_index: "",
   projects_create: "",
+  ideas_index: "",
+  ideas_create: "",
   files_index: "",
 });
 

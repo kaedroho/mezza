@@ -1,0 +1,24 @@
+from django.db import models
+
+from .spaces import Space
+
+__all__ = [
+    "Idea",
+]
+
+
+class Idea(models.Model):
+    space = models.ForeignKey(Space, on_delete=models.CASCADE, related_name="ideas")
+    title = models.TextField(max_length=200)
+    description = models.TextField(blank=True)
+    order = models.IntegerField()
+
+    def to_client_representation(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+        }
+
+    def __str__(self):
+        return self.title

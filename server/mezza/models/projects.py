@@ -11,7 +11,6 @@ __all__ = [
 
 
 class ProjectStage(models.TextChoices):
-    IDEAS = "ideas", "Ideas"
     SCRIPTING = "scripting", "Scripting"
     FILMING = "filming", "Filming"
     EDITING = "editing", "Editing"
@@ -21,7 +20,7 @@ class ProjectStage(models.TextChoices):
 class Project(models.Model):
     space = models.ForeignKey(Space, on_delete=models.CASCADE, related_name="projects")
     stage = models.CharField(
-        max_length=20, choices=ProjectStage.choices, default=ProjectStage.IDEAS
+        max_length=20, choices=ProjectStage.choices, default=ProjectStage.SCRIPTING
     )
     order = models.IntegerField()
     title = models.TextField(max_length=200)
