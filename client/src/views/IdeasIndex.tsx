@@ -1,12 +1,12 @@
 import { NavigationContext } from "@django-bridge/react";
-import { Add } from "@mui/icons-material";
+import { Add, Start } from "@mui/icons-material";
 import Button from "@mui/joy/Button";
 import React from "react";
 import styled from "styled-components";
 import Layout from "../components/Layout";
 import ModalWindow from "../components/ModalWindow";
 import { URLsContext } from "../contexts";
-import { Project } from "../types";
+import { Idea } from "../types";
 
 const IdeaList = styled.ul`
   display: grid;
@@ -33,7 +33,7 @@ const IdeaCard = styled.li`
 `;
 
 interface IdeasIndexProps {
-  ideas: Project[];
+  ideas: Idea[];
 }
 
 export default function IdeasIndex({ ideas }: IdeasIndexProps) {
@@ -68,6 +68,28 @@ export default function IdeasIndex({ ideas }: IdeasIndexProps) {
           <IdeaCard key={idea.id}>
             <h2>{idea.title}</h2>
             <p>{idea.description}</p>
+            <Button
+              variant="solid"
+              color="primary"
+              size="sm"
+              endDecorator={<Start />}
+              onClick={() =>
+                openOverlay(
+                  idea.start_production_url,
+                  (content) => (
+                    <ModalWindow slideout="right">{content}</ModalWindow>
+                  ),
+                  {
+                    onClose: () => {
+                      // Refresh props so new post pops up in listing
+                      refreshProps();
+                    },
+                  },
+                )
+              }
+            >
+              Start Production
+            </Button>
           </IdeaCard>
         ))}
       </IdeaList>

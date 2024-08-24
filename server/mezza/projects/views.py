@@ -66,14 +66,12 @@ def projects_create(request, stage_slug):
 
     if form.is_valid():
         project = form.save(commit=False)
-        project.stage = stage_slug
-        project.space = space
-
-        # Order the project at the start of the stage
-        project.order = 0
-        Project.objects.filter(stage=stage_slug).update(order=F("order") + 1)
-
-        project.save()
+        create_project(
+            title=project.title,
+            description=project.description,
+            space=space,
+            stage=stage_slug,
+        )
 
         messages.success(
             request,

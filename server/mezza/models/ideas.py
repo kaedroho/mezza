@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from .spaces import Space
 
@@ -18,6 +19,7 @@ class Idea(models.Model):
             "id": self.id,
             "title": self.title,
             "description": self.description,
+            "start_production_url": reverse("ideas_start_production", args=[self.id]),
         }
 
     def __str__(self):

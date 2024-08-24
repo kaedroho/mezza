@@ -11,6 +11,13 @@ export interface Project {
   detail_url: string;
 }
 
+export interface Idea {
+  id: number;
+  title: string;
+  description: string;
+  start_production_url: string;
+}
+
 export interface File {
   id: number;
   title: string;

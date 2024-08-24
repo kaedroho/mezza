@@ -6,6 +6,7 @@ from django_bridge.response import CloseOverlayResponse, Response
 from mezza.models import Idea
 
 from .forms import IdeaForm
+from .operations import create_project_from_idea
 
 
 def ideas_index(request):
@@ -51,4 +52,29 @@ def ideas_create(request):
         },
         overlay=True,
         title="New Idea | Mezza Studio",
+    )
+
+
+def ideas_start_production(request, idea_id):
+    idea = Idea.objects.get(id=idea_id)
+
+    if request.method == "POST":
+        create_project_from_idea(idea)
+        idea.delete()
+
+        messages.success(
+            request,
+            f"Successfully started production on idea '{idea.title}'.",
+        )
+
+        return CloseOverlayResponse(request)
+
+    return Response(
+        request,
+        "IdeasStartProduction",
+        {
+            "action_url": reverse("ideas_start_production", args=[idea_id]),
+        },
+        overlay=True,
+        title="Start Production | Mezza Studio",
     )
