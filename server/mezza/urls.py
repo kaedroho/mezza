@@ -12,9 +12,9 @@ from .utils.urlpatterns import decorate_urlpatterns
 # Put any URLs that require authentication in this list.
 urlpatterns_auth = [
     path("admin/", admin.site.urls),
-    path("projects/", projects_views.index, name="projects_index"),
+    path("", projects_views.index, name="projects_index"),
     path(
-        "projects/create/<slug:pipeline_slug>/<slug:stage_id>/",
+        "create/<slug:pipeline_slug>/<slug:stage_id>/",
         projects_views.create,
         name="projects_create",
     ),
