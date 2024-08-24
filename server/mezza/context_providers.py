@@ -1,15 +1,19 @@
 from django.urls import reverse
 
-from mezza.models import ProjectStage
+from mezza.models import AssetLibrary, ProjectStage
 
 
 def urls(request):
+    default_asset_library = AssetLibrary.objects.first()
     return {
         "projects_index": reverse("projects_index"),
         "projects_create": reverse("projects_create", args=["stage"]),
         "ideas_index": reverse("ideas_index"),
         "ideas_create": reverse("ideas_create"),
-        "files_index": reverse("files_index", args=["images"]),
+        "assets_index": reverse(
+            "assets_index",
+            args=[default_asset_library.id if default_asset_library else None],
+        ),
     }
 
 

@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from polymorphic.models import PolymorphicModel
 
 from .files import AudioFile, DocumentFile, ImageFile, VideoFile
@@ -22,6 +23,18 @@ class AssetLibrary(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
 
+    def to_client_representation(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+            "index_url": reverse("assets_index", args=[self.id]),
+            "upload_url": reverse("assets_upload", args=[self.id]),
+        }
+
+    def __str__(self):
+        return self.title
+
 
 class Asset(PolymorphicModel):
     # An asset can belong to either an asset library or a project, but not both.
@@ -31,17 +44,17 @@ class Asset(PolymorphicModel):
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, null=True, related_name="assets"
     )
-    name = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
 
     def to_client_representation(self):
         return {
             "id": self.id,
-            "name": self.name,
+            "title": self.title,
             "type": self.polymorphic_ctype.model,
         }
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
 class ImageFileAsset(Asset):

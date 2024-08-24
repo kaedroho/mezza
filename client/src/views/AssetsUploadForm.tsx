@@ -1,40 +1,32 @@
-import * as React from "react";
+import { Form, OverlayContext } from "@django-bridge/react";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
-import { Form, OverlayContext } from "@django-bridge/react";
-import FormDef from "../deserializers/Form";
+import * as React from "react";
 import Layout from "../components/Layout";
-import { CSRFTokenContext, URLsContext } from "../contexts";
+import { CSRFTokenContext } from "../contexts";
+import FormDef from "../deserializers/Form";
 
-interface MediaFormViewProps {
-  title: string;
-  submit_button_label: string;
+interface AssetsUploadFormViewProps {
   action_url: string;
   form: FormDef;
 }
 
-export default function MediaFormView({
-  title,
-  submit_button_label,
+export default function AssetsUploadFormView({
   action_url,
   form,
-}: MediaFormViewProps) {
+}: AssetsUploadFormViewProps) {
   const { overlay, requestClose } = React.useContext(OverlayContext);
   const csrf_token = React.useContext(CSRFTokenContext);
-  const urls = React.useContext(URLsContext);
 
   return (
-    <Layout
-      title={title}
-      breadcrumb={[{ label: "Media", href: urls.files_index }, { label: "" }]}
-    >
+    <Layout title={"Upload asset"}>
       <Form action={action_url} method="post">
         <input type="hidden" name="csrfmiddlewaretoken" value={csrf_token} />
 
         {form.render()}
 
         <Box display="flex" gap="12px" pt="20px">
-          <Button type="submit">{submit_button_label}</Button>
+          <Button type="submit">{"Upload"}</Button>
           {overlay && (
             <Button
               type="button"

@@ -7,7 +7,7 @@ export interface URLs {
   projects_create: string;
   ideas_index: string;
   ideas_create: string;
-  files_index: string;
+  assets_index: string;
 }
 
 export const URLsContext = React.createContext<URLs>({
@@ -15,7 +15,7 @@ export const URLsContext = React.createContext<URLs>({
   projects_create: "",
   ideas_index: "",
   ideas_create: "",
-  files_index: "",
+  assets_index: "",
 });
 
 export interface Stage {

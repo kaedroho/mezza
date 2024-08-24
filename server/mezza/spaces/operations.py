@@ -9,6 +9,6 @@ def create_space(*, name, slug, users=None):
             SpaceUser.objects.create(user=user, space=space)
 
     # Create default asset library
-    AssetLibrary.objects.create(space=space, name="Default")
+    AssetLibrary.objects.create(space=space, title="Default")
 
     return space

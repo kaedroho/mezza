@@ -4,8 +4,8 @@ from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.urls import path
 
+from .assets import views as assets_views
 from .auth import views as auth_views
-from .files import views as files_views
 from .ideas import views as ideas_views
 from .projects import views as projects_views
 from .utils.urlpatterns import decorate_urlpatterns
@@ -29,6 +29,11 @@ urlpatterns_auth = [
         projects_views.project_detail,
         name="project_detail",
     ),
+    path(
+        "project/<int:project_id>/assets/upload/",
+        assets_views.assets_upload,
+        name="assets_upload",
+    ),
     path("ideas/", ideas_views.ideas_index, name="ideas_index"),
     path("ideas/create/", ideas_views.ideas_create, name="ideas_create"),
     path(
@@ -36,8 +41,17 @@ urlpatterns_auth = [
         ideas_views.ideas_start_production,
         name="ideas_start_production",
     ),
-    path("files/", files_views.files_index, name="files_index"),
-    path("files/<slug:type>/", files_views.files_index, name="files_index"),
+    path("assets/", assets_views.assets_index, name="assets_index"),
+    path(
+        "assets/<slug:library_id>/",
+        assets_views.assets_index,
+        name="assets_index",
+    ),
+    path(
+        "assets/<int:library_id>/upload/",
+        assets_views.assets_upload,
+        name="assets_upload",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Put any URLs that do not require authentication in this list.

@@ -34,6 +34,15 @@ class BaseFile(models.Model):
     class InvalidFileError(ValueError):
         pass
 
+    def to_client_representation(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "download_url": self.file.url,
+            "size": self.size,
+            "file_type": self.file_type,
+        }
+
     def _set_metadata(self, file):
         self.size = file.size
         self.hash = hash_filelike(file)
@@ -59,6 +68,21 @@ class ImageFile(BaseFile):
     width = models.PositiveIntegerField()
     height = models.PositiveIntegerField()
 
+    def to_client_representation(self):
+        return {
+            **super().to_client_representation(),
+            "width": self.width,
+            "height": self.height,
+        }
+
+    def _set_metadata(self, file):
+        super()._set_metadata(file)
+
+        from PIL import Image
+
+        with Image.open(file) as image:
+            self.width, self.height = image.size
+
     UPLOAD_TO = "images"
     ALLOWED_FILE_TYPES = [
         "image/jpeg",
@@ -73,6 +97,14 @@ class VideoFile(BaseFile):
     height = models.PositiveIntegerField()
     duration = models.DurationField()
 
+    def to_client_representation(self):
+        return {
+            **super().to_client_representation(),
+            "width": self.width,
+            "height": self.height,
+            "duration": self.duration,
+        }
+
     UPLOAD_TO = "videos"
     ALLOWED_FILE_TYPES = [
         "video/mp4",
@@ -84,6 +116,12 @@ class VideoFile(BaseFile):
 class AudioFile(BaseFile):
     duration = models.DurationField()
 
+    def to_client_representation(self):
+        return {
+            **super().to_client_representation(),
+            "duration": self.duration,
+        }
+
     UPLOAD_TO = "audio"
     ALLOWED_FILE_TYPES = [
         "audio/mpeg",
@@ -94,6 +132,12 @@ class AudioFile(BaseFile):
 
 class DocumentFile(BaseFile):
     page_count = models.PositiveIntegerField()
+
+    def to_client_representation(self):
+        return {
+            **super().to_client_representation(),
+            "page_count": self.page_count,
+        }
 
     UPLOAD_TO = "documents"
     ALLOWED_FILE_TYPES = [

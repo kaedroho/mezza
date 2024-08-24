@@ -5,10 +5,9 @@ import React from "react";
 import styled from "styled-components";
 import Layout from "../components/Layout";
 import ModalWindow from "../components/ModalWindow";
-import { URLsContext } from "../contexts";
-import { File } from "../types";
+import { Asset, AssetLibrary } from "../types";
 
-const FileList = styled.ul`
+const AssetList = styled.ul`
   display: grid;
   gap: 20px;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -16,7 +15,7 @@ const FileList = styled.ul`
   padding: 0;
 `;
 
-const FileCard = styled.li`
+const AssetCard = styled.li`
   background-color: var(--joy-palette-background-paper);
   border-radius: 8px;
   border: 1px solid var(--joy-palette-neutral-outlinedBorder);
@@ -32,16 +31,17 @@ const FileCard = styled.li`
   }
 `;
 
-interface FilesIndexProps {
-  files: File[];
+interface AssetsIndexProps {
+  library: AssetLibrary;
+  libraries: AssetLibrary[];
+  assets: Asset[];
 }
 
-export default function FilesIndex({ files }: FilesIndexProps) {
+export default function AssetsIndex({ library, assets }: AssetsIndexProps) {
   const { openOverlay, refreshProps } = React.useContext(NavigationContext);
-  const urls = React.useContext(URLsContext);
 
   return (
-    <Layout title="Files">
+    <Layout title={library ? library.title : "All assets"}>
       <Button
         variant="plain"
         color="primary"
@@ -49,7 +49,7 @@ export default function FilesIndex({ files }: FilesIndexProps) {
         startDecorator={<Add />}
         onClick={() =>
           openOverlay(
-            urls.projects_create,
+            library.upload_url,
             (content) => <ModalWindow>{content}</ModalWindow>,
             {
               onClose: () => {
@@ -63,11 +63,11 @@ export default function FilesIndex({ files }: FilesIndexProps) {
         Upload
       </Button>
 
-      <FileList>
-        {files.map((file) => (
-          <FileCard key={file.id}>{file.title}</FileCard>
+      <AssetList>
+        {assets.map((asset) => (
+          <AssetCard key={asset.id}>{asset.title}</AssetCard>
         ))}
-      </FileList>
+      </AssetList>
     </Layout>
   );
 }

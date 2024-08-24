@@ -9,6 +9,7 @@ export interface Project {
   description: string;
   stage: Stage;
   detail_url: string;
+  asset_upload_url: string;
 }
 
 export interface Idea {
@@ -18,7 +19,15 @@ export interface Idea {
   start_production_url: string;
 }
 
-export interface File {
+export interface AssetLibrary {
+  id: number;
+  title: string;
+  description: string;
+  index_url: string;
+  upload_url: string;
+}
+
+export interface Asset {
   id: number;
   title: string;
 }

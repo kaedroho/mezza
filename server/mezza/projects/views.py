@@ -18,7 +18,7 @@ def project_detail(request, project_id):
         "ProjectDetail",
         {
             "project": project.to_client_representation(),
-            "assets:": [
+            "assets": [
                 asset.to_client_representation() for asset in project.assets.all()
             ],
         },
