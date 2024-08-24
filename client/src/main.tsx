@@ -2,7 +2,7 @@ import * as DjangoBridge from "@django-bridge/react";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import { CSRFTokenContext, PipelinesContext, URLsContext } from "./contexts";
+import { CSRFTokenContext, StagesContext, URLsContext } from "./contexts";
 import FieldDef from "./deserializers/Field";
 import FormDef from "./deserializers/Form";
 import ServerRenderedFieldDef from "./deserializers/ServerRenderedField";
@@ -15,16 +15,16 @@ import LoginView from "./views/Login";
 import MediaFormView from "./views/MediaForm";
 import MediaIndexView from "./views/MediaIndex";
 import PostIndexView from "./views/PostIndex";
+import ProjectsBoardView from "./views/ProjectsBoard";
 import ProjectsForm from "./views/ProjectsForm";
-import ProjectsIndexView from "./views/ProjectsIndex";
-import ProjectsStageIndexView from "./views/ProjectsStageIndex";
+import ProjectsListingView from "./views/ProjectsListing";
 
 const config = new DjangoBridge.Config();
 
 // Add your views here
 config.addView("Login", LoginView);
-config.addView("ProjectsIndex", ProjectsIndexView);
-config.addView("ProjectsStageIndex", ProjectsStageIndexView);
+config.addView("ProjectsBoard", ProjectsBoardView);
+config.addView("ProjectsListing", ProjectsListingView);
 config.addView("ConfirmDelete", ConfirmDeleteView);
 config.addView("PostIndex", PostIndexView);
 config.addView("ProjectsForm", ProjectsForm);
@@ -34,7 +34,7 @@ config.addView("MediaForm", MediaFormView);
 // Add your context providers here
 config.addContextProvider("csrf_token", CSRFTokenContext);
 config.addContextProvider("urls", URLsContext);
-config.addContextProvider("pipelines", PipelinesContext);
+config.addContextProvider("stages", StagesContext);
 
 // Add your deserializers here
 config.addAdapter("forms.Form", FormDef);

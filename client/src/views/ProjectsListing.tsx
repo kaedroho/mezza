@@ -53,9 +53,7 @@ export default function ProjectsStageIndexView({
         startDecorator={<Add />}
         onClick={() =>
           openOverlay(
-            urls.projects_create
-              .replace("flow", "video")
-              .replace("stage", stage.id.toString()),
+            urls.projects_create.replace("stage", stage.slug),
             (content) => <ModalWindow>{content}</ModalWindow>,
             {
               onClose: () => {

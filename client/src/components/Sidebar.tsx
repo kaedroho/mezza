@@ -12,13 +12,14 @@ import * as React from "react";
 
 import { NavigationContext } from "@django-bridge/react";
 import { FileDownload } from "@mui/icons-material";
-import { PipelinesContext } from "../contexts";
+import { StagesContext, URLsContext } from "../contexts";
 import { closeSidebar } from "../utils";
 import ColorSchemeToggle from "./ColorSchemeToggle";
 
 export default function Sidebar() {
   const { navigate: doNavigate } = React.useContext(NavigationContext);
-  const pipelines = React.useContext(PipelinesContext);
+  const urls = React.useContext(URLsContext);
+  const stages = React.useContext(StagesContext);
 
   const navigate = React.useCallback(
     (path: string) => {
@@ -109,25 +110,23 @@ export default function Sidebar() {
           </ListItem>
 
           <ListItem>
-            <ListItemButton onClick={() => navigate("/projects/")}>
+            <ListItemButton onClick={() => navigate(urls.projects_index)}>
               <DashboardRoundedIcon />
               <ListItemContent>
-                <Typography level="title-sm">Project Board</Typography>
+                <Typography level="title-sm">Projects</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>
 
-          {pipelines.flatMap((pipeline) =>
-            pipeline.stages.map((stage) => (
-              <ListItem key={stage.id}>
-                <ListItemButton onClick={() => navigate(stage.url)}>
-                  <ListItemContent>
-                    <Typography level="title-sm">{stage.title}</Typography>
-                  </ListItemContent>
-                </ListItemButton>
-              </ListItem>
-            )),
-          )}
+          {stages.map((stage) => (
+            <ListItem key={stage.slug}>
+              <ListItemButton onClick={() => navigate(stage.projects_url)}>
+                <ListItemContent>
+                  <Typography level="title-sm">{stage.title}</Typography>
+                </ListItemContent>
+              </ListItemButton>
+            </ListItem>
+          ))}
 
           <ListItem>
             <ListItemButton onClick={() => navigate("/posts/")}>

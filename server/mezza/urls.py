@@ -14,13 +14,13 @@ urlpatterns_auth = [
     path("admin/", admin.site.urls),
     path("", projects_views.projects_index, name="projects_index"),
     path(
-        "stage/<slug:stage_id>/",
+        "stage/<slug:stage_slug>/",
         projects_views.projects_stage_index,
         name="projects_stage_index",
     ),
     path(
-        "create/<slug:pipeline_slug>/<slug:stage_id>/",
-        projects_views.create,
+        "create/<slug:stage_slug>/",
+        projects_views.projects_create,
         name="projects_create",
     ),
     path("files/<slug:type>/", files_views.index, name="files_index"),

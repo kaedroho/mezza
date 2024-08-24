@@ -1,29 +1,21 @@
 from django.urls import reverse
 
-from .models import Pipeline
+from mezza.models import ProjectStage
 
 
 def urls(request):
     return {
         "projects_index": reverse("projects_index"),
-        "projects_create": reverse("projects_create", args=["flow", "stage"]),
+        "projects_create": reverse("projects_create", args=["stage"]),
     }
 
 
-def pipelines(request):
-    # TODO: Filter pipelines by current space
+def stages(request):
     return [
         {
-            "id": pipeline.id,
-            "title": pipeline.title,
-            "stages": [
-                {
-                    "id": stage.id,
-                    "title": stage.title,
-                    "url": reverse("projects_stage_index", args=[stage.id]),
-                }
-                for stage in pipeline.stages.all()
-            ],
+            "slug": slug,
+            "title": title,
+            "projects_url": reverse("projects_stage_index", args=[slug]),
         }
-        for pipeline in Pipeline.objects.all()
+        for slug, title in ProjectStage.choices
     ]

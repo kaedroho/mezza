@@ -1,5 +1,5 @@
 export interface Stage {
-  id: number;
+  slug: string;
   title: string;
 }
 

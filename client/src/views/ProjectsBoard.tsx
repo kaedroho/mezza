@@ -58,27 +58,27 @@ const ProjectCard = styled.li`
   }
 `;
 
-interface ProjectsIndexViewProps {
+interface ProjectsBoardViewProps {
   stages: Stage[];
   projects: Project[];
 }
 
-export default function ProjectsIndexView({
+export default function ProjectsBoardView({
   stages,
   projects,
-}: ProjectsIndexViewProps) {
+}: ProjectsBoardViewProps) {
   const { openOverlay, refreshProps } = React.useContext(NavigationContext);
   const urls = React.useContext(URLsContext);
 
   const projectsByStage = React.useMemo(() => {
-    const projectsByStage: Record<number, Project[]> = {};
+    const projectsByStage: Record<string, Project[]> = {};
 
     projects.forEach((project) => {
-      if (!projectsByStage[project.stage.id]) {
-        projectsByStage[project.stage.id] = [];
+      if (!projectsByStage[project.stage.slug]) {
+        projectsByStage[project.stage.slug] = [];
       }
 
-      projectsByStage[project.stage.id].push(project);
+      projectsByStage[project.stage.slug].push(project);
     });
 
     return projectsByStage;
@@ -88,10 +88,10 @@ export default function ProjectsIndexView({
     <Layout title="Projects">
       <Kanban>
         {stages.map((stage) => {
-          const stageProjects = projectsByStage[stage.id] || [];
+          const stageProjects = projectsByStage[stage.slug] || [];
 
           return (
-            <StageColumn key={stage.id}>
+            <StageColumn key={stage.slug}>
               <StageHeader>
                 <h2>{stage.title}</h2>
                 <Button
@@ -101,9 +101,7 @@ export default function ProjectsIndexView({
                   startDecorator={<Add />}
                   onClick={() =>
                     openOverlay(
-                      urls.projects_create
-                        .replace("flow", "video")
-                        .replace("stage", stage.id.toString()),
+                      urls.projects_create.replace("stage", stage.slug),
                       (content) => <ModalWindow>{content}</ModalWindow>,
                       {
                         onClose: () => {

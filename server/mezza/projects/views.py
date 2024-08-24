@@ -3,7 +3,7 @@ from django.db.models import F
 from django.urls import reverse
 from django_bridge.response import CloseOverlayResponse, Response
 
-from ..models import Project
+from ..models import Project, ProjectStage
 from .forms import ProjectForm
 
 
@@ -12,10 +12,14 @@ def projects_index(request):
     space = request.user.spaces.first()
     return Response(
         request,
-        "ProjectsIndex",
+        "ProjectsBoard",
         {
             "stages": [
-                stage.to_client_representation() for stage in space.stages.all()
+                {
+                    "slug": slug,
+                    "title": title,
+                }
+                for slug, title in ProjectStage.choices
             ],
             "projects": [
                 project.to_client_representation() for project in space.projects.all()
@@ -24,37 +28,36 @@ def projects_index(request):
     )
 
 
-def projects_stage_index(request, stage_id):
+def projects_stage_index(request, stage_slug):
     space = request.user.spaces.first()
-    stage = space.stages.get(id=stage_id)
+    stage_title = dict(ProjectStage.choices)[stage_slug]
     return Response(
         request,
-        "ProjectsStageIndex",
+        "ProjectsListing",
         {
-            "stage": [stage.to_client_representation()],
+            "stage": {"slug": stage_slug, "title": stage_title},
             "projects": [
-                project.to_client_representation() for project in stage.projects.all()
+                project.to_client_representation()
+                for project in space.projects.filter(stage=stage_slug)
             ],
         },
     )
 
 
-def create(request, pipeline_slug, stage_id):
-    pipeline = request.user.spaces.first().pipelines.get()
-    stage = pipeline.stages.get(id=stage_id)
+def projects_create(request, stage_slug):
+    stage_title = dict(ProjectStage.choices)[stage_slug]
     # FIXME: Get space from URL
     space = request.user.spaces.first()
     form = ProjectForm(request.POST or None)
 
     if form.is_valid():
         project = form.save(commit=False)
-        project.pipeline = pipeline
-        project.stage = stage
+        project.stage = stage_slug
         project.space = space
 
         # Order the project at the start of the stage
         project.order = 0
-        Project.objects.filter(stage=stage).update(order=F("order") + 1)
+        Project.objects.filter(stage=stage_slug).update(order=F("order") + 1)
 
         project.save()
 
@@ -69,7 +72,7 @@ def create(request, pipeline_slug, stage_id):
         request,
         "ProjectsForm",
         {
-            "action_url": reverse("projects_create", args=[pipeline_slug, stage_id]),
+            "action_url": reverse("projects_create", args=[stage_slug]),
             "form": form,
         },
         overlay=True,

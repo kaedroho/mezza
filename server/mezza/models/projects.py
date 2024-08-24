@@ -1,21 +1,28 @@
 from django.db import models
 
 from .files import ImageFile, VideoFile
-from .pipelines import Pipeline, Stage
 from .spaces import Space
 
 __all__ = [
+    "ProjectStage",
     "Project",
     "Footage",
 ]
 
 
+class ProjectStage(models.TextChoices):
+    IDEAS = "ideas", "Ideas"
+    SCRIPTING = "scripting", "Scripting"
+    FILMING = "filming", "Filming"
+    EDITING = "editing", "Editing"
+    COMPLETED = "completed", "Completed"
+
+
 class Project(models.Model):
     space = models.ForeignKey(Space, on_delete=models.CASCADE, related_name="projects")
-    pipeline = models.ForeignKey(
-        Pipeline, on_delete=models.CASCADE, related_name="projects"
+    stage = models.CharField(
+        max_length=20, choices=ProjectStage.choices, default=ProjectStage.IDEAS
     )
-    stage = models.ForeignKey(Stage, on_delete=models.CASCADE, related_name="projects")
     order = models.IntegerField()
     title = models.TextField(max_length=200)
     due_date = models.DateField(null=True, blank=True)
@@ -32,14 +39,14 @@ class Project(models.Model):
         return {
             "id": self.id,
             "title": self.title,
-            "stage": self.stage.to_client_representation(),
+            "stage": {
+                "slug": self.stage,
+                "title": dict(ProjectStage.choices).get(self.stage, self.stage),
+            },
         }
 
     def __str__(self):
         return self.title
-
-    class Meta:
-        ordering = ["stage__order", "order"]
 
 
 class Footage(models.Model):
