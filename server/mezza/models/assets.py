@@ -45,7 +45,7 @@ class Asset(PolymorphicModel):
 
 
 class ImageFileAsset(Asset):
-    file = models.OneToOneField(
+    file = models.ForeignKey(
         ImageFile, on_delete=models.CASCADE, related_name="image_assets"
     )
 
@@ -57,7 +57,7 @@ class ImageFileAsset(Asset):
 
 
 class VideoFileAsset(Asset):
-    file = models.OneToOneField(
+    file = models.ForeignKey(
         VideoFile, on_delete=models.CASCADE, related_name="video_assets"
     )
 
@@ -69,7 +69,7 @@ class VideoFileAsset(Asset):
 
 
 class AudioFileAsset(Asset):
-    file = models.OneToOneField(
+    file = models.ForeignKey(
         AudioFile, on_delete=models.CASCADE, related_name="audio_assets"
     )
 
@@ -81,7 +81,7 @@ class AudioFileAsset(Asset):
 
 
 class DocumentFileAsset(Asset):
-    file = models.OneToOneField(
+    file = models.ForeignKey(
         DocumentFile, on_delete=models.CASCADE, related_name="document_assets"
     )
 
