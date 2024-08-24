@@ -138,10 +138,10 @@ export default function Sidebar() {
           ))}
 
           <ListItem>
-            <ListItemButton onClick={() => navigate("/posts/")}>
+            <ListItemButton onClick={() => navigate(urls.files_index)}>
               <FileDownload />
               <ListItemContent>
-                <Typography level="title-sm">Assets</Typography>
+                <Typography level="title-sm">Files</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>

@@ -10,3 +10,8 @@ export interface Project {
   stage: Stage;
   detail_url: string;
 }
+
+export interface File {
+  id: number;
+  title: string;
+}

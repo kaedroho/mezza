@@ -31,7 +31,8 @@ urlpatterns_auth = [
     ),
     path("ideas/", ideas_views.ideas_index, name="ideas_index"),
     path("ideas/create/", ideas_views.ideas_create, name="ideas_create"),
-    path("files/<slug:type>/", files_views.index, name="files_index"),
+    path("files/", files_views.files_index, name="files_index"),
+    path("files/<slug:type>/", files_views.files_index, name="files_index"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Put any URLs that do not require authentication in this list.

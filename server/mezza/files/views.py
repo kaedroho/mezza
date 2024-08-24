@@ -11,7 +11,7 @@ MEDIA_TYPES = {
 }
 
 
-def index(request, type):
+def files_index(request, type):
     if type in MEDIA_TYPES:
         files = MEDIA_TYPES[type].objects.all()
     else:
@@ -19,7 +19,7 @@ def index(request, type):
 
     return Response(
         request,
-        "MediaIndex",
+        "FilesIndex",
         {
             "type": type,
             "types": [
@@ -30,8 +30,6 @@ def index(request, type):
                 {
                     "id": file.id,
                     "title": file.title,
-                    "edit_url": "#",
-                    "thumbnail_url": None,
                 }
                 for file in files
             ],

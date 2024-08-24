@@ -9,6 +9,7 @@ def urls(request):
         "projects_create": reverse("projects_create", args=["stage"]),
         "ideas_index": reverse("ideas_index"),
         "ideas_create": reverse("ideas_create"),
+        "files_index": reverse("files_index", args=["images"]),
     }
 
 
