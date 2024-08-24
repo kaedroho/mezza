@@ -49,12 +49,3 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
-
-
-class Footage(models.Model):
-    project = models.ForeignKey(
-        Project, on_delete=models.CASCADE, related_name="footage"
-    )
-    video = models.ForeignKey(VideoFile, on_delete=models.CASCADE, related_name="+")
-    order = models.IntegerField()
-    description = models.TextField()

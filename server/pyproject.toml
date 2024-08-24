@@ -18,6 +18,7 @@ whitenoise = "^6.6.0"
 pillow = "^10.3.0"
 filetype = "^1.2.0"
 django-storages = {extras = ["s3"], version = "^1.14.4"}
+django-polymorphic = {git = "https://github.com/jazzband/django-polymorphic.git", rev = "v4.0.0a"}
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.12.1"

@@ -32,7 +32,7 @@ ARG UID=1000
 RUN useradd mezza --uid ${UID} --create-home && mkdir /server $VIRTUAL_ENV && chown -R mezza /server $VIRTUAL_ENV
 
 # Install poetry
-RUN pip install poetry==1.5.1
+RUN pip install poetry==1.8.3
 
 # Use user "mezza" to run the build commands below and the server itself.
 USER mezza
