@@ -7,7 +7,7 @@ from ..models import Project
 from .forms import ProjectForm
 
 
-def index(request):
+def projects_index(request):
     # FIXME: Get space from URL
     space = request.user.spaces.first()
     return Response(
@@ -19,6 +19,21 @@ def index(request):
             ],
             "projects": [
                 project.to_client_representation() for project in space.projects.all()
+            ],
+        },
+    )
+
+
+def projects_stage_index(request, stage_id):
+    space = request.user.spaces.first()
+    stage = space.stages.get(id=stage_id)
+    return Response(
+        request,
+        "ProjectsStageIndex",
+        {
+            "stage": [stage.to_client_representation()],
+            "projects": [
+                project.to_client_representation() for project in stage.projects.all()
             ],
         },
     )

@@ -20,7 +20,7 @@ def pipelines(request):
                 {
                     "id": stage.id,
                     "title": stage.title,
-                    "url": reverse("projects_create", args=[pipeline.id, stage.id]),
+                    "url": reverse("projects_stage_index", args=[stage.id]),
                 }
                 for stage in pipeline.stages.all()
             ],

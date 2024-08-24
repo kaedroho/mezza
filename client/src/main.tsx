@@ -17,12 +17,14 @@ import MediaIndexView from "./views/MediaIndex";
 import PostIndexView from "./views/PostIndex";
 import ProjectsForm from "./views/ProjectsForm";
 import ProjectsIndexView from "./views/ProjectsIndex";
+import ProjectsStageIndexView from "./views/ProjectsStageIndex";
 
 const config = new DjangoBridge.Config();
 
 // Add your views here
 config.addView("Login", LoginView);
 config.addView("ProjectsIndex", ProjectsIndexView);
+config.addView("ProjectsStageIndex", ProjectsStageIndexView);
 config.addView("ConfirmDelete", ConfirmDeleteView);
 config.addView("PostIndex", PostIndexView);
 config.addView("ProjectsForm", ProjectsForm);
