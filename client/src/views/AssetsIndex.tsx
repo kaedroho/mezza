@@ -41,7 +41,7 @@ export default function AssetsIndex({ library, assets }: AssetsIndexProps) {
   const { openOverlay, refreshProps } = React.useContext(NavigationContext);
 
   return (
-    <Layout title={library ? library.title : "All assets"}>
+    <Layout title="Assets">
       <Button
         variant="plain"
         color="primary"
