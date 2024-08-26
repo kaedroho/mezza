@@ -95,6 +95,7 @@ class ImageFile(BaseFile):
 class VideoFile(BaseFile):
     width = models.PositiveIntegerField()
     height = models.PositiveIntegerField()
+    frame_count = models.PositiveIntegerField()
     duration = models.DurationField()
 
     def to_client_representation(self):
@@ -102,6 +103,7 @@ class VideoFile(BaseFile):
             **super().to_client_representation(),
             "width": self.width,
             "height": self.height,
+            "frame_count": self.frame_count,
             "duration": self.duration,
         }
 
