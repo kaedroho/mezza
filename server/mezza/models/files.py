@@ -107,11 +107,29 @@ class VideoFile(BaseFile):
             "duration": self.duration,
         }
 
+    def _set_metadata(self, file):
+        super()._set_metadata(file)
+
+        import ffmpeg
+        import tempfile
+        with tempfile.NamedTemporaryFile() as tfile:
+            tfile.write(file.read(1024 * 1024))
+            tfile.flush()
+            file.seek(0)
+
+            probe = ffmpeg.probe(tfile.name)
+            video_stream = next((stream for stream in probe['streams'] if stream['codec_type'] == 'video'), None)
+            self.width = int(video_stream['width'])
+            self.height = int(video_stream['height'])
+            self.frame_count = 0
+            self.duration = probe['format']['duration']
+
     UPLOAD_TO = "videos"
     ALLOWED_FILE_TYPES = [
         "video/mp4",
         "video/webm",
         "video/ogg",
+        "video/x-matroska",
     ]
 
 

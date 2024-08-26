@@ -17,6 +17,8 @@ RUN apt update -y \
     # Required to build psycopg2
     build-essential \
     libpq-dev \
+    # Required to probe video files
+    ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
 ENV VIRTUAL_ENV=/venv
