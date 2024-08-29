@@ -12,7 +12,7 @@ from mezza.models import (
 )
 
 
-def create_file_asset(*, title, file, uploaded_by, space, library=None, project=None):
+def create_file(*, title, file, uploaded_by, space, library=None, project=None):
     mime_type_to_file_model = {}
     for file_model in [AudioFile, DocumentFile, ImageFile, VideoFile]:
         for mime_type in file_model.ALLOWED_FILE_TYPES:

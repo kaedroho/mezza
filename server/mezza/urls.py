@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.urls import path
 
-from .assets import views as assets_views
+from .media import views as media_views
 from .auth import views as auth_views
 from .ideas import views as ideas_views
 from .projects import views as projects_views
@@ -31,8 +31,8 @@ urlpatterns_auth = [
     ),
     path(
         "project/<int:project_id>/assets/upload/",
-        assets_views.assets_upload,
-        name="assets_upload",
+        media_views.asset_upload,
+        name="asset_upload",
     ),
     path("ideas/", ideas_views.ideas_index, name="ideas_index"),
     path("ideas/create/", ideas_views.ideas_create, name="ideas_create"),
@@ -41,16 +41,16 @@ urlpatterns_auth = [
         ideas_views.ideas_start_production,
         name="ideas_start_production",
     ),
-    path("assets/", assets_views.assets_index, name="assets_index"),
+    path("media/", media_views.asset_index, name="asset_index"),
     path(
-        "assets/<slug:library_id>/",
-        assets_views.assets_index,
-        name="assets_index",
+        "media/<slug:library_id>/",
+        media_views.asset_index,
+        name="asset_index",
     ),
     path(
-        "assets/<int:library_id>/upload/",
-        assets_views.assets_upload,
-        name="assets_upload",
+        "media/<int:library_id>/upload/",
+        media_views.asset_upload,
+        name="asset_upload",
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -28,8 +28,8 @@ class AssetLibrary(models.Model):
             "id": self.id,
             "title": self.title,
             "description": self.description,
-            "index_url": reverse("assets_index", args=[self.id]),
-            "upload_url": reverse("assets_upload", args=[self.id]),
+            "index_url": reverse("asset_index", args=[self.id]),
+            "upload_url": reverse("asset_upload", args=[self.id]),
         }
 
     def __str__(self):

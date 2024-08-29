@@ -10,8 +10,8 @@ def urls(request):
         "projects_create": reverse("projects_create", args=["stage"]),
         "ideas_index": reverse("ideas_index"),
         "ideas_create": reverse("ideas_create"),
-        "assets_index": reverse(
-            "assets_index",
+        "asset_index": reverse(
+            "asset_index",
             args=[default_asset_library.id if default_asset_library else None],
         ),
     }

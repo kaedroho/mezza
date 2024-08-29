@@ -31,17 +31,17 @@ const AssetCard = styled.li`
   }
 `;
 
-interface AssetsIndexProps {
+interface MediaIndexProps {
   library: AssetLibrary;
   libraries: AssetLibrary[];
   assets: Asset[];
 }
 
-export default function AssetsIndex({ library, assets }: AssetsIndexProps) {
+export default function MediaIndex({ library, assets }: MediaIndexProps) {
   const { openOverlay, refreshProps } = React.useContext(NavigationContext);
 
   return (
-    <Layout title="Assets">
+    <Layout title="Media">
       <Button
         variant="plain"
         color="primary"

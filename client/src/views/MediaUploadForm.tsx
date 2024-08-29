@@ -6,15 +6,15 @@ import Layout from "../components/Layout";
 import { CSRFTokenContext } from "../contexts";
 import FormDef from "../deserializers/Form";
 
-interface AssetsUploadFormViewProps {
+interface MediaUploadFormViewProps {
   action_url: string;
   form: FormDef;
 }
 
-export default function AssetsUploadFormView({
+export default function MediaUploadFormView({
   action_url,
   form,
-}: AssetsUploadFormViewProps) {
+}: MediaUploadFormViewProps) {
   const { overlay, requestClose } = React.useContext(OverlayContext);
   const csrf_token = React.useContext(CSRFTokenContext);
 

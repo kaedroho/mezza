@@ -44,7 +44,7 @@ class Project(models.Model):
             },
             "detail_url": reverse("project_detail", args=[self.id]),
             "asset_upload_url": reverse(
-                "assets_upload", kwargs={"project_id": self.id}
+                "asset_upload", kwargs={"project_id": self.id}
             ),
         }
 
