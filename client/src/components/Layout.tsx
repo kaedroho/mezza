@@ -59,14 +59,14 @@ interface LayoutProps {
     href?: string;
   }[];
   renderHeaderButtons?: () => React.ReactNode;
-  fullWidth?: boolean;
+  noIndent?: boolean;
 }
 
 export default function Layout({
   title,
   breadcrumb = [],
   renderHeaderButtons,
-  fullWidth,
+  noIndent=false,
   children,
 }: React.PropsWithChildren<LayoutProps>) {
   const { overlay } = React.useContext(OverlayContext);
@@ -195,7 +195,7 @@ export default function Layout({
               gap: 1,
             }}
           >
-            <Box sx={{ px: fullWidth ? { xs: 2, md: 6 } : 0 }}>
+            <Box sx={{ px: noIndent ? 0 : 2 }}>
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Breadcrumbs
                   size="sm"
@@ -230,7 +230,6 @@ export default function Layout({
               <Box
                 sx={{
                   display: "flex",
-                  px: "20px",
                   mb: 1,
                   gap: 2,
                   flexDirection: { xs: "column", sm: "row" },
@@ -243,8 +242,8 @@ export default function Layout({
                 </Typography>
                 {renderHeaderButtons && renderHeaderButtons()}
               </Box>
+              {children}
             </Box>
-            {children}
           </Box>
         </Box>
       </Box>
