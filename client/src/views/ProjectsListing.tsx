@@ -49,28 +49,31 @@ export default function ProjectsStageIndexView({
   const urls = React.useContext(URLsContext);
 
   return (
-    <Layout title={stage.title}>
-      <Button
-        variant="plain"
-        color="primary"
-        size="sm"
-        startDecorator={<Add />}
-        onClick={() =>
-          openOverlay(
-            urls.projects_create.replace("stage", stage.slug),
-            (content) => <ModalWindow>{content}</ModalWindow>,
-            {
-              onClose: () => {
-                // Refresh props so new post pops up in listing
-                refreshProps();
+    <Layout
+      title={stage.title}
+      renderHeaderButtons={() => (
+        <Button
+          variant="plain"
+          color="primary"
+          size="sm"
+          startDecorator={<Add />}
+          onClick={() =>
+            openOverlay(
+              urls.projects_create.replace("stage", stage.slug),
+              (content) => <ModalWindow>{content}</ModalWindow>,
+              {
+                onClose: () => {
+                  // Refresh props so new post pops up in listing
+                  refreshProps();
+                },
               },
-            },
-          )
-        }
-      >
-        New
-      </Button>
-
+            )
+          }
+        >
+          New
+        </Button>
+      )}
+    >
       <Projects>
         {projects.map((project) => (
           <ProjectCard key={project.id}>

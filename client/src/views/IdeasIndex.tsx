@@ -41,28 +41,31 @@ export default function IdeasIndex({ ideas }: IdeasIndexProps) {
   const urls = React.useContext(URLsContext);
 
   return (
-    <Layout title="Ideas">
-      <Button
-        variant="plain"
-        color="primary"
-        size="sm"
-        startDecorator={<Add />}
-        onClick={() =>
-          openOverlay(
-            urls.ideas_create,
-            (content) => <ModalWindow>{content}</ModalWindow>,
-            {
-              onClose: () => {
-                // Refresh props so new post pops up in listing
-                refreshProps();
+    <Layout
+      title="Ideas"
+      renderHeaderButtons={() => (
+        <Button
+          variant="plain"
+          color="primary"
+          size="sm"
+          startDecorator={<Add />}
+          onClick={() =>
+            openOverlay(
+              urls.ideas_create,
+              (content) => <ModalWindow>{content}</ModalWindow>,
+              {
+                onClose: () => {
+                  // Refresh props so new post pops up in listing
+                  refreshProps();
+                },
               },
-            },
-          )
-        }
-      >
-        New
-      </Button>
-
+            )
+          }
+        >
+          New
+        </Button>
+      )}
+    >
       <IdeaList>
         {ideas.map((idea) => (
           <IdeaCard key={idea.id}>

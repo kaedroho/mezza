@@ -41,28 +41,31 @@ export default function MediaIndex({ library, assets }: MediaIndexProps) {
   const { openOverlay, refreshProps } = React.useContext(NavigationContext);
 
   return (
-    <Layout title="Media">
-      <Button
-        variant="plain"
-        color="primary"
-        size="sm"
-        startDecorator={<Add />}
-        onClick={() =>
-          openOverlay(
-            library.upload_url,
-            (content) => <ModalWindow>{content}</ModalWindow>,
-            {
-              onClose: () => {
-                // Refresh props so new post pops up in listing
-                refreshProps();
+    <Layout
+      title="Media"
+      renderHeaderButtons={() => (
+        <Button
+          variant="plain"
+          color="primary"
+          size="sm"
+          startDecorator={<Add />}
+          onClick={() =>
+            openOverlay(
+              library.upload_url,
+              (content) => <ModalWindow>{content}</ModalWindow>,
+              {
+                onClose: () => {
+                  // Refresh props so new post pops up in listing
+                  refreshProps();
+                },
               },
-            },
-          )
-        }
-      >
-        Upload
-      </Button>
-
+            )
+          }
+        >
+          Upload
+        </Button>
+      )}
+    >
       <AssetList>
         {assets.map((asset) => (
           <AssetCard key={asset.id}>{asset.title}</AssetCard>

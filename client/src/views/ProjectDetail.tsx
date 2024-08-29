@@ -1,6 +1,8 @@
 import { NavigationContext } from "@django-bridge/react";
 import { Add } from "@mui/icons-material";
+import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
+import Typography from "@mui/joy/Typography";
 import React from "react";
 import styled from "styled-components";
 import Layout from "../components/Layout";
@@ -44,27 +46,47 @@ export default function ProjectDetailView({
 
   return (
     <Layout title={project.title}>
-      <h2>Assets</h2>{" "}
-      <Button
-        variant="plain"
-        color="primary"
-        size="sm"
-        startDecorator={<Add />}
-        onClick={() =>
-          openOverlay(
-            project.asset_upload_url,
-            (content) => <ModalWindow slideout="right">{content}</ModalWindow>,
-            {
-              onClose: () => {
-                // Refresh props so new post pops up in listing
-                refreshProps();
-              },
-            },
-          )
-        }
+      <Typography level="h2" fontSize="1.2em">
+        Basic information
+      </Typography>
+      <p>{project.description}</p>
+      <Typography level="h2" fontSize="1.2em">
+        Script
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          flexFlow: "row nowrap",
+          gap: "10px",
+          alignItems: "center",
+        }}
       >
-        Upload
-      </Button>
+        <Typography level="h2" fontSize="1.2em">
+          Assets
+        </Typography>
+        <Button
+          variant="plain"
+          color="primary"
+          size="sm"
+          startDecorator={<Add />}
+          onClick={() =>
+            openOverlay(
+              project.asset_upload_url,
+              (content) => (
+                <ModalWindow slideout="right">{content}</ModalWindow>
+              ),
+              {
+                onClose: () => {
+                  // Refresh props so new post pops up in listing
+                  refreshProps();
+                },
+              },
+            )
+          }
+        >
+          Upload
+        </Button>
+      </Box>
       <AssetList>
         {assets.map((asset) => (
           <AssetCard key={asset.id}>{asset.title}</AssetCard>
