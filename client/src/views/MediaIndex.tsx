@@ -2,34 +2,10 @@ import { NavigationContext } from "@django-bridge/react";
 import { Add } from "@mui/icons-material";
 import Button from "@mui/joy/Button";
 import React from "react";
-import styled from "styled-components";
+import AssetList from "../components/AssetList";
 import Layout from "../components/Layout";
 import ModalWindow from "../components/ModalWindow";
 import { Asset, AssetLibrary } from "../types";
-
-const AssetList = styled.ul`
-  display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  list-style: none;
-  padding: 0;
-`;
-
-const AssetCard = styled.li`
-  background-color: var(--joy-palette-background-paper);
-  border-radius: 8px;
-  border: 1px solid var(--joy-palette-neutral-outlinedBorder);
-  padding: 10px;
-
-  h2 {
-    font-size: 1.25em;
-    margin-bottom: 1em;
-  }
-
-  p {
-    line-height: 1.5em;
-  }
-`;
 
 interface MediaIndexProps {
   library: AssetLibrary;
@@ -66,11 +42,7 @@ export default function MediaIndex({ library, assets }: MediaIndexProps) {
         </Button>
       )}
     >
-      <AssetList>
-        {assets.map((asset) => (
-          <AssetCard key={asset.id}>{asset.title}</AssetCard>
-        ))}
-      </AssetList>
+      <AssetList assets={assets} />
     </Layout>
   );
 }
