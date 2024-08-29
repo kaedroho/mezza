@@ -88,6 +88,7 @@ def projects_create(request, stage_slug):
         request,
         "ProjectsForm",
         {
+            "title": "New project",
             "action_url": reverse("projects_create", args=[stage_slug]),
             "form": form,
         },

@@ -47,6 +47,7 @@ def ideas_create(request):
         request,
         "ProjectsForm",
         {
+            "title": "New Idea",
             "action_url": reverse("ideas_create"),
             "form": form,
         },

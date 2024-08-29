@@ -8,12 +8,14 @@ import FormDef from "../deserializers/Form";
 import { Project } from "../types";
 
 interface ProjectsFormViewProps {
+  title: string;
   project: Project | null;
   action_url: string;
   form: FormDef;
 }
 
 export default function ProjectsFormView({
+  title,
   project,
   action_url,
   form,
@@ -23,13 +25,7 @@ export default function ProjectsFormView({
   const csrf_token = React.useContext(CSRFTokenContext);
 
   return (
-    <Layout
-      title={project ? "Edit Project" : "New Project"}
-      breadcrumb={[
-        { label: "Projects", href: urls.projects_index },
-        { label: "" },
-      ]}
-    >
+    <Layout title={title}>
       <Form action={action_url} method="post">
         <input type="hidden" name="csrfmiddlewaretoken" value={csrf_token} />
 
