@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.db.models import F
+from django.shortcuts import redirect
 from django.urls import reverse
 from django_bridge.response import CloseOverlayResponse, Response
 
@@ -13,11 +14,19 @@ def project_detail(request, project_id):
     space = request.user.spaces.first()
     project = space.projects.get(id=project_id)
 
+    basic_info_form = ProjectForm(instance=project, data=request.POST or None)
+
+    if basic_info_form.is_valid():
+        basic_info_form.save()
+        messages.success(request, "Project details updated.")
+        return redirect("project_detail", project_id=project_id)
+
     return Response(
         request,
         "ProjectDetail",
         {
             "project": project.to_client_representation(),
+            "basicInfoForm": ProjectForm(instance=project),
             "assets": [
                 asset.to_client_representation() for asset in project.assets.all()
             ],
