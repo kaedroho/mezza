@@ -130,6 +130,7 @@ class VideoFile(BaseFile):
         "video/webm",
         "video/ogg",
         "video/x-matroska",
+        "video/quicktime",
     ]
 
 
