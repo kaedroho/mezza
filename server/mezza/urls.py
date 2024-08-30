@@ -48,6 +48,11 @@ urlpatterns_auth = [
         name="asset_index",
     ),
     path(
+        "media/<int:asset_id>/",
+        media_views.asset_detail,
+        name="asset_detail",
+    ),
+    path(
         "media/upload/",
         media_views.asset_upload,
         name="asset_upload",

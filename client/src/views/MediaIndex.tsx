@@ -43,7 +43,7 @@ export default function MediaIndex({ upload_url, assets }: MediaIndexProps) {
         </Button>
       )}
     >
-      <AssetList assets={assets} />
+      <AssetList assets={assets} openAssetDetailInNewTab />
     </Layout>
   );
 }

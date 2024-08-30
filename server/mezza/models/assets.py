@@ -29,6 +29,7 @@ class Asset(PolymorphicModel):
             "id": self.id,
             "title": self.title,
             "type": self.polymorphic_ctype.model,
+            "detail_url": reverse("asset_detail", args=[self.id]),
         }
 
     def __str__(self):

@@ -10,13 +10,13 @@ import BlockNoteEditorDef from "./deserializers/widgets/BlockNoteEditor";
 import FileInputDef from "./deserializers/widgets/FileInput";
 import SelectDef from "./deserializers/widgets/Select";
 import TextInputDef from "./deserializers/widgets/TextInput";
-import MediaIndex from "./views/MediaIndex";
-import MediaUploadFormView from "./views/MediaUploadForm";
 import ConfirmDeleteView from "./views/ConfirmDelete";
 import IdeasIndex from "./views/IdeasIndex";
 import IdeasStartProductionView from "./views/IdeasStartProduction";
 import LoginView from "./views/Login";
-import PostIndexView from "./views/PostIndex";
+import MediaDetail from "./views/MediaDetail";
+import MediaIndex from "./views/MediaIndex";
+import MediaUploadFormView from "./views/MediaUploadForm";
 import ProjectDetailView from "./views/ProjectDetail";
 import ProjectsBoardView from "./views/ProjectsBoard";
 import ProjectsForm from "./views/ProjectsForm";
@@ -31,10 +31,10 @@ config.addView("ProjectsBoard", ProjectsBoardView);
 config.addView("ProjectsListing", ProjectsListingView);
 config.addView("IdeasIndex", IdeasIndex);
 config.addView("IdeasStartProduction", IdeasStartProductionView);
+config.addView("MediaDetail", MediaDetail);
 config.addView("MediaIndex", MediaIndex);
 config.addView("MediaUploadForm", MediaUploadFormView);
 config.addView("ConfirmDelete", ConfirmDeleteView);
-config.addView("PostIndex", PostIndexView);
 config.addView("ProjectsForm", ProjectsForm);
 
 // Add your context providers here

@@ -1,5 +1,12 @@
+import {
+  Link as DjangoBridgeLink,
+  NavigationContext,
+} from "@django-bridge/react";
+import Link from "@mui/joy/Link";
+import React from "react";
 import styled from "styled-components";
 import { Asset } from "../types";
+import ModalWindow from "./ModalWindow";
 
 const Wrapper = styled.ul`
   display: grid;
@@ -27,13 +34,44 @@ const Card = styled.li`
 
 interface AssetListProps {
   assets: Asset[];
+  openAssetDetailInNewTab?: boolean;
 }
 
-export default function AssetList({ assets }: AssetListProps) {
+export default function AssetList({
+  assets,
+  openAssetDetailInNewTab,
+}: AssetListProps) {
+  const { openOverlay, refreshProps } = React.useContext(NavigationContext);
+
   return (
     <Wrapper>
       {assets.map((asset) => (
-        <Card key={asset.id}>{asset.title}</Card>
+        <Card key={asset.id}>
+          {openAssetDetailInNewTab ? (
+            <Link component={DjangoBridgeLink} href={asset.detail_url}>
+              {asset.title}
+            </Link>
+          ) : (
+            <Link
+              component={DjangoBridgeLink}
+              href={asset.detail_url}
+              onClick={() =>
+                openOverlay(
+                  asset.detail_url,
+                  (content) => <ModalWindow>{content}</ModalWindow>,
+                  {
+                    onClose: () => {
+                      // Refresh props so new post pops up in listing
+                      refreshProps();
+                    },
+                  },
+                )
+              }
+            >
+              {asset.title}
+            </Link>
+          )}
+        </Card>
       ))}
     </Wrapper>
   );

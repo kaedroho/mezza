@@ -103,6 +103,8 @@ class VideoFile(BaseFile):
             **super().to_client_representation(),
             "width": self.width,
             "height": self.height,
+            "video_stream": self.video_stream,
+            "audio_streams": self.audio_streams,
         }
 
     def _set_metadata(self, file):

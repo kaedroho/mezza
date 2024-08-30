@@ -3,7 +3,7 @@ import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
 import * as React from "react";
 import Layout from "../components/Layout";
-import { CSRFTokenContext, URLsContext } from "../contexts";
+import { CSRFTokenContext } from "../contexts";
 import FormDef from "../deserializers/Form";
 import { Project } from "../types";
 
@@ -21,7 +21,6 @@ export default function ProjectsFormView({
   form,
 }: ProjectsFormViewProps) {
   const { overlay, requestClose } = React.useContext(OverlayContext);
-  const urls = React.useContext(URLsContext);
   const csrf_token = React.useContext(CSRFTokenContext);
 
   return (

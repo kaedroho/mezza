@@ -1,10 +1,11 @@
 from django.contrib import messages
+from django.shortcuts import redirect
 from django.urls import reverse
 from django_bridge.response import CloseOverlayResponse, Response
 
 from mezza.models import Asset, Project
 
-from .forms import AssetUploadForm
+from .forms import AssetMetadataForm, AssetUploadForm
 from .operations import FileFormatError, create_file
 
 
@@ -17,13 +18,20 @@ def asset_index(request):
         "MediaIndex",
         {
             "upload_url": reverse("asset_upload"),
-            "assets": [
-                {
-                    "id": asset.id,
-                    "title": asset.title,
-                }
-                for asset in assets
-            ],
+            "assets": [asset.to_client_representation() for asset in assets],
+        },
+    )
+
+
+def asset_detail(request, asset_id):
+    space = request.user.spaces.first()
+    asset = Asset.objects.get(space=space, id=asset_id)
+
+    return Response(
+        request,
+        "MediaDetail",
+        {
+            "asset": asset.to_client_representation(),
         },
     )
 
