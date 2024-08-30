@@ -4,9 +4,9 @@ from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.urls import path
 
-from .media import views as media_views
 from .auth import views as auth_views
 from .ideas import views as ideas_views
+from .media import views as media_views
 from .projects import views as projects_views
 from .utils.urlpatterns import decorate_urlpatterns
 
@@ -43,12 +43,12 @@ urlpatterns_auth = [
     ),
     path("media/", media_views.asset_index, name="asset_index"),
     path(
-        "media/<slug:library_id>/",
+        "media/",
         media_views.asset_index,
         name="asset_index",
     ),
     path(
-        "media/<int:library_id>/upload/",
+        "media/upload/",
         media_views.asset_upload,
         name="asset_upload",
     ),

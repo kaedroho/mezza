@@ -2,29 +2,21 @@ from django.contrib import messages
 from django.urls import reverse
 from django_bridge.response import CloseOverlayResponse, Response
 
-from mezza.models import Asset, AssetLibrary, Project
+from mezza.models import Asset, Project
 
 from .forms import AssetUploadForm
 from .operations import create_file
 
 
-def asset_index(request, library_id=None):
-    if library_id is None:
-        library = None
-        assets = Asset.objects.all()
-    else:
-        library = AssetLibrary.objects.get(id=library_id)
-        assets = library.assets.all()
+def asset_index(request):
+    space = request.user.spaces.first()
+    assets = Asset.objects.filter(space=space, project__isnull=True)
 
     return Response(
         request,
         "MediaIndex",
         {
-            "library": library.to_client_representation() if library else None,
-            "libraries": [
-                other_library.to_client_representation()
-                for other_library in AssetLibrary.objects.all()
-            ],
+            "upload_url": reverse("asset_upload"),
             "assets": [
                 {
                     "id": asset.id,
@@ -36,21 +28,16 @@ def asset_index(request, library_id=None):
     )
 
 
-def asset_upload(request, library_id=None, project_id=None):
-    if library_id is not None:
-        extra_kwargs = {"library": AssetLibrary.objects.get(id=library_id)}
-        action_url = reverse(
-            "asset_upload",
-            kwargs={"library_id": library_id},
-        )
-    elif project_id is not None:
+def asset_upload(request, project_id=None):
+    if project_id is not None:
         extra_kwargs = {"project": Project.objects.get(id=project_id)}
         action_url = reverse(
             "asset_upload",
             kwargs={"project_id": project_id},
         )
     else:
-        raise ValueError("Either library_id or project_id must be provided.")
+        extra_kwargs = {}
+        action_url = reverse("asset_upload")
 
     form = AssetUploadForm(request.POST or None, request.FILES or None)
 

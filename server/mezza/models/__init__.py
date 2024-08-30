@@ -1,10 +1,9 @@
 from .assets import (
     Asset,
-    AssetLibrary,
-    AudioFileAsset,
-    DocumentFileAsset,
-    ImageFileAsset,
-    VideoFileAsset,
+    AudioAsset,
+    DocumentAsset,
+    ImageAsset,
+    VideoAsset,
 )
 from .files import AudioFile, BaseFile, DocumentFile, ImageFile, VideoFile
 from .ideas import Idea
@@ -24,10 +23,9 @@ __all__ = [
     "ProjectStage",
     "Project",
     "Idea",
-    "AssetLibrary",
     "Asset",
-    "ImageFileAsset",
-    "VideoFileAsset",
-    "AudioFileAsset",
-    "DocumentFileAsset",
+    "ImageAsset",
+    "VideoAsset",
+    "AudioAsset",
+    "DocumentAsset",
 ]

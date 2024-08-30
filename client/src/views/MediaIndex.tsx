@@ -5,20 +5,19 @@ import React from "react";
 import AssetList from "../components/AssetList";
 import Layout from "../components/Layout";
 import ModalWindow from "../components/ModalWindow";
-import { Asset, AssetLibrary } from "../types";
+import { Asset } from "../types";
 
 interface MediaIndexProps {
-  library: AssetLibrary;
-  libraries: AssetLibrary[];
+  upload_url: string;
   assets: Asset[];
 }
 
-export default function MediaIndex({ library, assets }: MediaIndexProps) {
+export default function MediaIndex({ upload_url, assets }: MediaIndexProps) {
   const { openOverlay, refreshProps } = React.useContext(NavigationContext);
 
   return (
     <Layout
-      title="Media"
+      title="Asset Library"
       renderHeaderButtons={() => (
         <Button
           variant="plain"
@@ -27,8 +26,10 @@ export default function MediaIndex({ library, assets }: MediaIndexProps) {
           startDecorator={<Add />}
           onClick={() =>
             openOverlay(
-              library.upload_url,
-              (content) => <ModalWindow>{content}</ModalWindow>,
+              upload_url,
+              (content) => (
+                <ModalWindow slideout="right">{content}</ModalWindow>
+              ),
               {
                 onClose: () => {
                   // Refresh props so new post pops up in listing

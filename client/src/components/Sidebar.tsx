@@ -1,4 +1,3 @@
-import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import Box from "@mui/joy/Box";
 import Divider from "@mui/joy/Divider";
 import GlobalStyles from "@mui/joy/GlobalStyles";
@@ -11,7 +10,6 @@ import Typography from "@mui/joy/Typography";
 import * as React from "react";
 
 import { NavigationContext } from "@django-bridge/react";
-import { FileDownload, Lightbulb } from "@mui/icons-material";
 import { StagesContext, URLsContext } from "../contexts";
 import { closeSidebar } from "../utils";
 import ColorSchemeToggle from "./ColorSchemeToggle";
@@ -111,7 +109,6 @@ export default function Sidebar() {
 
           <ListItem>
             <ListItemButton onClick={() => navigate(urls.ideas_index)}>
-              <Lightbulb />
               <ListItemContent>
                 <Typography level="title-sm">Ideas</Typography>
               </ListItemContent>
@@ -120,7 +117,6 @@ export default function Sidebar() {
 
           <ListItem>
             <ListItemButton onClick={() => navigate(urls.projects_index)}>
-              <DashboardRoundedIcon />
               <ListItemContent>
                 <Typography level="title-sm">Projects</Typography>
               </ListItemContent>
@@ -131,7 +127,9 @@ export default function Sidebar() {
             <ListItem key={stage.slug}>
               <ListItemButton onClick={() => navigate(stage.projects_url)}>
                 <ListItemContent>
-                  <Typography level="title-sm">{stage.title}</Typography>
+                  <Typography level="title-sm" sx={{ marginLeft: 1 }}>
+                    {stage.title}
+                  </Typography>
                 </ListItemContent>
               </ListItemButton>
             </ListItem>
@@ -139,9 +137,8 @@ export default function Sidebar() {
 
           <ListItem>
             <ListItemButton onClick={() => navigate(urls.asset_index)}>
-              <FileDownload />
               <ListItemContent>
-                <Typography level="title-sm">Media</Typography>
+                <Typography level="title-sm">Asset Library</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>

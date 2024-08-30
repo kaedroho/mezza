@@ -104,25 +104,34 @@ class VideoFile(BaseFile):
             "width": self.width,
             "height": self.height,
             "frame_count": self.frame_count,
-            "duration": self.duration,
+            # "duration": self.duration,
         }
 
     def _set_metadata(self, file):
         super()._set_metadata(file)
 
-        import ffmpeg
         import tempfile
+
+        import ffmpeg
+
         with tempfile.NamedTemporaryFile() as tfile:
             tfile.write(file.read(1024 * 1024))
             tfile.flush()
             file.seek(0)
 
             probe = ffmpeg.probe(tfile.name)
-            video_stream = next((stream for stream in probe['streams'] if stream['codec_type'] == 'video'), None)
-            self.width = int(video_stream['width'])
-            self.height = int(video_stream['height'])
+            video_stream = next(
+                (
+                    stream
+                    for stream in probe["streams"]
+                    if stream["codec_type"] == "video"
+                ),
+                None,
+            )
+            self.width = int(video_stream["width"])
+            self.height = int(video_stream["height"])
             self.frame_count = 0
-            self.duration = probe['format']['duration']
+            self.duration = probe["format"]["duration"]
 
     UPLOAD_TO = "videos"
     ALLOWED_FILE_TYPES = [
@@ -139,7 +148,7 @@ class AudioFile(BaseFile):
     def to_client_representation(self):
         return {
             **super().to_client_representation(),
-            "duration": self.duration,
+            # "duration": self.duration,
         }
 
     UPLOAD_TO = "audio"

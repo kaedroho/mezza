@@ -1,4 +1,4 @@
-from mezza.models import AssetLibrary, Space, SpaceUser
+from mezza.models import Space, SpaceUser
 
 
 def create_space(*, name, slug, users=None):
@@ -7,8 +7,5 @@ def create_space(*, name, slug, users=None):
     if users:
         for user in users:
             SpaceUser.objects.create(user=user, space=space)
-
-    # Create default asset library
-    AssetLibrary.objects.create(space=space, title="Default")
 
     return space

@@ -1,18 +1,18 @@
 import filetype
 
 from mezza.models import (
+    AudioAsset,
     AudioFile,
-    AudioFileAsset,
+    DocumentAsset,
     DocumentFile,
-    DocumentFileAsset,
+    ImageAsset,
     ImageFile,
-    ImageFileAsset,
+    VideoAsset,
     VideoFile,
-    VideoFileAsset,
 )
 
 
-def create_file(*, title, file, uploaded_by, space, library=None, project=None):
+def create_file(*, title, file, uploaded_by, space, project=None):
     mime_type_to_file_model = {}
     for file_model in [AudioFile, DocumentFile, ImageFile, VideoFile]:
         for mime_type in file_model.ALLOWED_FILE_TYPES:
@@ -32,12 +32,12 @@ def create_file(*, title, file, uploaded_by, space, library=None, project=None):
     file_record.save()
 
     asset_model = {
-        AudioFile: AudioFileAsset,
-        DocumentFile: DocumentFileAsset,
-        ImageFile: ImageFileAsset,
-        VideoFile: VideoFileAsset,
+        AudioFile: AudioAsset,
+        DocumentFile: DocumentAsset,
+        ImageFile: ImageAsset,
+        VideoFile: VideoAsset,
     }[file_model]
 
     return asset_model.objects.create(
-        title=title, file=file_record, library=library, project=project
+        title=title, file=file_record, space=space, project=project
     )
