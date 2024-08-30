@@ -24,11 +24,13 @@ class Asset(PolymorphicModel):
     )
     title = models.CharField(max_length=255)
 
+    TYPE_NAME = "asset"
+
     def to_client_representation(self):
         return {
             "id": self.id,
             "title": self.title,
-            "type": self.polymorphic_ctype.model,
+            "type": self.TYPE_NAME,
             "detail_url": reverse("asset_detail", args=[self.id]),
         }
 
@@ -40,6 +42,8 @@ class ImageAsset(Asset):
     file = models.ForeignKey(
         ImageFile, on_delete=models.CASCADE, related_name="image_assets"
     )
+
+    TYPE_NAME = "image"
 
     def to_client_representation(self):
         return {
@@ -53,6 +57,8 @@ class VideoAsset(Asset):
         VideoFile, on_delete=models.CASCADE, related_name="video_assets"
     )
 
+    TYPE_NAME = "video"
+
     def to_client_representation(self):
         return {
             **super().to_client_representation(),
@@ -65,6 +71,8 @@ class AudioAsset(Asset):
         AudioFile, on_delete=models.CASCADE, related_name="audio_assets"
     )
 
+    TYPE_NAME = "audio"
+
     def to_client_representation(self):
         return {
             **super().to_client_representation(),
@@ -76,6 +84,8 @@ class DocumentAsset(Asset):
     file = models.ForeignKey(
         DocumentFile, on_delete=models.CASCADE, related_name="document_assets"
     )
+
+    TYPE_NAME = "document"
 
     def to_client_representation(self):
         return {
