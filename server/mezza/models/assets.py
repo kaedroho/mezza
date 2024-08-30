@@ -8,10 +8,10 @@ from .spaces import Space
 
 __all__ = [
     "Asset",
-    "ImageFileAsset",
-    "VideoFileAsset",
-    "AudioFileAsset",
-    "DocumentFileAsset",
+    "ImageAsset",
+    "VideoAsset",
+    "AudioAsset",
+    "DocumentAsset",
 ]
 
 
