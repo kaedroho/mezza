@@ -12,6 +12,10 @@ from mezza.models import (
 )
 
 
+class FileFormatError(ValueError):
+    pass
+
+
 def create_file(*, title, file, uploaded_by, space, project=None):
     mime_type_to_file_model = {}
     for file_model in [AudioFile, DocumentFile, ImageFile, VideoFile]:
@@ -20,8 +24,11 @@ def create_file(*, title, file, uploaded_by, space, project=None):
 
     file_type = filetype.guess_mime(file)
 
+    if file_type is None:
+        raise FileFormatError("The file type could not be determined.")
+
     if file_type not in mime_type_to_file_model:
-        raise ValueError(f"File type '{file_type}' is not supported.")
+        raise FileFormatError(f"File type '{file_type}' is not supported.")
 
     file_model = mime_type_to_file_model[file_type]
 

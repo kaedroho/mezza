@@ -20,6 +20,7 @@ filetype = "^1.2.0"
 django-storages = {extras = ["s3"], version = "^1.14.4"}
 django-polymorphic = {git = "https://github.com/jazzband/django-polymorphic.git", rev = "v4.0.0a"}
 ffmpeg-python = "^0.2.0"
+pypdf2 = "^3.0.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.12.1"

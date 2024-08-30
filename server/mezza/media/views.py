@@ -5,7 +5,7 @@ from django_bridge.response import CloseOverlayResponse, Response
 from mezza.models import Asset, Project
 
 from .forms import AssetUploadForm
-from .operations import create_file
+from .operations import FileFormatError, create_file
 
 
 def asset_index(request):
@@ -42,20 +42,23 @@ def asset_upload(request, project_id=None):
     form = AssetUploadForm(request.POST or None, request.FILES or None)
 
     if form.is_valid():
-        asset = create_file(
-            title=form.cleaned_data["title"],
-            file=form.cleaned_data["file"],
-            uploaded_by=request.user,
-            space=request.user.spaces.first(),
-            **extra_kwargs,
-        )
+        try:
+            asset = create_file(
+                title=form.cleaned_data["title"],
+                file=form.cleaned_data["file"],
+                uploaded_by=request.user,
+                space=request.user.spaces.first(),
+                **extra_kwargs,
+            )
+        except FileFormatError as e:
+            form.add_error("file", str(e))
+        else:
+            messages.success(
+                request,
+                f"Successfully uploaded asset '{asset.title}'.",
+            )
 
-        messages.success(
-            request,
-            f"Successfully uploaded asset '{asset.title}'.",
-        )
-
-        return CloseOverlayResponse(request)
+            return CloseOverlayResponse(request)
 
     return Response(
         request,

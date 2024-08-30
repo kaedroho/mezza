@@ -153,7 +153,7 @@ if "BACKBLAZE_BUCKET" in os.environ:
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
-MAX_UPLOAD_SIZE = 2 * 1024 * 1024
+MAX_UPLOAD_SIZE = 2 * 1024 * 1024 * 1024
 
 
 # Default primary key field type

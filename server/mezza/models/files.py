@@ -95,16 +95,14 @@ class ImageFile(BaseFile):
 class VideoFile(BaseFile):
     width = models.PositiveIntegerField()
     height = models.PositiveIntegerField()
-    frame_count = models.PositiveIntegerField()
-    duration = models.DurationField()
+    video_stream = models.JSONField()
+    audio_streams = models.JSONField()
 
     def to_client_representation(self):
         return {
             **super().to_client_representation(),
             "width": self.width,
             "height": self.height,
-            "frame_count": self.frame_count,
-            # "duration": self.duration,
         }
 
     def _set_metadata(self, file):
@@ -119,19 +117,12 @@ class VideoFile(BaseFile):
             tfile.flush()
             file.seek(0)
 
-            probe = ffmpeg.probe(tfile.name)
-            video_stream = next(
-                (
-                    stream
-                    for stream in probe["streams"]
-                    if stream["codec_type"] == "video"
-                ),
-                None,
-            )
-            self.width = int(video_stream["width"])
-            self.height = int(video_stream["height"])
-            self.frame_count = 0
-            self.duration = probe["format"]["duration"]
+            self.video_stream = ffmpeg.probe(
+                tfile.name, select_streams="v:0", count_frames=None
+            )["streams"][0]
+            self.audio_streams = ffmpeg.probe(tfile.name, select_streams="a")["streams"]
+            self.width = int(self.video_stream["width"])
+            self.height = int(self.video_stream["height"])
 
     UPLOAD_TO = "videos"
     ALLOWED_FILE_TYPES = [
@@ -143,13 +134,21 @@ class VideoFile(BaseFile):
 
 
 class AudioFile(BaseFile):
-    duration = models.DurationField()
+    audio_streams = models.JSONField()
 
-    def to_client_representation(self):
-        return {
-            **super().to_client_representation(),
-            # "duration": self.duration,
-        }
+    def _set_metadata(self, file):
+        super()._set_metadata(file)
+
+        import tempfile
+
+        import ffmpeg
+
+        with tempfile.NamedTemporaryFile() as tfile:
+            tfile.write(file.read(1024 * 1024))
+            tfile.flush()
+            file.seek(0)
+
+            self.audio_streams = ffmpeg.probe(tfile.name, select_streams="a")["streams"]
 
     UPLOAD_TO = "audio"
     ALLOWED_FILE_TYPES = [
@@ -161,6 +160,14 @@ class AudioFile(BaseFile):
 
 class DocumentFile(BaseFile):
     page_count = models.PositiveIntegerField()
+
+    def _set_metadata(self, file):
+        super()._set_metadata(file)
+
+        import PyPDF2
+
+        reader = PyPDF2.PdfReader(file)
+        self.page_count = len(reader.pages)
 
     def to_client_representation(self):
         return {
