@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
-import { WidgetDef } from "./base";
 import BlockNoteEditor from "../../components/widgets/BlockNoteEditor";
+import { WidgetDef } from "./base";
 
 export default class BlockNoteEditorDef implements WidgetDef {
   render(
@@ -14,7 +14,7 @@ export default class BlockNoteEditorDef implements WidgetDef {
         id={id}
         name={name}
         disabled={disabled}
-        initialContent={JSON.parse(value || "[]")}
+        initialContent={JSON.parse(value || "[]]")}
       />
     );
   }

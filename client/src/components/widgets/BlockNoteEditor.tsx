@@ -1,8 +1,5 @@
-import React from "react";
-import { DirtyFormMarker } from "@django-bridge/react";
-import "@blocknote/core/fonts/inter.css";
 import { Block } from "@blocknote/core";
-import { useCreateBlockNote } from "@blocknote/react";
+import "@blocknote/core/fonts/inter.css";
 import {
   BlockNoteView,
   Theme,
@@ -10,6 +7,9 @@ import {
   lightDefaultTheme,
 } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
+import { useCreateBlockNote } from "@blocknote/react";
+import { DirtyFormMarker } from "@django-bridge/react";
+import React from "react";
 import "./BlockNoteEditor.css";
 
 const lightTheme = {

@@ -1,6 +1,6 @@
 import { Form, NavigationContext } from "@django-bridge/react";
 import { Add } from "@mui/icons-material";
-import { Tab, TabList, TabPanel, Tabs } from "@mui/joy";
+import { Box, Tab, TabList, TabPanel, Tabs } from "@mui/joy";
 import Button from "@mui/joy/Button";
 import React from "react";
 import AssetList from "../components/AssetList";
@@ -13,12 +13,14 @@ import { Asset, Project } from "../types";
 interface ProjectDetailViewProps {
   project: Project;
   basicInfoForm: FormDef;
+  scriptForm: FormDef;
   assets: Asset[];
 }
 
 export default function ProjectDetailView({
   project,
   basicInfoForm,
+  scriptForm,
   assets,
 }: ProjectDetailViewProps) {
   const { openOverlay, refreshProps } = React.useContext(NavigationContext);
@@ -26,50 +28,57 @@ export default function ProjectDetailView({
 
   return (
     <Layout title={project.title} noIndent>
-      <Tabs defaultValue={0}>
-        <TabList>
-          <Tab>Basic Information</Tab>
-          <Tab>Script</Tab>
-          <Tab>Assets</Tab>
-        </TabList>
-        <TabPanel value={0}>
-          <Form action={project.detail_url} method="post">
-            <input type="hidden" name="csrfmiddlewaretoken" value={csrfToken} />
+      <Form action={project.detail_url} method="post">
+        <input type="hidden" name="csrfmiddlewaretoken" value={csrfToken} />
 
+        <Tabs defaultValue={0}>
+          <TabList>
+            <Tab>Basic Information</Tab>
+            <Tab>Script</Tab>
+            <Tab>Assets</Tab>
+          </TabList>
+          <TabPanel value={0} keepMounted>
             {basicInfoForm.render()}
-
-            <Button color="primary" type="submit">
-              Save
-            </Button>
-          </Form>
-        </TabPanel>
-        <TabPanel value={1}></TabPanel>
-        <TabPanel value={2}>
-          <Button
-            variant="plain"
-            color="primary"
-            size="sm"
-            startDecorator={<Add />}
-            onClick={() =>
-              openOverlay(
-                project.asset_upload_url,
-                (content) => (
-                  <ModalWindow slideout="right">{content}</ModalWindow>
-                ),
-                {
-                  onClose: () => {
-                    // Refresh props so new post pops up in listing
-                    refreshProps();
-                  },
-                },
-              )
-            }
+          </TabPanel>
+          <TabPanel
+            value={1}
+            keepMounted
+            sx={{ px: 7, label: { display: "none" } }}
           >
-            Upload
+            {scriptForm.render()}
+          </TabPanel>
+          <TabPanel value={2}>
+            <Button
+              variant="plain"
+              color="primary"
+              size="sm"
+              startDecorator={<Add />}
+              onClick={() =>
+                openOverlay(
+                  project.asset_upload_url,
+                  (content) => (
+                    <ModalWindow slideout="right">{content}</ModalWindow>
+                  ),
+                  {
+                    onClose: () => {
+                      // Refresh props so new post pops up in listing
+                      refreshProps();
+                    },
+                  },
+                )
+              }
+            >
+              Upload
+            </Button>
+            <AssetList assets={assets} />
+          </TabPanel>
+        </Tabs>
+        <Box px={2}>
+          <Button color="primary" type="submit">
+            Save
           </Button>
-          <AssetList assets={assets} />
-        </TabPanel>
-      </Tabs>
+        </Box>
+      </Form>
     </Layout>
   );
 }

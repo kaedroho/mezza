@@ -5,7 +5,7 @@ from django.urls import reverse
 from django_bridge.response import CloseOverlayResponse, Response
 
 from ..models import ProjectStage
-from .forms import ProjectForm
+from .forms import ProjectForm, ProjectScriptForm
 from .operations import create_project
 
 
@@ -15,10 +15,12 @@ def project_detail(request, project_id):
     project = space.projects.get(id=project_id)
 
     basic_info_form = ProjectForm(instance=project, data=request.POST or None)
+    script_form = ProjectScriptForm(instance=project, data=request.POST or None)
 
-    if basic_info_form.is_valid():
+    if basic_info_form.is_valid() and script_form.is_valid():
         basic_info_form.save()
-        messages.success(request, "Project details updated.")
+        script_form.save()
+        messages.success(request, "Project updated.")
         return redirect("project_detail", project_id=project_id)
 
     return Response(
@@ -26,7 +28,8 @@ def project_detail(request, project_id):
         "ProjectDetail",
         {
             "project": project.to_client_representation(),
-            "basicInfoForm": ProjectForm(instance=project),
+            "basicInfoForm": basic_info_form,
+            "scriptForm": script_form,
             "assets": [
                 asset.to_client_representation() for asset in project.assets.all()
             ],

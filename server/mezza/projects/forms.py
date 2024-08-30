@@ -1,6 +1,7 @@
 from django import forms
 
-from ..models import Project
+from mezza.models import Project
+from mezza.widgets import BlockNoteEditor
 
 
 class ProjectForm(forms.ModelForm):
@@ -14,3 +15,13 @@ class ProjectForm(forms.ModelForm):
         widgets = {
             "title": forms.TextInput(attrs={"variant": "large"}),
         }
+
+
+class ProjectScriptForm(forms.ModelForm):
+    script = forms.JSONField(required=False, widget=BlockNoteEditor())
+
+    class Meta:
+        model = Project
+        fields = [
+            "script",
+        ]
