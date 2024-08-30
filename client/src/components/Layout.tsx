@@ -66,7 +66,7 @@ export default function Layout({
   title,
   breadcrumb = [],
   renderHeaderButtons,
-  noIndent=false,
+  noIndent = false,
   children,
 }: React.PropsWithChildren<LayoutProps>) {
   const { overlay } = React.useContext(OverlayContext);
@@ -191,11 +191,17 @@ export default function Layout({
               display: "flex",
               flexDirection: "column",
               minWidth: 0,
-              height: "100dvh",
-              gap: 1,
+              height: "100vh",
+              px: noIndent ? 0 : 2,
+              backgroundColor: "var(--joy-palette-background-surface)",
             }}
           >
-            <Box sx={{ px: noIndent ? 0 : 2 }}>
+            <Box
+              sx={{
+                px: noIndent ? 2 : 0,
+                backgroundColor: "var(--joy-palette-background-surface)",
+              }}
+            >
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Breadcrumbs
                   size="sm"
@@ -242,8 +248,8 @@ export default function Layout({
                 </Typography>
                 {renderHeaderButtons && renderHeaderButtons()}
               </Box>
-              {children}
             </Box>
+            {children}
           </Box>
         </Box>
       </Box>
