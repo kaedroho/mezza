@@ -25,6 +25,10 @@ export interface File {
   download_url: string;
   size: number;
   file_type: string;
+  thumbnail: {
+    type: "image" | "video";
+    src: string;
+  };
 }
 
 export interface ImageFile extends File {

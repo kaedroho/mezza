@@ -38,6 +38,8 @@ def create_file(*, title, file, uploaded_by, space, project=None):
     file_record._set_metadata(file)
     file_record.save()
 
+    file_record._generate_thumbnail()
+
     asset_model = {
         AudioFile: AudioAsset,
         DocumentFile: DocumentAsset,

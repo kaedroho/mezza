@@ -70,12 +70,12 @@ export default function AssetList({
       {assets.map((asset) => {
         const contents = (
           <CardContent>
-            {asset.type === "image" ? (
-              <ImageThumbnail src={asset.file.download_url} />
+            {asset.file.thumbnail.type === "image" ? (
+              <ImageThumbnail src={asset.file.thumbnail.src} />
             ) : null}
-            {asset.type === "video" ? (
+            {asset.file.thumbnail.type === "video" ? (
               <VideoThumbnail controls>
-                <source src={asset.file.download_url} />
+                <source src={asset.file.thumbnail.src} />
               </VideoThumbnail>
             ) : null}
             <CardTitle>{asset.title}</CardTitle>
