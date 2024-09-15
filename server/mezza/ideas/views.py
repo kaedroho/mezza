@@ -10,29 +10,27 @@ from .operations import create_project_from_idea
 
 
 def ideas_index(request):
-    # FIXME: Get space from URL
-    space = request.user.spaces.first()
     return Response(
         request,
         "IdeasIndex",
         {
-            "ideas": [idea.to_client_representation() for idea in space.ideas.all()],
+            "ideas": [
+                idea.to_client_representation() for idea in request.space.ideas.all()
+            ],
         },
     )
 
 
 def ideas_create(request):
-    # FIXME: Get space from URL
-    space = request.user.spaces.first()
     form = IdeaForm(request.POST or None)
 
     if form.is_valid():
         idea = form.save(commit=False)
-        idea.space = space
+        idea.space = request.space
 
         # Order the idea at the start
         idea.order = 0
-        space.ideas.update(order=F("order") + 1)
+        request.space.ideas.update(order=F("order") + 1)
 
         idea.save()
 
@@ -48,7 +46,7 @@ def ideas_create(request):
         "ProjectsForm",
         {
             "title": "New Idea",
-            "action_url": reverse("ideas_create"),
+            "action_url": reverse("ideas_create", args=[request.space.slug]),
             "form": form,
         },
         overlay=True,
@@ -57,7 +55,7 @@ def ideas_create(request):
 
 
 def ideas_start_production(request, idea_id):
-    idea = Idea.objects.get(id=idea_id)
+    idea = Idea.objects.get(space=request.space, id=idea_id)
 
     if request.method == "POST":
         create_project_from_idea(idea)
@@ -74,7 +72,9 @@ def ideas_start_production(request, idea_id):
         request,
         "IdeasStartProduction",
         {
-            "action_url": reverse("ideas_start_production", args=[idea_id]),
+            "action_url": reverse(
+                "ideas_start_production", args=[request.space.slug, idea_id]
+            ),
         },
         overlay=True,
         title="Start Production | Mezza Studio",

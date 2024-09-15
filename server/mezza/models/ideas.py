@@ -19,7 +19,9 @@ class Idea(models.Model):
             "id": self.id,
             "title": self.title,
             "description": self.description,
-            "start_production_url": reverse("ideas_start_production", args=[self.id]),
+            "start_production_url": reverse(
+                "ideas_start_production", args=[self.space.slug, self.id]
+            ),
         }
 
     def __str__(self):

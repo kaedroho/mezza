@@ -52,3 +52,9 @@ def login_temporary(request):
     login(request, user)
 
     return redirect(settings.LOGIN_REDIRECT_URL)
+
+
+def login_redirect(request):
+    # Redirect to the user's default space.
+    space = request.user.spaces.first()
+    return redirect("projects_index", space_slug=space.slug)

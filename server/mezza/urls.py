@@ -2,61 +2,64 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
-from django.urls import path
+from django.urls import include, path
 
 from .auth import views as auth_views
 from .ideas import views as ideas_views
 from .media import views as media_views
 from .projects import views as projects_views
+from .spaces.decorators import space
 from .utils.urlpatterns import decorate_urlpatterns
 
-# Put any URLs that require authentication in this list.
-urlpatterns_auth = [
-    path("admin/", admin.site.urls),
-    path("", projects_views.projects_index, name="projects_index"),
+urlpatterns_space = [
+    path("<slug:space_slug>/", projects_views.projects_index, name="projects_index"),
     path(
-        "stage/<slug:stage_slug>/",
+        "<slug:space_slug>/stage/<slug:stage_slug>/",
         projects_views.projects_stage_index,
         name="projects_stage_index",
     ),
     path(
-        "create/<slug:stage_slug>/",
+        "<slug:space_slug>/create/<slug:stage_slug>/",
         projects_views.projects_create,
         name="projects_create",
     ),
     path(
-        "project/<int:project_id>/",
+        "<slug:space_slug>/project/<int:project_id>/",
         projects_views.project_detail,
         name="project_detail",
     ),
     path(
-        "project/<int:project_id>/assets/upload/",
+        "<slug:space_slug>/project/<int:project_id>/assets/upload/",
         media_views.asset_upload,
         name="asset_upload",
     ),
-    path("ideas/", ideas_views.ideas_index, name="ideas_index"),
-    path("ideas/create/", ideas_views.ideas_create, name="ideas_create"),
+    path("<slug:space_slug>/ideas/", ideas_views.ideas_index, name="ideas_index"),
     path(
-        "ideas/<int:idea_id>/start-production/",
+        "<slug:space_slug>/ideas/create/", ideas_views.ideas_create, name="ideas_create"
+    ),
+    path(
+        "<slug:space_slug>/ideas/<int:idea_id>/start-production/",
         ideas_views.ideas_start_production,
         name="ideas_start_production",
     ),
-    path("media/", media_views.asset_index, name="asset_index"),
+    path("<slug:space_slug>/media/", media_views.asset_index, name="asset_index"),
     path(
-        "media/",
-        media_views.asset_index,
-        name="asset_index",
-    ),
-    path(
-        "media/<int:asset_id>/",
+        "<slug:space_slug>/media/<int:asset_id>/",
         media_views.asset_detail,
         name="asset_detail",
     ),
     path(
-        "media/upload/",
+        "<slug:space_slug>/media/upload/",
         media_views.asset_upload,
         name="asset_upload",
     ),
+]
+
+# Put any URLs that require authentication in this list.
+urlpatterns_auth = [
+    path("", auth_views.login_redirect, name="login_redirect"),
+    path("admin/", admin.site.urls),
+    path("workspace/", include(decorate_urlpatterns(urlpatterns_space, space))),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Put any URLs that do not require authentication in this list.

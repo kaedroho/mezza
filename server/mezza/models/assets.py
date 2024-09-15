@@ -31,7 +31,7 @@ class Asset(PolymorphicModel):
             "id": self.id,
             "title": self.title,
             "type": self.TYPE_NAME,
-            "detail_url": reverse("asset_detail", args=[self.id]),
+            "detail_url": reverse("asset_detail", args=[self.space.slug, self.id]),
         }
 
     def __str__(self):

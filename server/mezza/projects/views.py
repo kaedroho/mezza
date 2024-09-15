@@ -1,5 +1,4 @@
 from django.contrib import messages
-from django.db.models import F
 from django.shortcuts import redirect
 from django.urls import reverse
 from django_bridge.response import CloseOverlayResponse, Response
@@ -10,9 +9,7 @@ from .operations import create_project
 
 
 def project_detail(request, project_id):
-    # FIXME: Get space from URL
-    space = request.user.spaces.first()
-    project = space.projects.get(id=project_id)
+    project = request.space.projects.get(id=project_id)
 
     basic_info_form = ProjectForm(instance=project, data=request.POST or None)
     script_form = ProjectScriptForm(instance=project, data=request.POST or None)
@@ -38,8 +35,6 @@ def project_detail(request, project_id):
 
 
 def projects_index(request):
-    # FIXME: Get space from URL
-    space = request.user.spaces.first()
     return Response(
         request,
         "ProjectsBoard",
@@ -52,14 +47,14 @@ def projects_index(request):
                 for slug, title in ProjectStage.choices
             ],
             "projects": [
-                project.to_client_representation() for project in space.projects.all()
+                project.to_client_representation()
+                for project in request.space.projects.all()
             ],
         },
     )
 
 
 def projects_stage_index(request, stage_slug):
-    space = request.user.spaces.first()
     stage_title = dict(ProjectStage.choices)[stage_slug]
     return Response(
         request,
@@ -68,16 +63,13 @@ def projects_stage_index(request, stage_slug):
             "stage": {"slug": stage_slug, "title": stage_title},
             "projects": [
                 project.to_client_representation()
-                for project in space.projects.filter(stage=stage_slug)
+                for project in request.space.projects.filter(stage=stage_slug)
             ],
         },
     )
 
 
 def projects_create(request, stage_slug):
-    stage_title = dict(ProjectStage.choices)[stage_slug]
-    # FIXME: Get space from URL
-    space = request.user.spaces.first()
     form = ProjectForm(request.POST or None)
 
     if form.is_valid():
@@ -85,7 +77,7 @@ def projects_create(request, stage_slug):
         create_project(
             title=project.title,
             description=project.description,
-            space=space,
+            space=request.space,
             stage=stage_slug,
         )
 

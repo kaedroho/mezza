@@ -4,9 +4,10 @@ import django.contrib.auth.models
 import django.contrib.auth.validators
 import django.db.models.deletion
 import django.utils.timezone
-import mezza.models.files
 from django.conf import settings
 from django.db import migrations, models
+
+import mezza.models.files
 
 
 class Migration(migrations.Migration):

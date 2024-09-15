@@ -82,8 +82,10 @@ class Project(models.Model):
                 "slug": self.stage,
                 "title": dict(ProjectStage.choices).get(self.stage, self.stage),
             },
-            "detail_url": reverse("project_detail", args=[self.id]),
-            "asset_upload_url": reverse("asset_upload", kwargs={"project_id": self.id}),
+            "detail_url": reverse("project_detail", args=[self.space.slug, self.id]),
+            "asset_upload_url": reverse(
+                "asset_upload", args=[self.space.slug, self.id]
+            ),
         }
 
     def __str__(self):
