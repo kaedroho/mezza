@@ -107,13 +107,13 @@ export default function Sidebar() {
             <ColorSchemeToggle sx={{ ml: "auto" }} />
           </ListItem>
 
-          <ListItem>
+          {/* <ListItem>
             <ListItemButton onClick={() => navigate(urls.ideas_index)}>
               <ListItemContent>
                 <Typography level="title-sm">Ideas</Typography>
               </ListItemContent>
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
 
           <ListItem>
             <ListItemButton onClick={() => navigate(urls.projects_index)}>
