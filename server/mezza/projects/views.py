@@ -18,7 +18,9 @@ def project_detail(request, project_id):
         basic_info_form.save()
         script_form.save()
         messages.success(request, "Project updated.")
-        return redirect("project_detail", space_slug=request.space.slug, project_id=project_id)
+        return redirect(
+            "project_detail", space_slug=request.space.slug, project_id=project_id
+        )
 
     return Response(
         request,
@@ -93,7 +95,9 @@ def projects_create(request, stage_slug):
         "ProjectsForm",
         {
             "title": "New project",
-            "action_url": reverse("projects_create", args=[request.stage.slug, stage_slug]),
+            "action_url": reverse(
+                "projects_create", args=[request.space.slug, stage_slug]
+            ),
             "form": form,
         },
         overlay=True,
