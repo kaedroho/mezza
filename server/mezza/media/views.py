@@ -1,11 +1,12 @@
 from django.contrib import messages
+from django.http import HttpResponse
 from django.urls import reverse
 from django_bridge.response import CloseOverlayResponse, Response
 
 from mezza.models import Asset, Project
 
 from .forms import AssetUploadForm
-from .operations import FileFormatError, create_file
+from .operations import FileFormatError, clone_asset, create_file
 
 
 def asset_index(request):
@@ -75,4 +76,34 @@ def asset_upload(request, project_id=None):
         },
         overlay=True,
         title="Upload Asset | Mezza Studio",
+    )
+
+
+def asset_choose_for_project(request, project_id):
+    project = Project.objects.get(space=request.space, id=project_id)
+    assets = Asset.objects.filter(space=request.space, project__isnull=True)
+
+    if request.method == "POST":
+        asset = assets.get(id=request.POST["asset_id"])
+        print("PROJECT", project)
+        cloned_asset = clone_asset(asset, destination_project=project)
+
+        messages.success(
+            request,
+            f"Successfully added asset '{cloned_asset.title}' to project '{project.title}'.",
+        )
+
+        return HttpResponse()
+
+    return Response(
+        request,
+        "MediaChooser",
+        {
+            "action_url": reverse(
+                "asset_choose_for_project", args=[request.space.slug, project_id]
+            ),
+            "assets": [asset.to_client_representation() for asset in assets],
+        },
+        overlay=True,
+        title="Choose Asset | Mezza Studio",
     )

@@ -1,6 +1,13 @@
 import { NavigationContext } from "@django-bridge/react";
 import { Add } from "@mui/icons-material";
-import { Box, Typography } from "@mui/joy";
+import {
+  Box,
+  Dropdown,
+  Menu,
+  MenuButton,
+  MenuItem,
+  Typography,
+} from "@mui/joy";
 import Button from "@mui/joy/Button";
 import React from "react";
 import AssetList from "../components/AssetList";
@@ -113,28 +120,55 @@ export default function ProjectDetailView({
 
         <Box pt={2}>
           <Typography level="h4">Assets</Typography>
-          <Button
-            variant="soft"
-            color="primary"
-            size="sm"
-            startDecorator={<Add />}
-            onClick={() =>
-              openOverlay(
-                project.asset_upload_url,
-                (content) => (
-                  <ModalWindow slideout="right">{content}</ModalWindow>
-                ),
-                {
-                  onClose: () => {
-                    // Refresh props so new post pops up in listing
-                    refreshProps();
-                  },
-                },
-              )
-            }
-          >
-            Upload
-          </Button>
+          <Dropdown>
+            <MenuButton
+              color="primary"
+              variant="solid"
+              startDecorator={<Add />}
+            >
+              Add Asset
+            </MenuButton>
+            <Menu>
+              <MenuItem
+                onClick={() =>
+                  openOverlay(
+                    project.asset_upload_url,
+                    (content) => (
+                      <ModalWindow slideout="right">{content}</ModalWindow>
+                    ),
+                    {
+                      onClose: () => {
+                        // Refresh props so new post pops up in listing
+                        refreshProps();
+                      },
+                    },
+                  )
+                }
+              >
+                Upload
+              </MenuItem>
+              <MenuItem
+                onClick={() =>
+                  openOverlay(
+                    project.asset_choose_url,
+                    (content) => (
+                      <ModalWindow slideout="right">{content}</ModalWindow>
+                    ),
+                    {
+                      onClose: () => {
+                        // Refresh props so new post pops up in listing
+                        refreshProps();
+                      },
+                    },
+                  )
+                }
+              >
+                Choose from library
+              </MenuItem>
+              <MenuItem>Create a Script</MenuItem>
+            </Menu>
+          </Dropdown>
+
           <AssetList assets={assets} />
         </Box>
       </Box>

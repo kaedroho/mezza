@@ -28,6 +28,11 @@ class Asset(PolymorphicModel):
 
     TYPE_NAME = "asset"
 
+    def copy(self, dest):
+        dest.title = self.title
+        dest.space = self.space
+        dest.project = self.project
+
     def to_client_representation(self):
         return {
             "id": self.id,
@@ -83,6 +88,10 @@ class ScriptAsset(Asset):
 
     TYPE_NAME = "script"
 
+    def copy(self, dest):
+        super().copy(dest)
+        dest.content = self.content
+
     def to_client_representation(self):
         return {
             **super().to_client_representation(),
@@ -96,6 +105,10 @@ class ImageAsset(Asset):
     )
 
     TYPE_NAME = "image"
+
+    def copy(self, dest):
+        super().copy(dest)
+        dest.file = self.file
 
     def to_client_representation(self):
         return {
@@ -111,6 +124,10 @@ class VideoAsset(Asset):
 
     TYPE_NAME = "video"
 
+    def copy(self, dest):
+        super().copy(dest)
+        dest.file = self.file
+
     def to_client_representation(self):
         return {
             **super().to_client_representation(),
@@ -125,6 +142,10 @@ class AudioAsset(Asset):
 
     TYPE_NAME = "audio"
 
+    def copy(self, dest):
+        super().copy(dest)
+        dest.file = self.file
+
     def to_client_representation(self):
         return {
             **super().to_client_representation(),
@@ -138,6 +159,10 @@ class DocumentAsset(Asset):
     )
 
     TYPE_NAME = "document"
+
+    def copy(self, dest):
+        super().copy(dest)
+        dest.file = self.file
 
     def to_client_representation(self):
         return {

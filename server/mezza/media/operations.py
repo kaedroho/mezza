@@ -50,3 +50,11 @@ def create_file(*, title, file, uploaded_by, space, project=None):
     return asset_model.objects.create(
         title=title, file=file_record, space=space, project=project
     )
+
+
+def clone_asset(asset, *, destination_project=None):
+    clone = asset.__class__()
+    asset.copy(clone)
+    clone.project = destination_project
+    clone.save()
+    return clone

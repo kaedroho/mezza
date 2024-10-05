@@ -6,6 +6,7 @@ export interface Project {
   detail_url: string;
   edit_url: string;
   asset_upload_url: string;
+  asset_choose_url: string;
 }
 
 export interface Idea {

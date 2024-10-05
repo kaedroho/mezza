@@ -14,6 +14,7 @@ import ConfirmDeleteView from "./views/ConfirmDelete";
 import IdeasIndex from "./views/IdeasIndex";
 import IdeasStartProductionView from "./views/IdeasStartProduction";
 import LoginView from "./views/Login";
+import MediaChooserView from "./views/MediaChooser";
 import MediaDetail from "./views/MediaDetail";
 import MediaIndex from "./views/MediaIndex";
 import MediaUploadFormView from "./views/MediaUploadForm";
@@ -32,6 +33,7 @@ config.addView("IdeasStartProduction", IdeasStartProductionView);
 config.addView("MediaDetail", MediaDetail);
 config.addView("MediaIndex", MediaIndex);
 config.addView("MediaUploadForm", MediaUploadFormView);
+config.addView("MediaChooser", MediaChooserView);
 config.addView("ConfirmDelete", ConfirmDeleteView);
 config.addView("ProjectsForm", ProjectsForm);
 

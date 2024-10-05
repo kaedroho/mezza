@@ -33,6 +33,11 @@ urlpatterns_space = [
         media_views.asset_upload,
         name="asset_upload",
     ),
+    path(
+        "<slug:space_slug>/project/<int:project_id>/assets/choose/",
+        media_views.asset_choose_for_project,
+        name="asset_choose_for_project",
+    ),
     path("<slug:space_slug>/ideas/", ideas_views.ideas_index, name="ideas_index"),
     path(
         "<slug:space_slug>/ideas/create/", ideas_views.ideas_create, name="ideas_create"

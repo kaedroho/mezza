@@ -57,11 +57,13 @@ const VideoThumbnail = styled.video`
 interface AssetListProps {
   assets: Asset[];
   openAssetDetailInNewTab?: boolean;
+  onClickAsset?: (asset: Asset) => void;
 }
 
 export default function AssetList({
   assets,
   openAssetDetailInNewTab,
+  onClickAsset,
 }: AssetListProps) {
   const { openOverlay, refreshProps } = React.useContext(NavigationContext);
 
@@ -84,7 +86,11 @@ export default function AssetList({
 
         return (
           <Card key={asset.id}>
-            {openAssetDetailInNewTab ? (
+            {onClickAsset ? (
+              <Link component="button" onClick={() => onClickAsset(asset)}>
+                {contents}
+              </Link>
+            ) : openAssetDetailInNewTab ? (
               <Link component={DjangoBridgeLink} href={asset.detail_url}>
                 {contents}
               </Link>

@@ -33,6 +33,9 @@ class Project(models.Model):
             "asset_upload_url": reverse(
                 "asset_upload", args=[self.space.slug, self.id]
             ),
+            "asset_choose_url": reverse(
+                "asset_choose_for_project", args=[self.space.slug, self.id]
+            ),
         }
 
     def __str__(self):
