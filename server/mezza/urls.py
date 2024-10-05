@@ -24,6 +24,11 @@ urlpatterns_space = [
         name="project_detail",
     ),
     path(
+        "<slug:space_slug>/project/<int:project_id>/edit/",
+        projects_views.project_edit,
+        name="project_edit",
+    ),
+    path(
         "<slug:space_slug>/project/<int:project_id>/assets/upload/",
         media_views.asset_upload,
         name="asset_upload",

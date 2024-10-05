@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import reverse
-from django_bridge.response import Response
+from django_bridge.response import CloseOverlayResponse, Response
 
 from .forms import ProjectForm
 from .operations import create_project
@@ -10,21 +10,11 @@ from .operations import create_project
 def project_detail(request, project_id):
     project = request.space.projects.get(id=project_id)
 
-    basic_info_form = ProjectForm(instance=project, data=request.POST or None)
-
-    if basic_info_form.is_valid():
-        basic_info_form.save()
-        messages.success(request, "Project updated.")
-        return redirect(
-            "project_detail", space_slug=request.space.slug, project_id=project_id
-        )
-
     return Response(
         request,
         "ProjectDetail",
         {
             "project": project.to_client_representation(),
-            "basicInfoForm": basic_info_form,
             "assets": [
                 asset.to_client_representation() for asset in project.assets.all()
             ],
@@ -69,6 +59,30 @@ def projects_create(request):
         {
             "title": "New project",
             "action_url": reverse("projects_create", args=[request.space.slug]),
+            "form": form,
+        },
+        overlay=True,
+        title="New Project | Mezza Studio",
+    )
+
+
+def project_edit(request, project_id):
+    project = request.space.projects.get(id=project_id)
+    form = ProjectForm(instance=project, data=request.POST or None)
+
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Project updated.")
+        return CloseOverlayResponse(request)
+
+    return Response(
+        request,
+        "ProjectsForm",
+        {
+            "title": "Edit project",
+            "action_url": reverse(
+                "project_edit", args=[request.space.slug, project_id]
+            ),
             "form": form,
         },
         overlay=True,

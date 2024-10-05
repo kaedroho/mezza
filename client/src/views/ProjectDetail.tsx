@@ -7,18 +7,15 @@ import AssetList from "../components/AssetList";
 import Layout from "../components/Layout";
 import ModalWindow from "../components/ModalWindow";
 import { CSRFTokenContext } from "../contexts";
-import FormDef from "../deserializers/Form";
 import { Asset, Project } from "../types";
 
 interface ProjectDetailViewProps {
   project: Project;
-  basicInfoForm: FormDef;
   assets: Asset[];
 }
 
 export default function ProjectDetailView({
   project,
-  basicInfoForm,
   assets,
 }: ProjectDetailViewProps) {
   const { openOverlay, refreshProps } = React.useContext(NavigationContext);
@@ -32,7 +29,30 @@ export default function ProjectDetailView({
         <Box px={2}>
           <section>
             <Typography level="h4">Basic Information</Typography>
-            {basicInfoForm.render()}
+            <Button
+              variant="plain"
+              color="primary"
+              size="sm"
+              startDecorator={<Add />}
+              onClick={() =>
+                openOverlay(
+                  project.edit_url,
+                  (content) => (
+                    <ModalWindow slideout="right">{content}</ModalWindow>
+                  ),
+                  {
+                    onClose: () => {
+                      // Refresh props so new post pops up in listing
+                      refreshProps();
+                    },
+                  },
+                )
+              }
+            >
+              Edit
+            </Button>
+            {project.description}
+            {project.release_date}
           </section>
 
           <section>

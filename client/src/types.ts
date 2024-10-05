@@ -2,7 +2,9 @@ export interface Project {
   id: number;
   title: string;
   description: string;
+  release_date: string | null;
   detail_url: string;
+  edit_url: string;
   asset_upload_url: string;
 }
 

@@ -29,6 +29,7 @@ class Project(models.Model):
             "title": self.title,
             "description": self.description,
             "detail_url": reverse("project_detail", args=[self.space.slug, self.id]),
+            "edit_url": reverse("project_edit", args=[self.space.slug, self.id]),
             "asset_upload_url": reverse(
                 "asset_upload", args=[self.space.slug, self.id]
             ),
