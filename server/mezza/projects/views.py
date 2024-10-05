@@ -19,6 +19,7 @@ def project_detail(request, project_id):
                 asset.to_client_representation() for asset in project.assets.all()
             ],
         },
+        title=f"{project.title} | Mezza Studio",
     )
 
 
@@ -32,6 +33,7 @@ def projects_index(request):
                 for project in request.space.projects.all()
             ],
         },
+        title="Projects | Mezza Studio",
     )
 
 

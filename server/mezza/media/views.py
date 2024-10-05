@@ -18,6 +18,7 @@ def asset_index(request):
             "upload_url": reverse("asset_upload", args=[request.space.slug]),
             "assets": [asset.to_client_representation() for asset in assets],
         },
+        title="Asset Library | Mezza Studio",
     )
 
 
@@ -30,6 +31,7 @@ def asset_detail(request, asset_id):
         {
             "asset": asset.to_client_representation(),
         },
+        title=f"{asset.title} | Mezza Studio",
     )
 
 
@@ -72,4 +74,5 @@ def asset_upload(request, project_id=None):
             "form": form,
         },
         overlay=True,
+        title="Upload Asset | Mezza Studio",
     )
