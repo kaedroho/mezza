@@ -42,7 +42,7 @@ def projects_create(request):
 
     if form.is_valid():
         project = form.save(commit=False)
-        create_project(
+        project = create_project(
             title=project.title,
             description=project.description,
             space=request.space,
@@ -53,7 +53,9 @@ def projects_create(request):
             f"Successfully created project '{project.title}'.",
         )
 
-        return redirect("projects_index", space_slug=request.space.slug)
+        return redirect(
+            "project_detail", space_slug=request.space.slug, project_id=project.id
+        )
 
     return Response(
         request,
