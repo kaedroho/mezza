@@ -17,26 +17,27 @@ export default function MediaDetailView({ asset }: MediaDetailViewProps) {
       <Box
         sx={{
           display: "flex",
-          flexFlow: "row norwap",
+          flexFlow: "row nowrap",
           width: "100%",
-          backgroundColor: "black",
           justifyContent: "center",
           my: 2,
+          img: {
+            maxWidth: "100%",
+            height: "auto",
+            maxHeight: "500px",
+          },
+          video: {
+            maxWidth: "100%",
+            height: "auto",
+            maxHeight: "500px",
+          },
         }}
       >
         {asset.type === "image" && (
-          <img
-            src={asset.file.download_url}
-            alt={asset.title}
-            style={{ maxWidth: "100%", height: "auto", maxHeight: "500px" }}
-          />
+          <img src={asset.file.download_url} alt={asset.title} />
         )}
         {asset.type === "video" && (
-          <video
-            src={asset.file.download_url}
-            controls
-            style={{ maxWidth: "100%", height: "auto", maxHeight: "500px" }}
-          />
+          <video src={asset.file.download_url} controls />
         )}
       </Box>
       <Box sx={{ mt: 2, px: 2 }}>
