@@ -13,14 +13,12 @@ import { Asset, Project } from "../types";
 interface ProjectDetailViewProps {
   project: Project;
   basicInfoForm: FormDef;
-  scriptForm: FormDef;
   assets: Asset[];
 }
 
 export default function ProjectDetailView({
   project,
   basicInfoForm,
-  scriptForm,
   assets,
 }: ProjectDetailViewProps) {
   const { openOverlay, refreshProps } = React.useContext(NavigationContext);
@@ -34,20 +32,12 @@ export default function ProjectDetailView({
         <Tabs defaultValue={0}>
           <TabList>
             <Tab>Basic Information</Tab>
-            <Tab>Script</Tab>
             <Tab>Assets</Tab>
           </TabList>
           <TabPanel value={0} keepMounted>
             {basicInfoForm.render()}
           </TabPanel>
-          <TabPanel
-            value={1}
-            keepMounted
-            sx={{ px: 7, label: { display: "none" } }}
-          >
-            {scriptForm.render()}
-          </TabPanel>
-          <TabPanel value={2}>
+          <TabPanel value={1}>
             <Button
               variant="plain"
               color="primary"

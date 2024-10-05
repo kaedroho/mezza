@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.urls import reverse
 from polymorphic.models import PolymorphicModel
@@ -36,6 +38,56 @@ class Asset(PolymorphicModel):
 
     def __str__(self):
         return self.title
+
+
+def get_default_script():
+    def heading(content):
+        return {
+            "id": uuid.uuid4().hex,
+            "type": "heading",
+            "props": {
+                "level": 3,
+                "textColor": "default",
+                "textAlignment": "left",
+                "backgroundColor": "default",
+            },
+            "content": [{"text": content, "type": "text", "styles": {}}],
+            "children": [],
+        }
+
+    def paragraph(content):
+        return {
+            "id": uuid.uuid4().hex,
+            "type": "paragraph",
+            "props": {
+                "textColor": "default",
+                "textAlignment": "left",
+                "backgroundColor": "default",
+            },
+            "content": [{"text": content, "type": "text", "styles": {}}],
+        }
+
+    return [
+        heading("Introduction"),
+        paragraph(""),
+        paragraph("... Introduction to the video"),
+        paragraph(""),
+        heading("Script"),
+        paragraph(""),
+        paragraph("... Script for the video"),
+    ]
+
+
+class ScriptAsset(Asset):
+    content = models.JSONField(default=get_default_script)
+
+    TYPE_NAME = "script"
+
+    def to_client_representation(self):
+        return {
+            **super().to_client_representation(),
+            "type": self.TYPE_NAME,
+        }
 
 
 class ImageAsset(Asset):

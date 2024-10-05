@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="project",
             name="script",
-            field=models.JSONField(default=mezza.models.projects.get_default_script),
+            field=models.JSONField(default=""),
         ),
     ]
