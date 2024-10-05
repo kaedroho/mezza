@@ -151,9 +151,7 @@ export default function ProjectDetailView({
                 onClick={() =>
                   openOverlay(
                     project.asset_choose_url,
-                    (content) => (
-                      <ModalWindow slideout="right">{content}</ModalWindow>
-                    ),
+                    (content) => <ModalWindow>{content}</ModalWindow>,
                     {
                       onClose: () => {
                         // Refresh props so new post pops up in listing
