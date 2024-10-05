@@ -3,7 +3,6 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django_bridge.response import CloseOverlayResponse, Response
 
-from ..models import ProjectStage
 from .forms import ProjectForm, ProjectScriptForm
 from .operations import create_project
 
@@ -39,15 +38,8 @@ def project_detail(request, project_id):
 def projects_index(request):
     return Response(
         request,
-        "ProjectsBoard",
+        "ProjectsListing",
         {
-            "stages": [
-                {
-                    "slug": slug,
-                    "title": title,
-                }
-                for slug, title in ProjectStage.choices
-            ],
             "projects": [
                 project.to_client_representation()
                 for project in request.space.projects.all()
@@ -56,22 +48,7 @@ def projects_index(request):
     )
 
 
-def projects_stage_index(request, stage_slug):
-    stage_title = dict(ProjectStage.choices)[stage_slug]
-    return Response(
-        request,
-        "ProjectsListing",
-        {
-            "stage": {"slug": stage_slug, "title": stage_title},
-            "projects": [
-                project.to_client_representation()
-                for project in request.space.projects.filter(stage=stage_slug)
-            ],
-        },
-    )
-
-
-def projects_create(request, stage_slug):
+def projects_create(request):
     form = ProjectForm(request.POST or None)
 
     if form.is_valid():
@@ -80,7 +57,6 @@ def projects_create(request, stage_slug):
             title=project.title,
             description=project.description,
             space=request.space,
-            stage=stage_slug,
         )
 
         messages.success(
@@ -95,9 +71,7 @@ def projects_create(request, stage_slug):
         "ProjectsForm",
         {
             "title": "New project",
-            "action_url": reverse(
-                "projects_create", args=[request.space.slug, stage_slug]
-            ),
+            "action_url": reverse("projects_create", args=[request.space.slug]),
             "form": form,
         },
         overlay=True,

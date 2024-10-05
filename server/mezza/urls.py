@@ -14,12 +14,7 @@ from .utils.urlpatterns import decorate_urlpatterns
 urlpatterns_space = [
     path("<slug:space_slug>/", projects_views.projects_index, name="projects_index"),
     path(
-        "<slug:space_slug>/stage/<slug:stage_slug>/",
-        projects_views.projects_stage_index,
-        name="projects_stage_index",
-    ),
-    path(
-        "<slug:space_slug>/create/<slug:stage_slug>/",
+        "<slug:space_slug>/create/",
         projects_views.projects_create,
         name="projects_create",
     ),

@@ -6,16 +6,8 @@ from django.urls import reverse
 from .spaces import Space
 
 __all__ = [
-    "ProjectStage",
     "Project",
 ]
-
-
-class ProjectStage(models.TextChoices):
-    SCRIPTING = "scripting", "Scripting"
-    FILMING = "filming", "Filming"
-    EDITING = "editing", "Editing"
-    COMPLETED = "completed", "Completed"
 
 
 def get_default_script():
@@ -58,9 +50,6 @@ def get_default_script():
 
 class Project(models.Model):
     space = models.ForeignKey(Space, on_delete=models.CASCADE, related_name="projects")
-    stage = models.CharField(
-        max_length=20, choices=ProjectStage.choices, default=ProjectStage.SCRIPTING
-    )
     order = models.IntegerField()
     title = models.TextField(max_length=200)
     release_date = models.DateField(null=True, blank=True)
@@ -78,10 +67,6 @@ class Project(models.Model):
             "id": self.id,
             "title": self.title,
             "description": self.description,
-            "stage": {
-                "slug": self.stage,
-                "title": dict(ProjectStage.choices).get(self.stage, self.stage),
-            },
             "detail_url": reverse("project_detail", args=[self.space.slug, self.id]),
             "asset_upload_url": reverse(
                 "asset_upload", args=[self.space.slug, self.id]

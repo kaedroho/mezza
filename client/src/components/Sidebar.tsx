@@ -10,14 +10,13 @@ import Typography from "@mui/joy/Typography";
 import * as React from "react";
 
 import { NavigationContext } from "@django-bridge/react";
-import { StagesContext, URLsContext } from "../contexts";
+import { URLsContext } from "../contexts";
 import { closeSidebar } from "../utils";
 import ColorSchemeToggle from "./ColorSchemeToggle";
 
 export default function Sidebar() {
   const { navigate: doNavigate } = React.useContext(NavigationContext);
   const urls = React.useContext(URLsContext);
-  const stages = React.useContext(StagesContext);
 
   const navigate = React.useCallback(
     (path: string) => {
@@ -123,7 +122,7 @@ export default function Sidebar() {
             </ListItemButton>
           </ListItem>
 
-          {stages.map((stage) => (
+          {/* {stages.map((stage) => (
             <ListItem key={stage.slug}>
               <ListItemButton onClick={() => navigate(stage.projects_url)}>
                 <ListItemContent>
@@ -133,7 +132,7 @@ export default function Sidebar() {
                 </ListItemContent>
               </ListItemButton>
             </ListItem>
-          ))}
+          ))} */}
 
           <ListItem>
             <ListItemButton onClick={() => navigate(urls.asset_index)}>

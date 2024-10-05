@@ -17,11 +17,3 @@ export const URLsContext = React.createContext<URLs>({
   ideas_create: "",
   asset_index: "",
 });
-
-export interface Stage {
-  slug: number;
-  title: string;
-  projects_url: string;
-}
-
-export const StagesContext = React.createContext<Stage[]>([]);

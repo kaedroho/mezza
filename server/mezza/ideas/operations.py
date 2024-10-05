@@ -1,4 +1,3 @@
-from mezza.models import ProjectStage
 from mezza.projects.operations import create_project
 
 
@@ -7,5 +6,4 @@ def create_project_from_idea(idea):
         title=idea.title,
         description=idea.description,
         space=idea.space,
-        stage=ProjectStage.SCRIPTING,
     )

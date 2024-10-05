@@ -10,7 +10,7 @@ import styled from "styled-components";
 import Layout from "../components/Layout";
 import ModalWindow from "../components/ModalWindow";
 import { URLsContext } from "../contexts";
-import { Project, Stage } from "../types";
+import { Project } from "../types";
 
 const Projects = styled.ul`
   display: grid;
@@ -37,12 +37,10 @@ const ProjectCard = styled.li`
 `;
 
 interface ProjectsStageIndexViewProps {
-  stage: Stage;
   projects: Project[];
 }
 
 export default function ProjectsStageIndexView({
-  stage,
   projects,
 }: ProjectsStageIndexViewProps) {
   const { openOverlay, refreshProps } = React.useContext(NavigationContext);
@@ -50,7 +48,7 @@ export default function ProjectsStageIndexView({
 
   return (
     <Layout
-      title={stage.title}
+      title="Projects"
       renderHeaderButtons={() => (
         <Button
           variant="plain"
@@ -59,7 +57,7 @@ export default function ProjectsStageIndexView({
           startDecorator={<Add />}
           onClick={() =>
             openOverlay(
-              urls.projects_create.replace("stage", stage.slug),
+              urls.projects_create,
               (content) => <ModalWindow>{content}</ModalWindow>,
               {
                 onClose: () => {

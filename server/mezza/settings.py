@@ -206,6 +206,5 @@ DJANGO_BRIDGE = {
     "CONTEXT_PROVIDERS": {
         "csrf_token": "django.middleware.csrf.get_token",
         "urls": "mezza.context_providers.urls",
-        "stages": "mezza.context_providers.stages",
     },
 }
