@@ -1,6 +1,6 @@
 import { Form, NavigationContext } from "@django-bridge/react";
 import { Add } from "@mui/icons-material";
-import { Box, Tab, TabList, TabPanel, Tabs } from "@mui/joy";
+import { Box, Typography } from "@mui/joy";
 import Button from "@mui/joy/Button";
 import React from "react";
 import AssetList from "../components/AssetList";
@@ -29,15 +29,14 @@ export default function ProjectDetailView({
       <Form action={project.detail_url} method="post">
         <input type="hidden" name="csrfmiddlewaretoken" value={csrfToken} />
 
-        <Tabs defaultValue={0}>
-          <TabList>
-            <Tab>Basic Information</Tab>
-            <Tab>Assets</Tab>
-          </TabList>
-          <TabPanel value={0} keepMounted>
+        <Box px={2}>
+          <section>
+            <Typography level="h4">Basic Information</Typography>
             {basicInfoForm.render()}
-          </TabPanel>
-          <TabPanel value={1}>
+          </section>
+
+          <section>
+            <Typography level="h4">Assets</Typography>
             <Button
               variant="plain"
               color="primary"
@@ -61,9 +60,8 @@ export default function ProjectDetailView({
               Upload
             </Button>
             <AssetList assets={assets} />
-          </TabPanel>
-        </Tabs>
-        <Box px={2}>
+          </section>
+
           <Button color="primary" type="submit">
             Save
           </Button>
