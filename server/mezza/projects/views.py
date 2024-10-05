@@ -64,7 +64,7 @@ def projects_create(request):
             f"Successfully created project '{project.title}'.",
         )
 
-        return CloseOverlayResponse(request)
+        return redirect("projects_index", space_slug=request.space.slug)
 
     return Response(
         request,
