@@ -8,7 +8,6 @@ import Link from "@mui/joy/Link";
 import React from "react";
 import styled from "styled-components";
 import Layout from "../components/Layout";
-import ModalWindow from "../components/ModalWindow";
 import { URLsContext } from "../contexts";
 import { Project } from "../types";
 
@@ -36,14 +35,14 @@ const ProjectCard = styled.li`
   }
 `;
 
-interface ProjectsStageIndexViewProps {
+interface ProjectsListingViewProps {
   projects: Project[];
 }
 
-export default function ProjectsStageIndexView({
+export default function ProjectsListingView({
   projects,
-}: ProjectsStageIndexViewProps) {
-  const { openOverlay, refreshProps } = React.useContext(NavigationContext);
+}: ProjectsListingViewProps) {
+  const { navigate } = React.useContext(NavigationContext);
   const urls = React.useContext(URLsContext);
 
   return (
@@ -55,20 +54,9 @@ export default function ProjectsStageIndexView({
           color="primary"
           size="sm"
           startDecorator={<Add />}
-          onClick={() =>
-            openOverlay(
-              urls.projects_create,
-              (content) => <ModalWindow>{content}</ModalWindow>,
-              {
-                onClose: () => {
-                  // Refresh props so new post pops up in listing
-                  refreshProps();
-                },
-              },
-            )
-          }
+          onClick={() => navigate(urls.projects_create)}
         >
-          New
+          New Project
         </Button>
       )}
     >
