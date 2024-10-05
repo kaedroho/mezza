@@ -191,7 +191,7 @@ export default function Layout({
               display: "flex",
               flexDirection: "column",
               minWidth: 0,
-              height: "100vh",
+              overflow: "hidden auto",
               px: noIndent ? 0 : 2,
               backgroundColor: "var(--joy-palette-background-surface)",
             }}
