@@ -1,4 +1,5 @@
 import { OverlayContext } from "@django-bridge/react";
+import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
 import React from "react";
 import Layout from "../components/Layout";
@@ -13,7 +14,44 @@ export default function MediaDetailView({ asset }: MediaDetailViewProps) {
 
   return (
     <Layout title={asset.title} noIndent>
-      {JSON.stringify(asset, undefined, 2)}
+      <Box
+        sx={{
+          display: "flex",
+          flexFlow: "row norwap",
+          width: "100%",
+          backgroundColor: "black",
+          justifyContent: "center",
+          my: 2,
+        }}
+      >
+        {asset.type === "image" && (
+          <img
+            src={asset.file.download_url}
+            alt={asset.title}
+            style={{ maxWidth: "100%", height: "auto", maxHeight: "500px" }}
+          />
+        )}
+        {asset.type === "video" && (
+          <video
+            src={asset.file.download_url}
+            controls
+            style={{ maxWidth: "100%", height: "auto", maxHeight: "500px" }}
+          />
+        )}
+      </Box>
+      <Box sx={{ mt: 2, px: 2 }}>
+        <p>
+          <b>File type:</b> {asset.file.file_type}
+        </p>
+        <p>
+          <b>File size:</b> {asset.file.size}
+        </p>
+        {asset.type === "image" && (
+          <p>
+            <b>Dimensions:</b> {asset.file.width} x {asset.file.height}
+          </p>
+        )}
+      </Box>
       {overlay && (
         <Button
           sx={{ mt: 2 }}
