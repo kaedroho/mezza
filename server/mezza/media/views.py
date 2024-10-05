@@ -33,6 +33,7 @@ def asset_detail(request, asset_id):
             "asset": asset.to_client_representation(),
         },
         title=f"{asset.title} | Mezza Studio",
+        overlay=True,
     )
 
 

@@ -42,7 +42,7 @@ export default function MediaChooserView({
         onClick={() => requestClose()}
       >
         Cancel
-      </Button>{" "}
+      </Button>
     </Layout>
   );
 }

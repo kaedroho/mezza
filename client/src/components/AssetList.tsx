@@ -96,8 +96,7 @@ export default function AssetList({
               </Link>
             ) : (
               <Link
-                component={DjangoBridgeLink}
-                href={asset.detail_url}
+                component="button"
                 onClick={() =>
                   openOverlay(
                     asset.detail_url,
