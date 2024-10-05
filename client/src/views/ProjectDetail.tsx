@@ -21,39 +21,100 @@ export default function ProjectDetailView({
 
   return (
     <Layout title={project.title} noIndent>
-      <Box px={2}>
-        <section>
-          <Typography level="h4">Basic Information</Typography>
-          <Button
-            variant="plain"
-            color="primary"
-            size="sm"
-            startDecorator={<Add />}
-            onClick={() =>
-              openOverlay(
-                project.edit_url,
-                (content) => (
-                  <ModalWindow slideout="right">{content}</ModalWindow>
-                ),
-                {
-                  onClose: () => {
-                    // Refresh props so new post pops up in listing
-                    refreshProps();
-                  },
-                },
-              )
-            }
+      <Box px={2} pt={2}>
+        <Box
+          sx={{
+            display: "flex",
+            flexFlow: "row wrap",
+            flexGrow: 1,
+            gap: 2,
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 1,
+              width: 320,
+              height: 240,
+              borderRadius: 6,
+              alignItems: "center",
+              justifyContent: "center",
+              border: "2px dashed var(--joy-palette-primary-300)",
+            }}
           >
-            Edit
-          </Button>
-          {project.description}
-          {project.release_date}
-        </section>
+            <Typography
+              sx={{
+                color: "var(--joy-palette-primary-500)",
+                fontWeight: 600,
+              }}
+            >
+              No Thumbnail
+            </Typography>
+            {/* <Button
+              variant="soft"
+              color="primary"
+              size="sm"
+              onClick={() =>
+                openOverlay(
+                  project.edit_url,
+                  (content) => (
+                    <ModalWindow slideout="right">{content}</ModalWindow>
+                  ),
+                  {
+                    onClose: () => {
+                      // Refresh props so new post pops up in listing
+                      refreshProps();
+                    },
+                  },
+                )
+              }
+            >
+              Select thumbnail
+            </Button> */}
+          </Box>
+          <Box
+            sx={{
+              minWidth: 320,
+            }}
+          >
+            <Typography level="title-md">Release Date</Typography>
+            {project.release_date || "Not set"}
+            <Typography level="title-md" pt={1}>
+              Description
+            </Typography>
+            {project.description}
 
-        <section>
+            <Box pt={2}>
+              <Button
+                variant="soft"
+                color="primary"
+                size="sm"
+                onClick={() =>
+                  openOverlay(
+                    project.edit_url,
+                    (content) => (
+                      <ModalWindow slideout="right">{content}</ModalWindow>
+                    ),
+                    {
+                      onClose: () => {
+                        // Refresh props so new post pops up in listing
+                        refreshProps();
+                      },
+                    },
+                  )
+                }
+              >
+                Edit
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+
+        <Box pt={2}>
           <Typography level="h4">Assets</Typography>
           <Button
-            variant="plain"
+            variant="soft"
             color="primary"
             size="sm"
             startDecorator={<Add />}
@@ -75,7 +136,7 @@ export default function ProjectDetailView({
             Upload
           </Button>
           <AssetList assets={assets} />
-        </section>
+        </Box>
       </Box>
     </Layout>
   );
