@@ -63,7 +63,7 @@ class Project(models.Model):
     )
     order = models.IntegerField()
     title = models.TextField(max_length=200)
-    due_date = models.DateField(null=True, blank=True)
+    release_date = models.DateField(null=True, blank=True)
     thumbnail = models.ForeignKey(
         "mezza.ImageFile", on_delete=models.SET_NULL, related_name="+", null=True
     )

@@ -9,7 +9,7 @@ class ProjectForm(forms.ModelForm):
         model = Project
         fields = [
             "title",
-            "due_date",
+            "release_date",
             "description",
         ]
         widgets = {
