@@ -1,6 +1,7 @@
 import {
   DirtyFormContext,
   Link as DjangoBridgeLink,
+  Message,
   MessagesContext,
   OverlayContext,
 } from "@django-bridge/react";
@@ -17,7 +18,7 @@ import styled, { keyframes } from "styled-components";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 
 import Button from "@mui/joy/Button";
-import { SxProps } from "@mui/joy/styles/types";
+import Snackbar from "@mui/joy/Snackbar";
 import Sidebar from "./Sidebar";
 
 const slideDown = keyframes`
@@ -72,6 +73,13 @@ export default function Layout({
   const { overlay, requestClose } = React.useContext(OverlayContext);
   const { messages } = React.useContext(MessagesContext);
   const { unloadBlocked, confirmUnload } = React.useContext(DirtyFormContext);
+  const [message, setMessage] = React.useState<Message | null>(null);
+
+  React.useEffect(() => {
+    if (messages.length > 0) {
+      setMessage(messages[messages.length - 1]);
+    }
+  }, [messages]);
 
   if (overlay) {
     // The view is being rendered in an overlay, no need to render the menus or base CSS
@@ -155,53 +163,31 @@ export default function Layout({
               </Button>
             </UnsavedChangesWarningWrapper>
           )}
-          {!!messages.length && (
-            <Box component="ul" sx={{ listStyleType: "none", p: 0, m: 0 }}>
-              {messages.map((message) => {
-                const sx: SxProps = {
-                  px: 4,
-                  py: 2,
-                  color: "white",
-                  fontWeight: 500,
-                  backgroundColor: {
-                    success: "var(--joy-palette-success-500)",
-                    warning: "var(--joy-palette-warning-500)",
-                    error: "var(--joy-palette-danger-500)",
-                  }[message.level],
-                };
-                if ("html" in message) {
-                  return (
-                    <Box
-                      component="li"
-                      sx={sx}
-                      key={message.html}
-                      role="alert"
-                      aria-live={
-                        message.level === "error" ? "assertive" : "polite"
-                      }
-                      dangerouslySetInnerHTML={{
-                        __html: message.html,
-                      }}
-                    />
-                  );
-                }
 
-                return (
-                  <Box
-                    component="li"
-                    sx={sx}
-                    key={message.text}
-                    role="alert"
-                    aria-live={
-                      message.level === "error" ? "assertive" : "polite"
-                    }
-                  >
-                    {message.text}
-                  </Box>
-                );
-              })}
-            </Box>
+          {message && (
+            <Snackbar
+              key={"html" in message ? message.html : message.text}
+              anchorOrigin={{ vertical: "top", horizontal: "center" }}
+              variant="solid"
+              color={
+                message.level === "error"
+                  ? "danger"
+                  : message.level === "warning"
+                    ? "warning"
+                    : "success"
+              }
+              autoHideDuration={5000}
+              onClose={() => setMessage(null)}
+              open
+            >
+              {"html" in message ? (
+                <div dangerouslySetInnerHTML={{ __html: message.html }} />
+              ) : (
+                message.text
+              )}
+            </Snackbar>
           )}
+
           <Box
             component="main"
             className="MainContent"
