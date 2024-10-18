@@ -29,7 +29,12 @@ export default function MediaDetailView({ asset }: MediaDetailViewProps) {
         }}
       >
         {asset.type === "image" && (
-          <img src={asset.file.download_url} alt={asset.title} />
+          <img
+            src={asset.file.download_url}
+            width={asset.file.width}
+            height={asset.file.height}
+            alt={asset.title}
+          />
         )}
         {asset.type === "video" && (
           <video src={asset.file.download_url} controls />

@@ -21,6 +21,16 @@ class TextInputAdapter(Adapter):
 register(TextInputAdapter(), forms.TextInput)
 
 
+class TextAreaAdapter(Adapter):
+    js_constructor = "forms.TextArea"
+
+    def js_args(self, widget):
+        return [2]
+
+
+register(TextAreaAdapter(), forms.Textarea)
+
+
 class PasswordInputAdapter(Adapter):
     js_constructor = "forms.TextInput"
 
