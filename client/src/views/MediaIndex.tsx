@@ -20,7 +20,7 @@ export default function MediaIndex({ upload_url, assets }: MediaIndexProps) {
       title="Asset Library"
       renderHeaderButtons={() => (
         <Button
-          variant="plain"
+          variant="solid"
           color="primary"
           size="sm"
           startDecorator={<Add />}

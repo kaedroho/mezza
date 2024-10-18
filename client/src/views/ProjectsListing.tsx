@@ -50,13 +50,13 @@ export default function ProjectsListingView({
       title="Projects"
       renderHeaderButtons={() => (
         <Button
-          variant="plain"
+          variant="solid"
           color="primary"
           size="sm"
           startDecorator={<Add />}
           onClick={() => navigate(urls.projects_create)}
         >
-          New Project
+          Project
         </Button>
       )}
     >

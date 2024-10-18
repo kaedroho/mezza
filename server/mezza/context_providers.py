@@ -23,3 +23,18 @@ def urls(request):
             "asset_index", kwargs={"space_slug": request.space.slug}
         ),
     }
+
+
+def spaces(request):
+    current_space_slug = ""
+    current_space = getattr(request, "space", None)
+    if current_space:
+        current_space_slug = current_space.slug
+
+    return {
+        "current": current_space_slug,
+        "spaces": [
+            {"slug": space.slug, "name": space.name}
+            for space in request.user.spaces.all()
+        ],
+    }

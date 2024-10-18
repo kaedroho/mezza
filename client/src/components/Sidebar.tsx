@@ -10,12 +10,15 @@ import Typography from "@mui/joy/Typography";
 import * as React from "react";
 
 import { NavigationContext } from "@django-bridge/react";
-import { URLsContext } from "../contexts";
+import { SpacesContext, URLsContext } from "../contexts";
 import { closeSidebar } from "../utils";
 import ColorSchemeToggle from "./ColorSchemeToggle";
 
 export default function Sidebar() {
   const { navigate: doNavigate } = React.useContext(NavigationContext);
+  const { current, spaces } = React.useContext(SpacesContext);
+  const [navigatingTo, setNavigatingTo] = React.useState<string | null>(null);
+  const space = spaces.find((s) => s.slug === current);
   const urls = React.useContext(URLsContext);
 
   const navigate = React.useCallback(
@@ -30,17 +33,12 @@ export default function Sidebar() {
     <Sheet
       className="Sidebar"
       sx={{
-        // transform: {
-        //   xs: "translateX(calc(100% * (var(--SideNavigation-slideIn, 0) - 1)))",
-        //   md: "none",
-        // },
         pt: {
           md: 2,
         },
         transition: "transform 0.4s, width 0.4s",
         width: "var(--Sidebar-width)",
         top: "var(--Header-height)",
-        p: 2,
         flexShrink: 0,
         display: "flex",
         flexDirection: "column",
@@ -52,7 +50,7 @@ export default function Sidebar() {
       <GlobalStyles
         styles={() => ({
           ":root": {
-            "--Sidebar-width": "200px",
+            "--Sidebar-width": "240px",
           },
         })}
       />
@@ -90,18 +88,13 @@ export default function Sidebar() {
         <List
           size="sm"
           sx={{
-            gap: 1,
             "--List-nestedInsetStart": "30px",
             "--ListItem-radius": (theme) => theme.vars.radius.sm,
           }}
         >
-          <ListItem sx={{ px: 0, pb: 1 }}>
-            <Typography
-              level="title-lg"
-              fontWeight="xl"
-              sx={{ color: "#6a44f6" }}
-            >
-              Mezza Studio
+          <ListItem sx={{ px: 2, pb: 1 }}>
+            <Typography level="title-md" fontWeight="xl">
+              {space?.name || "Mezza Studio"}
             </Typography>
             <ColorSchemeToggle sx={{ ml: "auto" }} />
           </ListItem>
@@ -115,7 +108,16 @@ export default function Sidebar() {
           </ListItem> */}
 
           <ListItem>
-            <ListItemButton onClick={() => navigate(urls.projects_index)}>
+            <ListItemButton
+              sx={{ borderRadius: 0, py: 1 }}
+              onClick={() => {
+                navigate(urls.projects_index);
+                setNavigatingTo(urls.projects_index);
+              }}
+              selected={(navigatingTo || window.location.pathname).startsWith(
+                urls.projects_index,
+              )}
+            >
               <ListItemContent>
                 <Typography level="title-sm">Projects</Typography>
               </ListItemContent>
@@ -135,7 +137,16 @@ export default function Sidebar() {
           ))} */}
 
           <ListItem>
-            <ListItemButton onClick={() => navigate(urls.asset_index)}>
+            <ListItemButton
+              sx={{ borderRadius: 0, py: 1 }}
+              onClick={() => {
+                navigate(urls.asset_index);
+                setNavigatingTo(urls.asset_index);
+              }}
+              selected={(navigatingTo || window.location.pathname).startsWith(
+                urls.asset_index,
+              )}
+            >
               <ListItemContent>
                 <Typography level="title-sm">Asset Library</Typography>
               </ListItemContent>

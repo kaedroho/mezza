@@ -1,4 +1,5 @@
 import React from "react";
+import { Space } from "./types";
 
 export const CSRFTokenContext = React.createContext<string>("");
 
@@ -16,4 +17,19 @@ export const URLsContext = React.createContext<URLs>({
   ideas_index: "",
   ideas_create: "",
   asset_index: "",
+});
+
+export interface Spaces {
+  current: string;
+  spaces: Space[];
+}
+
+export const SpacesContext = React.createContext<Spaces>({
+  current: "unknown",
+  spaces: [
+    {
+      slug: "unknown",
+      name: "Mezza Studio",
+    },
+  ],
 });

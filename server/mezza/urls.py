@@ -12,38 +12,46 @@ from .spaces.decorators import space
 from .utils.urlpatterns import decorate_urlpatterns
 
 urlpatterns_space = [
-    path("<slug:space_slug>/", projects_views.projects_index, name="projects_index"),
     path(
-        "<slug:space_slug>/create/",
+        "<slug:space_slug>/projects/",
+        projects_views.projects_index,
+        name="projects_index",
+    ),
+    path(
+        "<slug:space_slug>/projects/create/",
         projects_views.projects_create,
         name="projects_create",
     ),
     path(
-        "<slug:space_slug>/project/<int:project_id>/",
+        "<slug:space_slug>/projects/<int:project_id>/",
         projects_views.project_detail,
         name="project_detail",
     ),
     path(
-        "<slug:space_slug>/project/<int:project_id>/edit/",
+        "<slug:space_slug>/projects/<int:project_id>/edit/",
         projects_views.project_edit,
         name="project_edit",
     ),
     path(
-        "<slug:space_slug>/project/<int:project_id>/assets/upload/",
+        "<slug:space_slug>/projects/<int:project_id>/assets/upload/",
         media_views.asset_upload,
         name="asset_upload",
     ),
     path(
-        "<slug:space_slug>/project/<int:project_id>/assets/choose/",
+        "<slug:space_slug>/projects/<int:project_id>/assets/choose/",
         media_views.asset_choose_for_project,
         name="asset_choose_for_project",
     ),
-    path("<slug:space_slug>/ideas/", ideas_views.ideas_index, name="ideas_index"),
     path(
-        "<slug:space_slug>/ideas/create/", ideas_views.ideas_create, name="ideas_create"
+        "<slug:space_slug>/projects/ideas/", ideas_views.ideas_index, name="ideas_index"
     ),
     path(
-        "<slug:space_slug>/ideas/<int:idea_id>/start-production/",
+        "<slug:space_slug>/projects/ideas/create/",
+        ideas_views.ideas_create,
+        name="ideas_create",
+    ),
+    path(
+        "<slug:space_slug>/projects/ideas/<int:idea_id>/start-production/",
         ideas_views.ideas_start_production,
         name="ideas_start_production",
     ),
@@ -64,7 +72,7 @@ urlpatterns_space = [
 urlpatterns_auth = [
     path("", auth_views.login_redirect, name="login_redirect"),
     path("admin/", admin.site.urls),
-    path("workspace/", include(decorate_urlpatterns(urlpatterns_space, space))),
+    path("", include(decorate_urlpatterns(urlpatterns_space, space))),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Put any URLs that do not require authentication in this list.

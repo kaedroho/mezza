@@ -2,7 +2,7 @@ import * as DjangoBridge from "@django-bridge/react";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import { CSRFTokenContext, URLsContext } from "./contexts";
+import { CSRFTokenContext, SpacesContext, URLsContext } from "./contexts";
 import FieldDef from "./deserializers/Field";
 import FormDef from "./deserializers/Form";
 import ServerRenderedFieldDef from "./deserializers/ServerRenderedField";
@@ -40,6 +40,7 @@ config.addView("ProjectsForm", ProjectsForm);
 // Add your context providers here
 config.addContextProvider("csrf_token", CSRFTokenContext);
 config.addContextProvider("urls", URLsContext);
+config.addContextProvider("spaces", SpacesContext);
 
 // Add your deserializers here
 config.addAdapter("forms.Form", FormDef);

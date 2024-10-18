@@ -1,3 +1,8 @@
+export interface Space {
+  slug: string;
+  name: string;
+}
+
 export interface Project {
   id: number;
   title: string;

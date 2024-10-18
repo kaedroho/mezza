@@ -246,7 +246,9 @@ export default function Layout({
                 <Typography level="h3" component="h1">
                   {title}
                 </Typography>
-                {renderHeaderButtons && renderHeaderButtons()}
+                <Box sx={{ ml: "auto" }}>
+                  {renderHeaderButtons && renderHeaderButtons()}
+                </Box>
               </Box>
             </Box>
             {children}
