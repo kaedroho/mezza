@@ -163,7 +163,6 @@ export default function ProjectDetailView({
               >
                 Choose from library
               </MenuItem>
-              <MenuItem>Create a Script</MenuItem>
             </Menu>
           </Dropdown>
 
