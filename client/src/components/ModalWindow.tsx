@@ -1,16 +1,15 @@
-import React, { useRef, ReactElement } from "react";
-import styled from "styled-components";
 import { OverlayContext } from "@django-bridge/react";
 import Drawer from "@mui/joy/Drawer";
 import Modal from "@mui/joy/Modal";
 import ModalDialog from "@mui/joy/ModalDialog";
+import React, { ReactElement, useRef } from "react";
+import styled from "styled-components";
 
 const ModalWrapper = styled.div`
   min-height: 100%;
 `;
 
 const ModalBody = styled.div`
-  height: 100vh;
   display: flex;
   flex-direction: column;
   overflow: auto;

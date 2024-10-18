@@ -69,7 +69,7 @@ export default function Layout({
   noIndent = false,
   children,
 }: React.PropsWithChildren<LayoutProps>) {
-  const { overlay } = React.useContext(OverlayContext);
+  const { overlay, requestClose } = React.useContext(OverlayContext);
   const { messages } = React.useContext(MessagesContext);
   const { unloadBlocked, confirmUnload } = React.useContext(DirtyFormContext);
 
@@ -93,10 +93,29 @@ export default function Layout({
             pb: { xs: 2, sm: 2, md: 3 },
           }}
         >
-          <Typography level="h3" component="h2">
-            {title}
-          </Typography>
-          {renderHeaderButtons && renderHeaderButtons()}
+          <Box
+            sx={{
+              display: "flex",
+              flexFlow: "row wrap",
+              alignItems: "center",
+            }}
+          >
+            <Typography level="h3" component="h2">
+              {title}
+            </Typography>
+            <Box sx={{ ml: "auto" }}>
+              {renderHeaderButtons && renderHeaderButtons()}
+              {overlay && (
+                <Button
+                  type="button"
+                  variant="outlined"
+                  onClick={() => requestClose()}
+                >
+                  Close
+                </Button>
+              )}
+            </Box>
+          </Box>
           {children}
         </Box>
       </>

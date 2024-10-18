@@ -1,5 +1,4 @@
 import { OverlayContext } from "@django-bridge/react";
-import Button from "@mui/joy/Button";
 import React from "react";
 import AssetList from "../components/AssetList";
 import Layout from "../components/Layout";
@@ -35,14 +34,6 @@ export default function MediaChooserView({
           }).then(() => requestClose());
         }}
       />
-      <Button
-        sx={{ mt: 2 }}
-        type="button"
-        variant="outlined"
-        onClick={() => requestClose()}
-      >
-        Cancel
-      </Button>
     </Layout>
   );
 }
