@@ -1,4 +1,5 @@
 import Box from "@mui/joy/Box";
+import FileSize from "../components/FileSize";
 import Layout from "../components/Layout";
 import { Asset } from "../types";
 
@@ -29,12 +30,7 @@ export default function MediaDetailView({ asset }: MediaDetailViewProps) {
         }}
       >
         {asset.type === "image" && (
-          <img
-            src={asset.file.download_url}
-            width={asset.file.width}
-            height={asset.file.height}
-            alt={asset.title}
-          />
+          <img src={asset.file.download_url} alt={asset.title} />
         )}
         {asset.type === "video" && (
           <video src={asset.file.download_url} controls />
@@ -45,7 +41,7 @@ export default function MediaDetailView({ asset }: MediaDetailViewProps) {
           <b>File type:</b> {asset.file.file_type}
         </p>
         <p>
-          <b>File size:</b> {asset.file.size}
+          <b>File size:</b> <FileSize bytes={asset.file.size} />
         </p>
         {asset.type === "image" && (
           <p>

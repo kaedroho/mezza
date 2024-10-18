@@ -1,9 +1,10 @@
-import React, { ReactElement, useState, Ref, useEffect, useRef } from "react";
-import styled from "styled-components";
 import { FormWidgetChangeNotificationContext } from "@django-bridge/react";
-import Button from "@mui/joy/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import UploadFileRoundedIcon from "@mui/icons-material/UploadFileRounded";
+import Button from "@mui/joy/Button";
+import React, { ReactElement, Ref, useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+import FileSize from "../FileSize";
 
 // @see https://github.com/facebook/react/issues/24722
 function useForwardRef<T>(forwardedRef: Ref<T>) {
@@ -148,7 +149,9 @@ const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>(
                 {/* <Icon name="fa/check-solid" colour="success" /> */}
                 <div>
                   <div>{file.name}</div>
-                  <small>{file.size}</small>
+                  <small>
+                    <FileSize bytes={file.size} />
+                  </small>
                 </div>
                 <Button
                   type="button"
