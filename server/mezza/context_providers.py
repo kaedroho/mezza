@@ -36,5 +36,7 @@ def spaces(request):
         "spaces": [
             {"slug": space.slug, "name": space.name}
             for space in request.user.spaces.all()
-        ],
+        ]
+        if request.user.is_authenticated
+        else [],
     }
