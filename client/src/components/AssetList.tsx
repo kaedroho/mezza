@@ -17,8 +17,8 @@ const Wrapper = styled.ul`
 `;
 
 const Card = styled.li`
-  background-color: var(--joy-palette-background-level1);
-  border-radius: 8px;
+  display: flex;
+  justify-content: center;
 
   h2 {
     font-size: 1.25em;
@@ -41,15 +41,13 @@ const CardTitle = styled.p`
 `;
 
 const ImageThumbnail = styled.img`
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  border-radius: 8px;
   width: 100%;
   object-fit: cover;
 `;
 
 const VideoThumbnail = styled.video`
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  border-radius: 8px;
   width: 100%;
   object-fit: cover;
 `;
