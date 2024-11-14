@@ -2,8 +2,6 @@
 
 from django.db import migrations, models
 
-import mezza.models.projects
-
 
 class Migration(migrations.Migration):
     dependencies = [
