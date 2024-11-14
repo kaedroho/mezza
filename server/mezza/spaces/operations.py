@@ -5,7 +5,8 @@ def create_space(*, name, slug, users=None):
     space = Space.objects.create(name=name, slug=slug)
 
     if users:
-        for user in users:
-            SpaceUser.objects.create(user=user, space=space)
+        SpaceUser.objects.bulk_create([
+            SpaceUser(user=user, space=space) for user in users
+        ])
 
     return space
