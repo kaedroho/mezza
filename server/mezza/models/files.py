@@ -238,7 +238,7 @@ class AudioFile(BaseFile):
     ALLOWED_FILE_TYPES = [
         "audio/mpeg",
         "audio/ogg",
-        "audio/wav",
+        "audio/x-wav",
     ]
 
 
