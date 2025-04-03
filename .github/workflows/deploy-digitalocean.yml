@@ -32,4 +32,4 @@ jobs:
           file: ./server/Dockerfile
           target: prod
           push: true
-          tags: ghcr.io/kaedroho/mezza-studio:latest
+          tags: ghcr.io/kaedroho/mezz:latest
