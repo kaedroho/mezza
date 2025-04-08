@@ -39,8 +39,10 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 # Application definition
 
 INSTALLED_APPS = [
+    "mezza.files",
+    "mezza.workspaces",
+    "mezza.auth",
     "mezza",
-    "polymorphic",
     "django_bridge",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -163,7 +165,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Auth
 
-AUTH_USER_MODEL = "mezza.User"
+AUTH_USER_MODEL = "mezzaauth.User"
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "login_redirect"
 
@@ -206,6 +208,6 @@ DJANGO_BRIDGE = {
     "CONTEXT_PROVIDERS": {
         "csrf_token": "django.middleware.csrf.get_token",
         "urls": "mezza.context_providers.urls",
-        "spaces": "mezza.context_providers.spaces",
+        "workspaces": "mezza.context_providers.workspaces",
     },
 }

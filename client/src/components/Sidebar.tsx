@@ -10,15 +10,15 @@ import Typography from "@mui/joy/Typography";
 import * as React from "react";
 
 import { NavigationContext } from "@django-bridge/react";
-import { SpacesContext, URLsContext } from "../contexts";
+import { URLsContext, WorkspacesContext } from "../contexts";
 import { closeSidebar } from "../utils";
 import ColorSchemeToggle from "./ColorSchemeToggle";
 
 export default function Sidebar() {
   const { navigate: doNavigate } = React.useContext(NavigationContext);
-  const { current, spaces } = React.useContext(SpacesContext);
+  const { current, workspaces } = React.useContext(WorkspacesContext);
   const [navigatingTo, setNavigatingTo] = React.useState<string | null>(null);
-  const space = spaces.find((s) => s.slug === current);
+  const workspace = workspaces.find((s) => s.slug === current);
   const urls = React.useContext(URLsContext);
 
   const navigate = React.useCallback(
@@ -94,86 +94,27 @@ export default function Sidebar() {
         >
           <ListItem sx={{ px: 2, pb: 1 }}>
             <Typography level="title-md" fontWeight="xl">
-              {space?.name || "Mezza Studio"}
+              {workspace?.name || "Mezza"}
             </Typography>
             <ColorSchemeToggle sx={{ ml: "auto" }} />
           </ListItem>
 
-          {/* <ListItem>
-            <ListItemButton onClick={() => navigate(urls.ideas_index)}>
-              <ListItemContent>
-                <Typography level="title-sm">Ideas</Typography>
-              </ListItemContent>
-            </ListItemButton>
-          </ListItem> */}
-
           <ListItem>
             <ListItemButton
               sx={{ borderRadius: 0, py: 1 }}
               onClick={() => {
-                navigate(urls.projects_index);
-                setNavigatingTo(urls.projects_index);
+                navigate(urls.file_index);
+                setNavigatingTo(urls.file_index);
               }}
               selected={(navigatingTo || window.location.pathname).startsWith(
-                urls.projects_index,
+                urls.file_index,
               )}
             >
               <ListItemContent>
-                <Typography level="title-sm">Projects</Typography>
+                <Typography level="title-sm">Files</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>
-
-          {/* {stages.map((stage) => (
-            <ListItem key={stage.slug}>
-              <ListItemButton onClick={() => navigate(stage.projects_url)}>
-                <ListItemContent>
-                  <Typography level="title-sm" sx={{ marginLeft: 1 }}>
-                    {stage.title}
-                  </Typography>
-                </ListItemContent>
-              </ListItemButton>
-            </ListItem>
-          ))} */}
-
-          <ListItem>
-            <ListItemButton
-              sx={{ borderRadius: 0, py: 1 }}
-              onClick={() => {
-                navigate(urls.asset_index);
-                setNavigatingTo(urls.asset_index);
-              }}
-              selected={(navigatingTo || window.location.pathname).startsWith(
-                urls.asset_index,
-              )}
-            >
-              <ListItemContent>
-                <Typography level="title-sm">Asset Library</Typography>
-              </ListItemContent>
-            </ListItemButton>
-          </ListItem>
-
-          {/* <ListItem>
-            <Button
-              variant="plain"
-              color="primary"
-              size="sm"
-              startDecorator={<Add />}
-            >
-              New Board
-            </Button>
-          </ListItem>
-          <ListItem>
-            <Typography fontWeight={600}>Publishing</Typography>
-          </ListItem>
-          <ListItem>
-            <ListItemButton onClick={() => navigate("/")}>
-              <CalendarMonth />
-              <ListItemContent>
-                <Typography level="title-sm">Calendar</Typography>
-              </ListItemContent>
-            </ListItemButton>
-          </ListItem> */}
         </List>
       </Box>
       <Divider />

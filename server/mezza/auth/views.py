@@ -10,12 +10,12 @@ from django.utils.crypto import get_random_string
 from django.views.decorators.http import require_POST
 from django_bridge.views import DjangoBridgeView
 
-from ..models import User
-from ..spaces.operations import create_space
+from .models import User
+from ..workspaces.services import create_workspace, assign_user_to_workspace
 
 
 class LoginView(DjangoBridgeView, BaseLoginView):
-    title = "Sign in to Mezza Studio"
+    title = "Sign in to Mezza"
     view_name = "Login"
 
     def form_valid(self, form):
@@ -43,11 +43,11 @@ def login_temporary(request):
         username="temp-" + get_random_string(10, allowed_chars=string.ascii_lowercase),
         is_temporary=True,
     )
-    create_space(
+    workspace = create_workspace(
         name="Temporary space",
         slug=user.username,
-        users=[user],
     )
+    assign_user_to_workspace(user=user, workspace=workspace)
 
     login(request, user)
 
@@ -56,5 +56,5 @@ def login_temporary(request):
 
 def login_redirect(request):
     # Redirect to the user's default space.
-    space = request.user.spaces.first()
-    return redirect("projects_index", space_slug=space.slug)
+    workspace = request.user.workspaces.first()
+    return redirect("file_index", workspace_slug=workspace.slug)

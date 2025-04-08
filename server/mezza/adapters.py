@@ -5,8 +5,6 @@ from django.template.defaultfilters import filesizeformat
 from django_bridge.adapters import Adapter, register
 from telepath import ValueNode
 
-from .widgets import BlockNoteEditor
-
 
 class TextInputAdapter(Adapter):
     js_constructor = "forms.TextInput"
@@ -78,12 +76,3 @@ class ModelChoiceIteratorValueAdapter(Adapter):
 
 register(ModelChoiceIteratorValueAdapter(), ModelChoiceIteratorValue)
 
-
-class BlockNoteEditorAdapter(Adapter):
-    js_constructor = "forms.BlockNoteEditor"
-
-    def js_args(self, widget):
-        return []
-
-
-register(BlockNoteEditorAdapter(), BlockNoteEditor)

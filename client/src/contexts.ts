@@ -1,35 +1,27 @@
 import React from "react";
-import { Space } from "./types";
+import { Workspace } from "./types";
 
 export const CSRFTokenContext = React.createContext<string>("");
 
 export interface URLs {
-  projects_index: string;
-  projects_create: string;
-  ideas_index: string;
-  ideas_create: string;
-  asset_index: string;
+  file_index: string;
 }
 
 export const URLsContext = React.createContext<URLs>({
-  projects_index: "",
-  projects_create: "",
-  ideas_index: "",
-  ideas_create: "",
-  asset_index: "",
+  file_index: "",
 });
 
-export interface Spaces {
+export interface Workspaces {
   current: string;
-  spaces: Space[];
+  workspaces: Workspace[];
 }
 
-export const SpacesContext = React.createContext<Spaces>({
+export const WorkspacesContext = React.createContext<Workspaces>({
   current: "unknown",
-  spaces: [
+  workspaces: [
     {
       slug: "unknown",
-      name: "Mezza Studio",
+      name: "Mezza",
     },
   ],
 });

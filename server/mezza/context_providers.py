@@ -2,40 +2,28 @@ from django.urls import reverse
 
 
 def urls(request):
-    space = getattr(request, "space", None)
+    space = getattr(request, "workspace", None)
     if not space:
         return {}
 
     return {
-        "projects_index": reverse(
-            "projects_index", kwargs={"space_slug": request.space.slug}
-        ),
-        "projects_create": reverse(
-            "projects_create", kwargs={"space_slug": request.space.slug}
-        ),
-        "ideas_index": reverse(
-            "ideas_index", kwargs={"space_slug": request.space.slug}
-        ),
-        "ideas_create": reverse(
-            "ideas_create", kwargs={"space_slug": request.space.slug}
-        ),
-        "asset_index": reverse(
-            "asset_index", kwargs={"space_slug": request.space.slug}
+        "file_index": reverse(
+            "file_index", kwargs={"workspace_slug": request.workspace.slug}
         ),
     }
 
 
-def spaces(request):
-    current_space_slug = ""
-    current_space = getattr(request, "space", None)
-    if current_space:
-        current_space_slug = current_space.slug
+def workspaces(request):
+    current_workspace_slug = ""
+    current_workspace = getattr(request, "workspace", None)
+    if current_workspace:
+        current_workspace_slug = current_workspace.slug
 
     return {
-        "current": current_space_slug,
-        "spaces": [
-            {"slug": space.slug, "name": space.name}
-            for space in request.user.spaces.all()
+        "current": current_workspace_slug,
+        "workspaces": [
+            {"slug": workspace.slug, "name": workspace.name}
+            for workspace in request.user.workspaces.all()
         ]
         if request.user.is_authenticated
         else [],

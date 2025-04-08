@@ -2,7 +2,7 @@ import * as DjangoBridge from "@django-bridge/react";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import { CSRFTokenContext, SpacesContext, URLsContext } from "./contexts";
+import { CSRFTokenContext, URLsContext, WorkspacesContext } from "./contexts";
 import FieldDef from "./deserializers/Field";
 import FormDef from "./deserializers/Form";
 import ServerRenderedFieldDef from "./deserializers/ServerRenderedField";
@@ -12,36 +12,26 @@ import SelectDef from "./deserializers/widgets/Select";
 import TextAreaDef from "./deserializers/widgets/TextArea";
 import TextInputDef from "./deserializers/widgets/TextInput";
 import ConfirmDeleteView from "./views/ConfirmDelete";
-import IdeasIndex from "./views/IdeasIndex";
-import IdeasStartProductionView from "./views/IdeasStartProduction";
+import FileChooserView from "./views/FileChooser";
+import FileDetail from "./views/FileDetail";
+import FileIndex from "./views/FileIndex";
+import FileUploadView from "./views/FileUpload";
 import LoginView from "./views/Login";
-import MediaChooserView from "./views/MediaChooser";
-import MediaDetail from "./views/MediaDetail";
-import MediaIndex from "./views/MediaIndex";
-import MediaUploadFormView from "./views/MediaUploadForm";
-import ProjectDetailView from "./views/ProjectDetail";
-import ProjectsForm from "./views/ProjectsForm";
-import ProjectsListingView from "./views/ProjectsListing";
 
 const config = new DjangoBridge.Config();
 
 // Add your views here
 config.addView("Login", LoginView);
-config.addView("ProjectDetail", ProjectDetailView);
-config.addView("ProjectsListing", ProjectsListingView);
-config.addView("IdeasIndex", IdeasIndex);
-config.addView("IdeasStartProduction", IdeasStartProductionView);
-config.addView("MediaDetail", MediaDetail);
-config.addView("MediaIndex", MediaIndex);
-config.addView("MediaUploadForm", MediaUploadFormView);
-config.addView("MediaChooser", MediaChooserView);
+config.addView("FileDetail", FileDetail);
+config.addView("FileIndex", FileIndex);
+config.addView("FileUpload", FileUploadView);
+config.addView("FileChooser", FileChooserView);
 config.addView("ConfirmDelete", ConfirmDeleteView);
-config.addView("ProjectsForm", ProjectsForm);
 
 // Add your context providers here
 config.addContextProvider("csrf_token", CSRFTokenContext);
 config.addContextProvider("urls", URLsContext);
-config.addContextProvider("spaces", SpacesContext);
+config.addContextProvider("workspaces", WorkspacesContext);
 
 // Add your deserializers here
 config.addAdapter("forms.Form", FormDef);

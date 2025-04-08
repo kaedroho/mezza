@@ -46,7 +46,7 @@ const AlternativeSignIn = styled.div`
   }
 `;
 
-const Space = styled.div`
+const Workspace = styled.div`
   flex-grow: 1;
 `;
 
@@ -73,10 +73,10 @@ function LoginView({
     <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
       <Wrapper>
-        <Space />
+        <Workspace />
         <LoginWrapper>
           <Typography level="h4" component="h1" fontWeight={700}>
-            Sign in to Mezza Studio
+            Sign in to Mezza
           </Typography>
 
           <AlternativeSignIn>
@@ -100,7 +100,7 @@ function LoginView({
             </SubmitButtonWrapper>
           </Form>
         </LoginWrapper>
-        <Space />
+        <Workspace />
       </Wrapper>
     </CssVarsProvider>
   );

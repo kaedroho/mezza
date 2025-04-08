@@ -1,4 +1,4 @@
-FROM node:18.17.1-bullseye-slim as client
+FROM node:18.17.1-bullseye-slim AS client
 
 # Install client dependencies
 COPY client/package.json client/package-lock.json /client/
@@ -55,7 +55,7 @@ COPY --chown=mezza server .
 # Run poetry install again to install our project
 RUN poetry install --only main
 
-FROM base as prod
+FROM base AS prod
 
 # Copy the client bundle from the client target
 COPY --chown=mezza --from=client /client/dist /client
