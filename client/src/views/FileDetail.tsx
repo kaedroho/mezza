@@ -29,23 +29,23 @@ export default function FileDetailView({ file }: FileDetailViewProps) {
           },
         }}
       >
-        {file.content_type === "image/jpeg" && (
-          <img src={file.download_url} alt={file.name} />
+        {file.source_blob.content_type === "image/jpeg" && (
+          <img src={file.source_blob.download_url} alt={file.name} />
         )}
-        {file.content_type === "video/mp4" && (
-          <video src={file.download_url} controls />
+        {file.source_blob.content_type === "video/mp4" && (
+          <video src={file.source_blob.download_url} controls />
         )}
       </Box>
       <Box sx={{ mt: 2, px: 2 }}>
         <p>
-          <b>Content type:</b> {file.content_type}
+          <b>Content type:</b> {file.source_blob.content_type}
         </p>
         <p>
-          <b>Size:</b> <FileSize bytes={file.size} />
+          <b>Size:</b> <FileSize bytes={file.source_blob.size} />
         </p>
-        {file.content_type === "image/jpeg" && (
+        {file.source_blob.content_type === "image/jpeg" && (
           <p>
-            <b>Dimensions:</b> {file.attributes["width"]} x {file.attributes["height"]}
+            <b>Dimensions:</b> {file.source_blob.attributes["width"]} x {file.source_blob.attributes["height"]}
           </p>
         )}
       </Box>

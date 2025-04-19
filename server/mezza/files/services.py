@@ -17,7 +17,7 @@ from mezza.utils.thumbnails import generate_thumbnail
 from mezza.workspaces.models import Workspace
 
 from .models import (
-    File
+    File, FileBlob
 )
 
 
@@ -90,13 +90,24 @@ METADATA_EXTRACTORS = {
 }
 
 
-def create_file(*, name, file, uploaded_by, workspace, project=None):
+def create_file(*, name, total_size, uploaded_file, uploaded_by, workspace):
     # validate file size, reject files larger than MAX_UPLOAD_SIZE
-    if file.size > settings.MAX_UPLOAD_SIZE:
-        raise InvalidFileError("File size is too large.")
+    if total_size > settings.MAX_UPLOAD_SIZE:
+        raise ValueError("File size is too large.")
+
+    if uploaded_file.size == total_size:
+        finalise = True
+
+    elif uploaded_file.size < total_size:
+        # Only part of the file has been uploaded,
+        # don't perform any processing until the rest is uploaded
+        finalise = False
+
+    else:
+        raise InvalidFileError("Uploaded file is larger than the total file size.")
 
     # validate file type, reject files not in ALLOWED_FILE_TYPES
-    content_type = filetype.guess_mime(file)
+    content_type = filetype.guess_mime(uploaded_file)
 
     if content_type is None:
         raise FileFormatError("The file type could not be determined.")
@@ -104,15 +115,49 @@ def create_file(*, name, file, uploaded_by, workspace, project=None):
     if content_type not in METADATA_EXTRACTORS:
         raise FileFormatError(f"File type '{content_type}' is not supported.")
 
-    file_metadata_extractor = METADATA_EXTRACTORS[content_type]
+    blob = FileBlob.objects.create(
+        workspace=workspace,
+        file=uploaded_file,
+        total_size=total_size,
+        uploaded_size=uploaded_file.size,
+        checksum=None,  # TODO
+        content_type=content_type,
+        uploaded_by=uploaded_by,
+    )
+
+    if finalise:
+        finalise_blob(blob=blob)
 
     return File.objects.create(
         workspace=workspace,
         name=name,
-        file=file,
-        uploaded_by=uploaded_by,
-        size=file.size,
-        content_type=content_type,
-        #checksum=hash_filelike(file), TODO checksum
-        attributes=file_metadata_extractor(file),
+        source_blob=blob
     )
+
+
+def append_blob(*, blob, uploaded_file):
+    new_uploaded_size = blob.uploaded_size + uploaded_file.size
+
+    if uploaded_file.size == blob.total_size:
+        finalise = True
+
+    elif uploaded_file.size < blob.total_size:
+        # Only part of the file has been uploaded,
+        # don't perform any processing until the rest is uploaded
+        finalise = False
+
+    else:
+        raise InvalidFileError("Uploaded file is larger than the total file size.")
+
+    # TODO: Append data
+
+    if finalise:
+        finalise_blob(blob=blob)
+
+
+def finalise_blob(*, blob):
+    if blob.attributes is not None:
+        raise ValueError("Blob is already finalised")
+
+    blob.attributes = METADATA_EXTRACTORS[blob.content_type](blob.file)
+    blob.save(update_fields=['attributes'])
