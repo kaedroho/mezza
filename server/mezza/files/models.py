@@ -47,6 +47,9 @@ class File(models.Model):
         FileBlob, on_delete=models.SET_NULL, null=True, blank=True, related_name="+"
     )
 
+    class Meta:
+        unique_together = [("workspace", "name")]
+
     def __str__(self):
         return self.name
 
