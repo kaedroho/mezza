@@ -1,3 +1,4 @@
+import tempfile
 from io import BytesIO
 from math import ceil
 from pathlib import Path
@@ -6,6 +7,7 @@ import ffmpeg
 import filetype
 import PyPDF2
 from django.conf import settings
+from django.core.files import File
 from django.core.files.base import ContentFile
 from willow.image import Image
 
@@ -48,7 +50,7 @@ def extract_videofile_attributes(file):
             "width": video_stream["width"],
             "height": video_stream["height"],
         },
-        "duration": video_stream["duration"],
+        "duration": video_stream.get("duration"),
         "ffprobe": {
             "video_stream": video_stream,
             "audio_streams": audio_streams,
@@ -82,7 +84,7 @@ METADATA_EXTRACTORS = {
 }
 
 
-def generate_imagefile_thumbnail(file, output):
+def generate_imagefile_thumbnail(file):
     image = Image.open(file)
     width, height = image.get_size()
 
@@ -92,7 +94,33 @@ def generate_imagefile_thumbnail(file, output):
 
     image = image.resize((new_width, new_height))
 
+    output = BytesIO()
     image.save_as_avif(output, 50, False)
+    return output
+
+
+def generate_videofile_thumbnail(file):
+    video_stream = ffmpeg.probe(file.path, select_streams="v:0", count_frames=None)[
+        "streams"
+    ][0]
+    width = video_stream["width"]
+    height = video_stream["height"]
+
+    # Generate a thumbnail with height 240 pixels
+    new_height = min(height, 240)
+    new_width = int(ceil(width * new_height / height))
+
+    # Resize the video and remove audio
+    with tempfile.TemporaryDirectory() as tmp:
+        out_filename = str(Path(tmp) / Path(file.name).with_suffix(".t.webm").name)
+        print("OUT", out_filename)
+        ffmpeg.input(file.path).output(
+            out_filename,
+            vf=f"scale={new_width}:{new_height}",
+            format="webm",
+            an=None,
+        ).run(capture_stdout=True)
+        return open(out_filename, "rb")
 
 
 THUMBNAIL_GENERATORS = {
@@ -100,6 +128,11 @@ THUMBNAIL_GENERATORS = {
     "image/png": generate_imagefile_thumbnail,
     "image/gif": generate_imagefile_thumbnail,
     "image/webp": generate_imagefile_thumbnail,
+    "video/mp4": generate_videofile_thumbnail,
+    "video/webm": generate_videofile_thumbnail,
+    "video/ogg": generate_videofile_thumbnail,
+    "video/x-matroska": generate_videofile_thumbnail,
+    "video/quicktime": generate_videofile_thumbnail,
 }
 
 
@@ -187,9 +220,8 @@ def finalise_blob(*, blob):
 
 def finalise_file(*, file):
     if file.source_blob.content_type in THUMBNAIL_GENERATORS:
-        thumbnail_data = BytesIO()
-        THUMBNAIL_GENERATORS[file.source_blob.content_type](
-            file.source_blob.file, thumbnail_data
+        thumbnail_data = THUMBNAIL_GENERATORS[file.source_blob.content_type](
+            file.source_blob.file
         )
 
         content_type = filetype.guess(thumbnail_data)
@@ -197,12 +229,15 @@ def finalise_file(*, file):
         file_name = Path(file.source_blob.file.name).with_suffix(
             ".t." + content_type.extension
         )
+        thumbnail_data.seek(2)
+        file_size = thumbnail_data.tell()
+        thumbnail_data.seek(0)
 
         file.thumbnail_blob = FileBlob.objects.create(
             workspace=file.workspace,
-            file=ContentFile(thumbnail_data.getvalue(), name=file_name),
-            total_size=thumbnail_data.getbuffer().nbytes,
-            uploaded_size=thumbnail_data.getbuffer().nbytes,
+            file=ContentFile(thumbnail_data.read(), name=file_name),
+            total_size=file_size,
+            uploaded_size=file_size,
             checksum=None,  # TODO
             content_type=content_type.mime,
             uploaded_by_id=file.source_blob.uploaded_by_id,

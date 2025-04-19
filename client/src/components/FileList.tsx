@@ -41,8 +41,28 @@ const CardTitle = styled.p`
   padding: 10px;
 `;
 
-const Thumbnail = styled.img`
+const ThumbnailImage = styled.img`
   border-radius: 10px;
+`;
+
+const ThumbnailVideo = styled.video`
+  border-radius: 10px;
+`;
+
+const ThumbnailVideoWrapper = styled.div`
+  position: relative;
+`;
+
+const ThumbnailVideoDuration = styled.div`
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: white;
+  font-weight: 500;
+  font-size: 0.9em;
+  background: rgba(0,0,0,0.7);
+  border-radius: 3px;
+  padding: 1px 5px;
 `;
 
 const ThumbnailPlaceholder = styled.div`
@@ -70,8 +90,15 @@ export default function FileList({
       {files.map((file) => {
         const contents = (
           <CardContent>
-            {file.thumbnail_blob && (
-              <Thumbnail src={file.thumbnail_blob.download_url} width={file.thumbnail_blob.attributes.dimensions?.width} height={file.thumbnail_blob.attributes.dimensions?.height} />
+            {file.thumbnail_blob && file.thumbnail_blob.content_type.startsWith("image/") && (
+              <ThumbnailImage src={file.thumbnail_blob.download_url} width={file.thumbnail_blob.attributes.dimensions?.width} height={file.thumbnail_blob.attributes.dimensions?.height} />
+            )}
+            {file.thumbnail_blob && file.thumbnail_blob.content_type.startsWith("video/") && (
+              <ThumbnailVideoWrapper>
+                {/* @ts-ignore */}
+                <ThumbnailVideo onMouseOver={(e) => e.target.play()} onMouseLeave={(e) => {e.target.pause(); e.target.currentTime = 0 }} src={file.thumbnail_blob.download_url} width={file.thumbnail_blob.attributes.dimensions?.width} height={file.thumbnail_blob.attributes.dimensions?.height} />
+                {file.source_blob.attributes.duration && <ThumbnailVideoDuration>{Math.floor(file.source_blob.attributes.duration / 60)}:{Math.ceil(file.source_blob.attributes.duration % 60).toString().padStart(2, "0")}</ThumbnailVideoDuration>}
+              </ThumbnailVideoWrapper>
             )}
             {!file.thumbnail_blob && (
               <ThumbnailPlaceholder />
