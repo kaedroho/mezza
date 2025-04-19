@@ -1,11 +1,9 @@
 from django.contrib import messages
-from django.http import HttpResponse
 from django.urls import reverse
 from django_bridge.response import CloseOverlayResponse, Response
 
-from .models import File
-
 from .forms import FileUploadForm
+from .models import File
 from .services import FileFormatError, create_file
 
 

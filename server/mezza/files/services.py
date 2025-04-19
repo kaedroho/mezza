@@ -1,24 +1,10 @@
-import filetype
-from PIL import Image
-
-import tempfile
-
 import ffmpeg
 import filetype
 import PyPDF2
 from django.conf import settings
-from django.core.files.uploadedfile import UploadedFile
-from django.db import models
 from PIL import Image
 
-from mezza.utils.files import hash_filelike
-from mezza.utils.thumbnails import generate_thumbnail
-
-from mezza.workspaces.models import Workspace
-
-from .models import (
-    File, FileBlob
-)
+from .models import File, FileBlob
 
 
 class FileFormatError(ValueError):
@@ -28,49 +14,47 @@ class FileFormatError(ValueError):
 def extract_imagefile_attributes(file):
     with Image.open(file) as image:
         return {
-            "width": image.size[0],
-            "height": image.size[1],
+            "dimensions": {
+                "width": image.size[0],
+                "height": image.size[1],
+            }
         }
 
 
 def extract_audiofile_attributes(file):
-    with tempfile.NamedTemporaryFile() as tfile:
-        tfile.write(file.read(1024 * 1024))
-        tfile.flush()
-        file.seek(0)
+    audio_streams = ffmpeg.probe(file.path, select_streams="a")["streams"]
 
-        audio_streams = ffmpeg.probe(tfile.name, select_streams="a")["streams"]
-
-        return {
-            "audio_streams": audio_streams,
-        }
+    return {
+        "duration": audio_streams[0]["duration"],
+        "ffprobe": {"audio_streams": audio_streams},
+    }
 
 
 def extract_videofile_attributes(file):
-    with tempfile.NamedTemporaryFile() as tfile, tempfile.TemporaryDirectory() as tmp:
-        tfile.write(file.read())
-        tfile.flush()
-        file.seek(0)
+    video_stream = ffmpeg.probe(file.path, select_streams="v:0", count_frames=None)[
+        "streams"
+    ][0]
+    audio_streams = ffmpeg.probe(file.path, select_streams="a")["streams"]
 
-        video_stream = ffmpeg.probe(tfile.name, select_streams="v:0", count_frames=None)["streams"][0]
-        audio_streams = ffmpeg.probe(tfile.name, select_streams="a")["streams"]
-
-        return {
+    return {
+        "dimensions": {
+            "width": video_stream["width"],
+            "height": video_stream["height"],
+        },
+        "duration": video_stream["duration"],
+        "ffprobe": {
             "video_stream": video_stream,
             "audio_streams": audio_streams,
-        }
+        },
+    }
 
 
 def extract_pdffile_attributes(file):
-    with tempfile.NamedTemporaryFile() as tfile:
-        tfile.write(file.read(1024 * 1024))
-        tfile.flush()
-        file.seek(0)
+    reader = PyPDF2.PdfReader(file.path)
 
-        reader = PyPDF2.PdfReader(tfile.name)
-        return {
-            "pages": len(reader.pages),
-        }
+    return {
+        "pages": len(reader.pages),
+    }
 
 
 METADATA_EXTRACTORS = {
@@ -90,6 +74,10 @@ METADATA_EXTRACTORS = {
 }
 
 
+class InvalidFileError(ValueError):
+    pass
+
+
 def create_file(*, name, total_size, uploaded_file, uploaded_by, workspace):
     # validate file size, reject files larger than MAX_UPLOAD_SIZE
     if total_size > settings.MAX_UPLOAD_SIZE:
@@ -100,7 +88,7 @@ def create_file(*, name, total_size, uploaded_file, uploaded_by, workspace):
 
     elif uploaded_file.size < total_size:
         # Only part of the file has been uploaded,
-        # don't perform any processing until the rest is uploaded
+        # don't perform any processing until the rest is uploaded
         finalise = False
 
     else:
@@ -128,22 +116,18 @@ def create_file(*, name, total_size, uploaded_file, uploaded_by, workspace):
     if finalise:
         finalise_blob(blob=blob)
 
-    return File.objects.create(
-        workspace=workspace,
-        name=name,
-        source_blob=blob
-    )
+    return File.objects.create(workspace=workspace, name=name, source_blob=blob)
 
 
 def append_blob(*, blob, uploaded_file):
     new_uploaded_size = blob.uploaded_size + uploaded_file.size
 
-    if uploaded_file.size == blob.total_size:
+    if new_uploaded_size == blob.total_size:
         finalise = True
 
-    elif uploaded_file.size < blob.total_size:
+    elif new_uploaded_size < blob.total_size:
         # Only part of the file has been uploaded,
-        # don't perform any processing until the rest is uploaded
+        # don't perform any processing until the rest is uploaded
         finalise = False
 
     else:
@@ -160,4 +144,4 @@ def finalise_blob(*, blob):
         raise ValueError("Blob is already finalised")
 
     blob.attributes = METADATA_EXTRACTORS[blob.content_type](blob.file)
-    blob.save(update_fields=['attributes'])
+    blob.save(update_fields=["attributes"])

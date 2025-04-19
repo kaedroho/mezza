@@ -3,10 +3,19 @@ export interface Workspace {
   name: string;
 }
 
+export interface FileAttributes {
+  dimensions?: {
+    width: number;
+    height: number;
+    unit: "pixels";
+  },
+  duration?: number,
+}
+
 export interface FileBlob {
   size: number;
   content_type: string;
-  attributes: Record<string, any>;
+  attributes: FileAttributes;
   download_url: string;
 }
 

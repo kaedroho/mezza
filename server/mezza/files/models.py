@@ -1,23 +1,11 @@
-import tempfile
-
-import ffmpeg
-import filetype
-import PyPDF2
 from django.conf import settings
-from django.core.files.uploadedfile import UploadedFile
 from django.db import models
 from django.urls import reverse
 from uuid_extensions import uuid7
 
-from mezza.utils.files import hash_filelike
-from mezza.utils.thumbnails import generate_thumbnail
-
 from mezza.workspaces.models import Workspace
 
-__all__ = [
-    "FileBlob",
-    "File",
-]
+__all__ = ["FileBlob", "File"]
 
 
 def get_upload_path(instance, filename):
@@ -52,7 +40,9 @@ class File(models.Model):
         Workspace, on_delete=models.PROTECT, related_name="files"
     )
     name = models.CharField(max_length=255)
-    source_blob = models.ForeignKey(FileBlob, on_delete=models.PROTECT, related_name="+")
+    source_blob = models.ForeignKey(
+        FileBlob, on_delete=models.PROTECT, related_name="+"
+    )
 
     def __str__(self):
         return self.name

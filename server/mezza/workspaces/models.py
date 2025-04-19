@@ -15,7 +15,9 @@ class Workspace(models.Model):
 
     name = models.TextField(max_length=50)
     slug = models.TextField(max_length=50, unique=True)
-    users = models.ManyToManyField(User, through="WorkspaceUser", related_name="workspaces")
+    users = models.ManyToManyField(
+        User, through="WorkspaceUser", related_name="workspaces"
+    )
 
 
 class WorkspaceUser(models.Model):

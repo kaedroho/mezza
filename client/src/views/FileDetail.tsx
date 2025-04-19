@@ -43,9 +43,14 @@ export default function FileDetailView({ file }: FileDetailViewProps) {
         <p>
           <b>Size:</b> <FileSize bytes={file.source_blob.size} />
         </p>
-        {file.source_blob.content_type === "image/jpeg" && (
+        {file.source_blob.attributes.dimensions && (
           <p>
-            <b>Dimensions:</b> {file.source_blob.attributes["width"]} x {file.source_blob.attributes["height"]}
+            <b>Dimensions:</b> {file.source_blob.attributes.dimensions.width} x {file.source_blob.attributes.dimensions.height}
+          </p>
+        )}
+        {file.source_blob.attributes.duration && (
+          <p>
+            <b>Duration:</b> {file.source_blob.attributes.duration} seconds
           </p>
         )}
       </Box>

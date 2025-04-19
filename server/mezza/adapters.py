@@ -75,4 +75,3 @@ class ModelChoiceIteratorValueAdapter(Adapter):
 
 
 register(ModelChoiceIteratorValueAdapter(), ModelChoiceIteratorValue)
-
