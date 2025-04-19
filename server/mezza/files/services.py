@@ -201,6 +201,26 @@ def create_file(*, name, total_size, uploaded_file, uploaded_by, workspace):
     if finalise:
         finalise_blob(blob=blob)
 
+    # Check if file name is in use, append number to resolve conflict
+    file_suffix = Path(name).suffix
+    file_prefix = name[: -len(file_suffix)]
+
+    conflicting_filenames = set(
+        File.objects.filter(
+            name__startswith=file_prefix, name__endswith=file_suffix
+        ).values_list("name", flat=True)
+    )
+
+    if name in conflicting_filenames:
+        for i in range(1, 100):
+            test_name = f"{file_prefix} ({i}){file_suffix}"
+            if f"{file_prefix} ({i}){file_suffix}" not in conflicting_filenames:
+                name = test_name
+                break
+
+        if name in conflicting_filenames:
+            raise ValueError("Unable to resolve name conflict")
+
     file = File.objects.create(workspace=workspace, name=name, source_blob=blob)
 
     if finalise:
