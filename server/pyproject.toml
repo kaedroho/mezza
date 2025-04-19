@@ -23,6 +23,7 @@ pypdf2 = "^3.0.1"
 uuid7 = "^0.1.0"
 willow = "^1.9.0"
 pillow-heif = "^0.22.0"
+wand = "^0.6.13"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.12.1"

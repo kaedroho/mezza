@@ -9,6 +9,8 @@ import PyPDF2
 from django.conf import settings
 from django.core.files import File
 from django.core.files.base import ContentFile
+from wand.color import Color
+from wand.image import Image as WandImage
 from willow.image import Image
 
 from .models import File, FileBlob
@@ -123,6 +125,26 @@ def generate_videofile_thumbnail(file):
         return open(out_filename, "rb")
 
 
+def generate_pdffile_thumbnail(file):
+    image = WandImage(filename=file.path + "[0]")
+    width, height = image.size
+
+    # Generate a thumbnail with height 240 pixels
+    new_height = min(height, 240)
+    new_width = ceil(width * new_height / height)
+
+    image.resize(new_width, new_height)
+    image.background_color = Color("rgb(255, 255, 255)")
+    image.alpha_channel = "remove"
+
+    output = BytesIO()
+    with image.convert("avif") as converted:
+        converted.compression_quality = 50
+        converted.save(file=output)
+
+    return output
+
+
 THUMBNAIL_GENERATORS = {
     "image/jpeg": generate_imagefile_thumbnail,
     "image/png": generate_imagefile_thumbnail,
@@ -133,6 +155,7 @@ THUMBNAIL_GENERATORS = {
     "video/ogg": generate_videofile_thumbnail,
     "video/x-matroska": generate_videofile_thumbnail,
     "video/quicktime": generate_videofile_thumbnail,
+    "application/pdf": generate_pdffile_thumbnail,
 }
 
 

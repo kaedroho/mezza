@@ -19,7 +19,12 @@ RUN apt update -y \
     libpq-dev \
     # Required to probe video files
     ffmpeg \
+    # Required for generating thumbnails of PDFs
+    libmagickwand-dev \
+    ghostscript \
     && rm -rf /var/lib/apt/lists/*
+
+COPY server/etc/imagemagick-policy.xml /etc/ImageMagick-6/policy.xml
 
 ENV VIRTUAL_ENV=/venv
 ENV PATH=$VIRTUAL_ENV/bin:$PATH \
