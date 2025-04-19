@@ -1,8 +1,13 @@
+from io import BytesIO
+from math import ceil
+from pathlib import Path
+
 import ffmpeg
 import filetype
 import PyPDF2
 from django.conf import settings
-from PIL import Image
+from django.core.files.base import ContentFile
+from willow.image import Image
 
 from .models import File, FileBlob
 
@@ -12,13 +17,15 @@ class FileFormatError(ValueError):
 
 
 def extract_imagefile_attributes(file):
-    with Image.open(file) as image:
-        return {
-            "dimensions": {
-                "width": image.size[0],
-                "height": image.size[1],
-            }
+    image = Image.open(file)
+    size = image.get_size()
+
+    return {
+        "dimensions": {
+            "width": size[0],
+            "height": size[1],
         }
+    }
 
 
 def extract_audiofile_attributes(file):
@@ -62,6 +69,7 @@ METADATA_EXTRACTORS = {
     "image/png": extract_imagefile_attributes,
     "image/gif": extract_imagefile_attributes,
     "image/webp": extract_imagefile_attributes,
+    "image/avif": extract_imagefile_attributes,
     "audio/mpeg": extract_audiofile_attributes,
     "audio/ogg": extract_audiofile_attributes,
     "audio/x-wav": extract_audiofile_attributes,
@@ -71,6 +79,27 @@ METADATA_EXTRACTORS = {
     "video/x-matroska": extract_videofile_attributes,
     "video/quicktime": extract_videofile_attributes,
     "application/pdf": extract_pdffile_attributes,
+}
+
+
+def generate_imagefile_thumbnail(file, output):
+    image = Image.open(file)
+    width, height = image.get_size()
+
+    # Generate a thumbnail with height 240 pixels
+    new_height = min(height, 240)
+    new_width = ceil(width * new_height / height)
+
+    image = image.resize((new_width, new_height))
+
+    image.save_as_avif(output, 50, False)
+
+
+THUMBNAIL_GENERATORS = {
+    "image/jpeg": generate_imagefile_thumbnail,
+    "image/png": generate_imagefile_thumbnail,
+    "image/gif": generate_imagefile_thumbnail,
+    "image/webp": generate_imagefile_thumbnail,
 }
 
 
@@ -116,7 +145,12 @@ def create_file(*, name, total_size, uploaded_file, uploaded_by, workspace):
     if finalise:
         finalise_blob(blob=blob)
 
-    return File.objects.create(workspace=workspace, name=name, source_blob=blob)
+    file = File.objects.create(workspace=workspace, name=name, source_blob=blob)
+
+    if finalise:
+        finalise_file(file=file)
+
+    return file
 
 
 def append_blob(*, blob, uploaded_file):
@@ -138,6 +172,10 @@ def append_blob(*, blob, uploaded_file):
     if finalise:
         finalise_blob(blob=blob)
 
+        # Finalise any files that use the blob as a source
+        for file in File.objects.filter(source_blob=blob):
+            finalise_file(file=file)
+
 
 def finalise_blob(*, blob):
     if blob.attributes is not None:
@@ -145,3 +183,31 @@ def finalise_blob(*, blob):
 
     blob.attributes = METADATA_EXTRACTORS[blob.content_type](blob.file)
     blob.save(update_fields=["attributes"])
+
+
+def finalise_file(*, file):
+    if file.source_blob.content_type in THUMBNAIL_GENERATORS:
+        thumbnail_data = BytesIO()
+        THUMBNAIL_GENERATORS[file.source_blob.content_type](
+            file.source_blob.file, thumbnail_data
+        )
+
+        content_type = filetype.guess(thumbnail_data)
+
+        file_name = Path(file.source_blob.file.name).with_suffix(
+            ".t." + content_type.extension
+        )
+
+        file.thumbnail_blob = FileBlob.objects.create(
+            workspace=file.workspace,
+            file=ContentFile(thumbnail_data.getvalue(), name=file_name),
+            total_size=thumbnail_data.getbuffer().nbytes,
+            uploaded_size=thumbnail_data.getbuffer().nbytes,
+            checksum=None,  # TODO
+            content_type=content_type.mime,
+            uploaded_by_id=file.source_blob.uploaded_by_id,
+        )
+
+        finalise_blob(blob=file.thumbnail_blob)
+
+        file.save(update_fields=["thumbnail_blob"])

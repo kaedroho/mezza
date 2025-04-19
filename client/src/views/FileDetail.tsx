@@ -29,10 +29,10 @@ export default function FileDetailView({ file }: FileDetailViewProps) {
           },
         }}
       >
-        {file.source_blob.content_type === "image/jpeg" && (
+        {file.source_blob.content_type.startsWith("image/") && (
           <img src={file.source_blob.download_url} alt={file.name} />
         )}
-        {file.source_blob.content_type === "video/mp4" && (
+        {file.source_blob.content_type.startsWith("video/") && (
           <video src={file.source_blob.download_url} controls />
         )}
       </Box>

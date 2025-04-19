@@ -43,6 +43,9 @@ class File(models.Model):
     source_blob = models.ForeignKey(
         FileBlob, on_delete=models.PROTECT, related_name="+"
     )
+    thumbnail_blob = models.ForeignKey(
+        FileBlob, on_delete=models.SET_NULL, null=True, blank=True, related_name="+"
+    )
 
     def __str__(self):
         return self.name
@@ -52,5 +55,8 @@ class File(models.Model):
             "id": self.id,
             "name": self.name,
             "source_blob": self.source_blob.to_client_representation(),
+            "thumbnail_blob": self.thumbnail_blob.to_client_representation()
+            if self.thumbnail_blob
+            else None,
             "detail_url": reverse("file_detail", args=[self.workspace.slug, self.id]),
         }

@@ -9,7 +9,8 @@ import { File } from "../types";
 import ModalWindow from "./ModalWindow";
 
 const Wrapper = styled.ul`
-  display: grid;
+  display: flex;
+  flex-flow: row wrap;
   gap: 20px;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   list-style: none;
@@ -40,6 +41,17 @@ const CardTitle = styled.p`
   padding: 10px;
 `;
 
+const Thumbnail = styled.img`
+  border-radius: 10px;
+`;
+
+const ThumbnailPlaceholder = styled.div`
+  border-radius: 10px;
+  height: 240px;
+  width: 180px;
+  background-color: var(--variant-plainActiveBg, var(--joy-palette-neutral-plainActiveBg, var(--joy-palette-neutral-200, #DDE7EE)));
+`;
+
 interface FileListProps {
   files: File[];
   openInNewTab?: boolean;
@@ -58,8 +70,14 @@ export default function FileList({
       {files.map((file) => {
         const contents = (
           <CardContent>
+            {file.thumbnail_blob && (
+              <Thumbnail src={file.thumbnail_blob.download_url} width={file.thumbnail_blob.attributes.dimensions?.width} height={file.thumbnail_blob.attributes.dimensions?.height} />
+            )}
+            {!file.thumbnail_blob && (
+              <ThumbnailPlaceholder />
+            )}
             <CardTitle>{file.name}</CardTitle>
-          </CardContent>
+            </CardContent>
         );
 
         return (

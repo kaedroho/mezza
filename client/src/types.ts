@@ -23,5 +23,6 @@ export interface File {
   id: number;
   name: string;
   source_blob: FileBlob;
+  thumbnail_blob?: FileBlob;
   detail_url: string;
 }
