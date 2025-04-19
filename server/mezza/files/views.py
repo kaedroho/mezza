@@ -41,7 +41,7 @@ def file_upload(request):
     if form.is_valid():
         try:
             file = create_file(
-                name=form.cleaned_data["name"],
+                name=form.cleaned_data["file"].name,
                 total_size=form.cleaned_data["file"].size,
                 uploaded_file=form.cleaned_data["file"],
                 uploaded_by=request.user,

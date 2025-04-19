@@ -10,10 +10,10 @@ class FileMetadataForm(forms.Form):
         ]
 
 
-class FileUploadForm(FileMetadataForm):
+class FileUploadForm(forms.Form):
     file = forms.FileField()
 
     class Meta:
-        fields = FileMetadataForm.Meta.fields + [
+        fields = [
             "file",
         ]
