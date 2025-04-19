@@ -11,7 +11,7 @@ import ModalWindow from "./ModalWindow";
 const Wrapper = styled.ul`
   display: flex;
   flex-flow: row wrap;
-  gap: 20px;
+  gap: 10px;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   list-style: none;
   padding: 0;
@@ -41,18 +41,22 @@ const CardTitle = styled.p`
   padding: 10px;
 `;
 
+const ThumbnailWrapper = styled.div`
+  position: relative;
+`;
+
 const ThumbnailImage = styled.img`
   border-radius: 10px;
   height: 240px;
   width: auto;
+  object-fit: contain;
 `;
 
 const ThumbnailVideo = styled.video`
   border-radius: 10px;
-`;
-
-const ThumbnailVideoWrapper = styled.div`
-  position: relative;
+  height: 240px;
+  width: auto;
+  object-fit: contain;
 `;
 
 const ThumbnailVideoDuration = styled.div`
@@ -93,14 +97,16 @@ export default function FileList({
         const contents = (
           <CardContent>
             {file.thumbnail_blob && file.thumbnail_blob.content_type.startsWith("image/") && (
-              <ThumbnailImage src={file.thumbnail_blob.download_url} width={file.thumbnail_blob.attributes.dimensions?.width} height={file.thumbnail_blob.attributes.dimensions?.height} />
+              <ThumbnailWrapper>
+                <ThumbnailImage src={file.thumbnail_blob.download_url} width={file.thumbnail_blob.attributes.dimensions?.width} height={file.thumbnail_blob.attributes.dimensions?.height} />
+              </ThumbnailWrapper>
             )}
             {file.thumbnail_blob && file.thumbnail_blob.content_type.startsWith("video/") && (
-              <ThumbnailVideoWrapper>
+              <ThumbnailWrapper>
                 {/* @ts-ignore */}
                 <ThumbnailVideo onMouseOver={(e) => e.target.play()} onMouseLeave={(e) => {e.target.pause(); e.target.currentTime = 0 }} src={file.thumbnail_blob.download_url} width={file.thumbnail_blob.attributes.dimensions?.width} height={file.thumbnail_blob.attributes.dimensions?.height} />
                 {file.source_blob.attributes.duration && <ThumbnailVideoDuration>{Math.floor(file.source_blob.attributes.duration / 60)}:{Math.ceil(file.source_blob.attributes.duration % 60).toString().padStart(2, "0")}</ThumbnailVideoDuration>}
-              </ThumbnailVideoWrapper>
+              </ThumbnailWrapper>
             )}
             {!file.thumbnail_blob && (
               <ThumbnailPlaceholder />
