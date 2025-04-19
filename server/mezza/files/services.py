@@ -90,8 +90,8 @@ def generate_imagefile_thumbnail(file):
     image = Image.open(file)
     width, height = image.get_size()
 
-    # Generate a thumbnail with height 240 pixels
-    new_height = min(height, 240)
+    # Generate a thumbnail with height 480 pixels
+    new_height = min(height, 480)
     new_width = ceil(width * new_height / height)
 
     image = image.resize((new_width, new_height))
@@ -108,8 +108,8 @@ def generate_videofile_thumbnail(file):
     width = video_stream["width"]
     height = video_stream["height"]
 
-    # Generate a thumbnail with height 240 pixels
-    new_height = min(height, 240)
+    # Generate a thumbnail with height 480 pixels
+    new_height = min(height, 480)
     new_width = int(ceil(width * new_height / height))
 
     # Resize the video and remove audio
@@ -130,7 +130,7 @@ def generate_pdffile_thumbnail(file):
     width, height = image.size
 
     # Generate a thumbnail with height 240 pixels
-    new_height = min(height, 240)
+    new_height = min(height, 480)
     new_width = ceil(width * new_height / height)
 
     image.resize(new_width, new_height)

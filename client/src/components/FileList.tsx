@@ -43,6 +43,8 @@ const CardTitle = styled.p`
 
 const ThumbnailImage = styled.img`
   border-radius: 10px;
+  height: 240px;
+  width: auto;
 `;
 
 const ThumbnailVideo = styled.video`
